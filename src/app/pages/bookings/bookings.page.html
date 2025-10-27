@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>My Bookings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list>
+    <ion-item *ngFor="let b of bookings" class="booking-item">
+      
+      <ion-thumbnail slot="start" class="booking-thumbnail">
+        <img [src]="b.image" />
+      </ion-thumbnail>
+
+      <ion-label class="booking-label">
+        <h2 class="booking-title">{{ b.event }}</h2>
+        <p class="booking-club">{{ b.club }} • {{ b.date }}</p>
+        <div class="booking-meta">
+          <ion-chip color="medium" size="small">{{ b.type }}</ion-chip>
+          <ion-text color="success" class="booking-status">{{ b.status }}</ion-text>
+        </div>
+      </ion-label>
+
+      <ion-button fill="clear" slot="end" class="qr-button">
+        <ion-icon name="qr-code-outline" size="large"></ion-icon>
+      </ion-button>
+
+    </ion-item>
+  </ion-list>
+
+</ion-content>

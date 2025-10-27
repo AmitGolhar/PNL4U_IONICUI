@@ -1,2 +1,199 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+// =======================================
+// 🌃 NightLife Neon Theme
+// =======================================
+
+:root {
+  /* ⚡ Brand Colors (Neon Palette) */
+  --ion-color-primary: #ff0099; /* Electric Pink */
+  --ion-color-primary-rgb: 255, 0, 153;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #e00089;
+  --ion-color-primary-tint: #ff33aa;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+
+  --ion-color-secondary: #00e6ff; /* Neon Cyan */
+  --ion-color-secondary-rgb: 0, 230, 255;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-shade: #00b3cc;
+  --ion-color-secondary-tint: #33ebff;
+
+  --ion-color-tertiary: #ffcc00; /* Vibrant Yellow Accent */
+  --ion-color-tertiary-rgb: 255, 204, 0;
+  --ion-color-tertiary-contrast: #000000;
+
+  --ion-color-success: #39ff14; /* Neon Green */
+  --ion-color-warning: #ff9100;
+  --ion-color-danger: #ff1744;
+
+  /* 🖤 Dark Night Background */
+  --ion-background-color: #0a0a0f;
+  --ion-background-color-rgb: 10, 10, 15;
+  --ion-text-color: #fdfdfd;
+
+  /* 🌫️ Glassmorphism Card */
+  --ion-card-background: rgba(255, 255, 255, 0.05);
+  --ion-card-border-radius: 18px;
+  --ion-card-box-shadow: 0 8px 24px rgba(0, 255, 255, 0.1);
+  --ion-card-color: #fff;
+
+  /* ✨ Buttons */
+  --ion-button-background: linear-gradient(135deg, #ff0099, #00e6ff);
+  --ion-button-color: #fff;
+  --ion-button-border-radius: 24px;
+  --ion-button-box-shadow: 0 0 20px rgba(255, 0, 153, 0.5);
+
+  /* 🎯 FAB (floating button) */
+  --ion-fab-background: var(--ion-color-secondary);
+  --ion-fab-color: #000;
+  --ion-fab-box-shadow: 0 0 20px var(--ion-color-secondary);
+
+  /* 🎶 Tab Bar */
+  --ion-tabbar-background: #101018;
+  --ion-tabbar-border: none;
+  --ion-tabbar-color: #777;
+  --ion-tabbar-color-selected: var(--ion-color-primary);
+
+  /* 🧩 Input Fields */
+  --ion-input-background: rgba(255, 255, 255, 0.06);
+  --ion-input-color: #fff;
+  --ion-input-placeholder-color: #aaa;
+  --ion-input-border-radius: 12px;
+
+  /* 💡 Glow Hover States */
+  --ion-card-hover-box-shadow: 0 0 25px rgba(0, 230, 255, 0.6);
+}
+
+/* =======================================
+   🌌 Backgrounds & Animation
+======================================= */
+ion-content {
+  background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+
+  /* 🔮 Subtle color shifting gradient animation */
+  background-size: 200% 200%;
+  animation: nightlifeGlow 18s ease-in-out infinite;
+}
+
+/* 🔁 Animated Gradient “DJ Light” effect */
+@keyframes nightlifeGlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =======================================
+   🎧 Toolbar / Header Styling
+======================================= */
+ion-header,
+ion-toolbar {
+  --background: rgba(15, 15, 25, 0.85);
+  backdrop-filter: blur(8px);
+  --border-style: none;
+  box-shadow: 0 2px 8px rgba(255, 0, 153, 0.25);
+}
+
+ion-title {
+  color: var(--ion-color-primary);
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 0, 153, 0.8);
+  letter-spacing: 0.5px;
+}
+
+ion-menu-button,
+ion-back-button {
+  color: var(--ion-color-secondary);
+  text-shadow: 0 0 6px rgba(0, 230, 255, 0.8);
+}
+
+/* =======================================
+   🪩 Tab Bar
+======================================= */
+ion-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  border: none;
+  box-shadow: 0 -2px 8px rgba(255, 0, 153, 0.3);
+  background: rgba(10, 10, 20, 0.9);
+  backdrop-filter: blur(8px);
+  --color: #888;
+  --color-selected: var(--ion-color-primary);
+}
+
+ion-tab-button.tab-selected {
+  border-top: 3px solid var(--ion-color-primary);
+  background: linear-gradient(to bottom, rgba(255, 0, 153, 0.1), transparent);
+  color: var(--ion-color-primary);
+  text-shadow: 0 0 8px var(--ion-color-primary);
+}
+
+/* =======================================
+   💎 Card Hover Effects
+======================================= */
+ion-card:hover {
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 24px rgba(0, 230, 255, 0.4);
+}
+
+/* =======================================
+   🔘 Buttons & Links Glow
+======================================= */
+ion-button {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 16px rgba(255, 0, 153, 0.3);
+}
+
+ion-button:hover {
+  box-shadow: 0 0 25px rgba(255, 0, 153, 0.6);
+}
+
+/* =======================================
+   🧠 Inputs
+======================================= */
+ion-input {
+  --background: rgba(255, 255, 255, 0.05);
+  --color: #fff;
+  --padding-start: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+ion-input:focus-within {
+  border-color: var(--ion-color-primary);
+  box-shadow: 0 0 12px rgba(255, 0, 153, 0.3);
+}
+
+/* =======================================
+   ✨ Floating Action Buttons
+======================================= */
+ion-fab-button {
+  box-shadow: 0 0 25px rgba(0, 230, 255, 0.8);
+  background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-primary));
+  color: #fff;
+}
+
+ion-fab-button:hover {
+  transform: scale(1.05);
+}
+
+/* =======================================
+   🕶️ Scrollbars (for web)
+======================================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--ion-color-primary), var(--ion-color-secondary));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #111;
+}

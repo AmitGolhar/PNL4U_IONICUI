@@ -1,20 +1,87 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tonight PNL4U 🔥</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="home-content">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+ 
+
+  <!-- 🔍 Segment Tabs -->
+  <ion-segment [(ngModel)]="selectedSegment" class="segment-tabs">
+    <ion-segment-button value="trending">
+      <ion-label>Trending</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="nearby">
+      <ion-label>Nearby</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- 🎉 Trending Feed -->
+  <ng-container *ngIf="selectedSegment === 'trending'">
+
+    <h3 class="section-title">🔥 Trending Clubs & Events</h3>
+    <ion-list class="event-list">
+      <ion-item *ngFor="let event of events" class="event-card">
+        <ion-thumbnail slot="start" class="event-thumb">
+          <img [src]="event.img"/>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ event.title }}</h2>
+          <p>{{ event.location }} • {{ event.price }}</p>
+          <p class="dummy-text">{{ event.desc }}</p>
+        </ion-label>
+        <ion-button size="small" fill="solid" color="tertiary">
+          Book
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+
+
+
+
+  </ng-container>
+
+  <!-- 🗺 Nearby Feed -->
+  <ng-container *ngIf="selectedSegment === 'nearby'">
+
+    <h3 class="section-title">📍 Nearby Events</h3>
+    <ion-list class="event-list">
+      <ion-item *ngFor="let event of nearbyEvents" class="event-card">
+        <ion-thumbnail slot="start" class="event-thumb">
+          <img [src]="event.img"/>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ event.title }}</h2>
+          <p>{{ event.location }}</p>
+          <p class="dummy-text">{{ event.desc }}</p>
+        </ion-label>
+        <ion-button size="small" fill="solid" color="tertiary">
+          Book
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+  </ng-container>
+
+<h3 class="section-title">✨ Influencer Promoted Events</h3>
+<div class="influencer-scroll">
+  <div class="influencer-card" *ngFor="let event of influencerEvents">
+    <img [src]="event.img" class="card-img"/>
+    <div class="card-content">
+      <h4>{{ event.title }}</h4>
+      <p>{{ event.location }}</p>
+      <p class="card-date">{{ event.date }} • {{ event.time }}</p>
+      <p class="card-price">{{ event.price }}</p>
+      <ion-button size="small" color="tertiary">Book</ion-button>
+    </div>
   </div>
+</div>
+
+
 </ion-content>

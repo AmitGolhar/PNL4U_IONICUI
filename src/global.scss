@@ -35,3 +35,97 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+/* ✅ GLOBAL SAFE PADDING & PAGE LAYOUT FIX */
+/* 🧱 Layout Padding Fixes */
+ion-router-outlet {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--ion-safe-area-top, 16px)
+           var(--ion-safe-area-right, 16px)
+           var(--ion-safe-area-bottom, 80px)
+           var(--ion-safe-area-left, 16px);
+}
+
+/* ✅ Content padding to prevent hidden bottom content */
+ion-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 80px; /* matches tab bar height */
+}
+
+/* ✅ Fixed & styled tab bar */
+ion-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+
+  --background: rgba(10, 10, 20, 0.9);
+  --border: none;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 -2px 10px rgba(255, 0, 153, 0.25);
+
+  /* Default inactive tab color */
+  --color: #888;
+  --color-selected: #ff0099;
+}
+
+/* 🎨 Default inactive tab look */
+ion-tab-button {
+  --color: #888;
+  transition: all 0.3s ease;
+}
+
+/* 💖 Active tab (routerLinkActive="tab-active") */
+ion-tab-button.tab-active {
+  --color: #ff0099;
+  color: #ff0099 !important;
+  text-shadow: 0 0 8px #ff0099;
+  border-top: 3px solid #ff0099;
+  background: linear-gradient(180deg, rgba(255, 0, 153, 0.1), transparent);
+}
+
+/* 🎧 Default icon state */
+ion-tab-button ion-icon {
+  color: #888;
+  transition: all 0.3s ease-in-out;
+}
+
+/* 💎 Active icon: bright pink glow */
+ion-tab-button.tab-active ion-icon {
+  color: #ff0099 !important;
+  filter: drop-shadow(0 0 8px #ff0099);
+  transform: scale(1.15);
+  transition: all 0.3s ease-in-out;
+}
+
+/* 💕 Active label color */
+ion-tab-button.tab-active ion-label {
+  color: #ff0099 !important;
+  text-shadow: 0 0 8px #ff0099;
+}
+
+/* 🪩 Neon pulse animation */
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px #ff0099;
+    filter: drop-shadow(0 0 8px #ff0099);
+  }
+  50% {
+    text-shadow: 0 0 16px #ff33bb;
+    filter: drop-shadow(0 0 12px #ff33bb);
+  }
+}
+
+ion-tab-button.tab-active ion-icon,
+ion-tab-button.tab-active ion-label {
+  animation: neonPulse 2s infinite ease-in-out;
+}
+
+/* 🖱️ Optional: hover glow for desktop preview */
+ion-tab-button:hover {
+  color: #ff0099;
+}

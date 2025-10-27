@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Events</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar placeholder="Search events"></ion-searchbar>
+
+  <ion-card *ngFor="let e of events">
+    <img [src]="e.img" alt="Event image" />
+    <ion-card-header>
+      <ion-card-title>{{ e.title }}</ion-card-title>
+      <ion-card-subtitle>{{ e.club }} • {{ e.date }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-chip color="secondary">{{ e.price }}</ion-chip>
+      <ion-button fill="outline" color="primary" size="small">Book Now</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

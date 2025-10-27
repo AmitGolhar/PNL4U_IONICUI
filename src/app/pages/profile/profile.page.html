@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Profile Card -->
+  <ion-card class="profile-card">
+    <img src="https://i.pravatar.cc/300?img=12" alt="Profile Picture" class="profile-img" />
+    <ion-card-header>
+      <ion-card-title>John Doe</ion-card-title>
+      <ion-card-subtitle>Gold Member</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+     <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Phone:</strong> {{ user.phone }}</p>
+      <p><strong>Loyalty Points:</strong> {{ user.loyaltyPoints }}</p>
+
+      <p><strong>Membership Since:</strong> Jan 2023</p>
+      <p><strong>Upcoming Bookings:</strong> 3</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Profile Options -->
+  <ion-list>
+    <ion-item button routerLink="/wallet">
+      <ion-icon name="wallet-outline" slot="start"></ion-icon>
+      <ion-label>Wallet & Rewards</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/bookings">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <ion-label>My Bookings</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/influencer-dashboard">
+      <ion-icon name="people-outline" slot="start"></ion-icon>
+      <ion-label>Influencer Dashboard</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/promoter-dashboard">
+      <ion-icon name="briefcase-outline" slot="start"></ion-icon>
+      <ion-label>Promoter Dashboard</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/notifications">
+      <ion-icon name="notifications-outline" slot="start"></ion-icon>
+      <ion-label>Notifications</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/settings">
+      <ion-icon name="settings-outline" slot="start"></ion-icon>
+      <ion-label>Settings</ion-label>
+    </ion-item>
+    <ion-item button (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-label>Logout</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

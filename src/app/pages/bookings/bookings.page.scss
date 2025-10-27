@@ -1,0 +1,49 @@
+.booking-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  align-items: center;
+}
+
+.booking-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // ensures image fills the box
+  }
+}
+
+.booking-label {
+  margin-left: 16px;
+}
+
+.booking-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.booking-club {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.booking-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booking-status {
+  font-weight: bold;
+}
+
+.qr-button {
+  --padding-start: 0;
+  --padding-end: 0;
+}
