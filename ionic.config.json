@@ -1,0 +1,7 @@
+{
+  "name": "pnl4u",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
