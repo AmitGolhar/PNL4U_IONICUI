@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ClubsPageRoutingModule } from './clubs-routing.module';
 
 import { ClubsPage } from './clubs.page';
-
+import { ClubDetailPageModule } from './club-detail/club-detail.module';
+  
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ClubsPageRoutingModule
+    ClubsPageRoutingModule,
+    ClubDetailPageModule
   ],
   declarations: [ClubsPage]
 })

@@ -1,0 +1,187 @@
+:host {
+  display: block;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+
+.role-selector {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Chat UI */
+.chat-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 20px;
+  box-shadow: 0 0 18px rgba(255, 0, 180, 0.15);
+}
+
+.chat-box {
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-message {
+  display: flex;
+}
+
+.chat-message.sent {
+  justify-content: flex-end;
+}
+
+.chat-message.received {
+  justify-content: flex-start;
+}
+
+.bubble {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 8px 12px;
+  max-width: 70%;
+  box-shadow: 0 0 8px rgba(255, 0, 180, 0.15);
+}
+
+.sent .bubble {
+  background: linear-gradient(90deg, #ff00b3, #8e2de2);
+}
+
+.sender {
+  font-size: 12px;
+  color: #ffccff;
+}
+
+.text {
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.time {
+  font-size: 11px;
+  text-align: right;
+  opacity: 0.7;
+}
+
+/* Input */
+.chat-input {
+  display: flex;
+  gap: 8px;
+}
+
+ion-input {
+  flex: 1;
+  --background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  color: #fff;
+  border: 1px solid rgba(255, 0, 180, 0.5);
+  padding-left: 10px;
+}
+
+/* Support Ticket */
+.support-section {
+  margin-top: 30px;
+}
+
+ion-item.input-item {
+  --background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 0, 180, 0.5);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+ion-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 0 12px rgba(255, 0, 180, 0.15);
+}
+/* ===========================
+   FIX: Support Ticket Inputs — remove double borders & align placeholders
+=========================== */
+ion-item.input-item {
+  --background: transparent !important;
+  --inner-border-width: 0px !important;
+  --inner-padding-end: 0 !important;
+  --highlight-color-focused: transparent !important;
+  --highlight-height: 0 !important;
+  --highlight-background: transparent !important;
+
+  border: 1.6px solid rgba(255, 0, 180, 0.85);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 10px rgba(255, 0, 180, 0.15);
+  margin-bottom: 14px;
+  padding: 2px 6px !important;
+  backdrop-filter: blur(6px);
+  transition: all 0.25s ease;
+}
+
+/* Remove Ionic’s internal container borders completely */
+ion-item.input-item::part(native),
+ion-item.input-item::part(container),
+ion-item.input-item::part(inner),
+ion-item.input-item::part(background) {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Glowing border effect on focus */
+ion-item.input-item.ion-focused,
+ion-item.input-item.item-has-focus,
+ion-item.input-item:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 14px rgba(255, 77, 166, 0.45);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Input field cleanup & placeholder alignment */
+ion-input,
+ion-textarea {
+  --padding-start: 10px !important;
+  --padding-end: 10px !important;
+  --padding-top: 6px !important;
+  --padding-bottom: 6px !important;
+
+  font-size: 15px;
+  color: #ffffff !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+ion-input::part(native),
+ion-textarea::part(native) {
+  color: #fff !important;
+  caret-color: #ffcc00;
+  line-height: 1.5;
+}
+
+/* Fix placeholder placement & color */
+ion-input::part(native)::placeholder,
+ion-textarea::part(native)::placeholder {
+  color: rgba(255, 182, 217, 0.65);
+  opacity: 1;
+  padding-left: 2px;
+  transform: translateY(1px);
+}
+
+/* Match button style to new field style */
+ion-button {
+  --border-radius: 10px;
+  margin-top: 10px;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(255, 0, 180, 0.25);
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

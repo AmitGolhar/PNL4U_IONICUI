@@ -1,0 +1,276 @@
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255,255,255,0.04);
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(255,0,180,0.12);
+  color: #fff;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.08);
+}
+
+.meta h2 { margin: 0; font-size: 18px; }
+.handle { color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+.balances {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+.bal small { color: rgba(255,255,255,0.7); }
+.bal h3 { margin: 0; font-size: 18px; }
+
+.auth-tabs { margin-top: 6px; margin-bottom: 12px; }
+
+.cards-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mini-card {
+  background: rgba(255,255,255,0.04);
+  padding: 14px;
+  border-radius: 12px;
+  min-width: 120px;
+  flex: 1;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(108,99,255,0.06);
+}
+
+.section-title { color: #ffb6d9; margin-top: 12px; }
+
+.campaign-card, .wallet-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.campaign-meta { display:flex; justify-content:space-between; color: rgba(255,255,255,0.7); margin-top:8px; }
+
+.campaign-actions { display:flex; gap:8px; margin-top:10px; align-items:center; }
+
+.upload-btn ion-button { --background: linear-gradient(90deg,#ff00b3,#8e2de2); }
+
+.upload-message { color: #00ff9d; margin-top:8px; }
+
+.filter-row { display:flex; gap:8px; margin-bottom:8px; }
+
+.payout-row { display:flex; gap:8px; align-items:center; margin-top:10px; }
+.payout-row ion-input { width: 40%; --background: rgba(255,255,255,0.02); color:#fff; border-radius:10px; padding:6px; }
+
+.payout-card { margin-top:8px; background: rgba(255,255,255,0.03); border-radius:10px; padding:8px; }
+
+.payout-row-sm { display:flex; justify-content:space-between; align-items:center; }
+
+.status { font-weight:600; }
+.status.pending { color: #ffcc00; }
+.status.processing { color: #ffb6d9; }
+.status.completed { color: #00ff9d; }
+.status.rejected { color: #ff6b6b; }
+
+.analytics-grid { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+.analytic { background: rgba(255,255,255,0.04); padding:12px; border-radius:10px; flex:1; text-align:center; }
+
+.bar-chart { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.bar { height: 14px; border-radius: 8px; background: linear-gradient(90deg,#8e2de2,#ff00b3); width: var(--w, 50%); color: rgba(0,0,0,0.6); padding-left:8px; display:flex; align-items:center; font-size:12px; }
+
+@media (max-width: 720px) {
+  .balances { display:block; margin-left: 0; margin-top: 10px; }
+  .cards-row { flex-direction:column; }
+}
+
+/* === Fix: Segment Tabs Contrast === */
+.auth-tabs {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 4px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 0 12px rgba(255, 0, 179, 0.2);
+}
+
+/* Default (inactive) tab style */
+ion-segment-button {
+  --color: rgba(255, 255, 255, 0.7);
+  --color-checked: #fff;
+  --indicator-color: transparent;
+  background: transparent;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+/* 🩷 Active tab — pink glow border + subtle gradient */
+ion-segment-button.segment-button-checked {
+  border: 1.5px solid #ff00b3 !important;
+  background: radial-gradient(circle at top left, rgba(255, 0, 179, 0.25), rgba(142, 45, 226, 0.2));
+  color: #fff !important;
+  box-shadow: 0 0 14px rgba(255, 0, 179, 0.5);
+  transform: scale(1.03);
+}
+
+/* 🩶 Inactive tab hover effect (for desktop) */
+ion-segment-button:hover {
+  border: 1.5px solid rgba(255, 0, 179, 0.2);
+  color: #fff;
+}
+
+/* Label text contrast */
+ion-segment-button ion-label {
+  color: inherit !important;
+  font-size: 15px;
+  letter-spacing: 0.4px;
+}
+
+/* 🪩 Smooth neon glow animation for active */
+@keyframes neonPulseTab {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(255, 0, 179, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+  }
+}
+
+ion-segment-button.segment-button-checked {
+  animation: neonPulseTab 2.5s ease-in-out infinite;
+}
+/* === Summary Card (Influencer Profile Section) === */
+.summary-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 18px 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(255, 0, 180, 0.15);
+  color: #fff;
+  flex-wrap: wrap; /* ✅ makes it responsive */
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 0, 179, 0.4);
+  box-shadow: 0 0 12px rgba(255, 0, 179, 0.3);
+}
+
+.meta {
+  flex: 1;
+  min-width: 160px;
+}
+
+.meta h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.handle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* === Earnings and Balances section === */
+.balances {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  min-width: 200px;
+}
+
+.bal {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 10px 14px;
+  border-radius: 12px;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 0, 179, 0.25);
+  transition: all 0.3s ease-in-out;
+}
+
+.bal:hover {
+  box-shadow: 0 0 18px rgba(255, 0, 179, 0.45);
+  transform: translateY(-2px);
+}
+
+.bal small {
+  display: block;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+.bal h3 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 0 6px rgba(255, 0, 179, 0.3);
+}
+
+/* === Responsive Fixes === */
+@media (max-width: 768px) {
+  .summary-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .balances {
+    justify-content: center;
+    margin: 10px 0 0;
+    width: 100%;
+  }
+
+  .bal {
+    width: 45%;
+    min-width: 130px;
+  }
+
+  .meta h2 {
+    font-size: 16px;
+  }
+
+  .handle {
+    font-size: 13px;
+  }
+}

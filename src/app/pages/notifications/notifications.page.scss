@@ -1,0 +1,57 @@
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+
+  h2 {
+    color: #fff;
+    font-weight: 600;
+  }
+}
+
+ion-list {
+  background: transparent !important;
+}
+
+.notif-card {
+  margin-bottom: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 12px rgba(255, 0, 180, 0.2);
+  color: #fff;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+.notif-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.3);
+}
+
+.notif-card.unread {
+  border: 1.5px solid #ff00b3;
+  box-shadow: 0 0 20px rgba(255, 0, 179, 0.4);
+}
+
+ion-icon {
+  color: #00f0ff;
+  font-size: 22px;
+}
+
+h3 {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin: 0;
+}
+
+small {
+  color: rgba(255, 255, 255, 0.6);
+}

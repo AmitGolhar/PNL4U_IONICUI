@@ -1,13 +1,42 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>admin-tools</ion-title>
+    <ion-title>Admin Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin-tools</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="admin-container">
+    <h2 class="page-title">Welcome, Admin 👑</h2>
+    <p class="subtitle">Manage everything in one place — quick access below.</p>
+
+    <!-- Quick Stats -->
+    <div class="stats-row">
+      <div class="stat-card" *ngFor="let s of stats">
+        <ion-icon [name]="s.icon" class="stat-icon"></ion-icon>
+        <div class="stat-info">
+          <div class="label">{{ s.label }}</div>
+          <div class="value" [style.color]="getTrendColor(s.trend)">
+            {{ s.value | number }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shortcuts -->
+    <h3 class="section-title">Quick Access</h3>
+    <div class="shortcut-grid">
+      <ion-card
+        *ngFor="let sc of shortcuts"
+        class="shortcut-card"
+        [style.border-color]="sc.color"
+        [routerLink]="sc.route"
+      >
+        <div class="icon-box" [style.color]="sc.color">
+          <ion-icon [name]="sc.icon"></ion-icon>
+        </div>
+        <div class="title">{{ sc.title }}</div>
+        <p class="desc">{{ sc.description }}</p>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

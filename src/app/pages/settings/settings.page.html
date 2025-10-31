@@ -1,13 +1,83 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>settings</ion-title>
+    <ion-title>Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">settings</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="settings-container">
+
+    <div class="profile-section">
+      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&h=120&q=80" class="profile-img" />
+      <h2 class="username">Amit </h2>
+      <p class="user-role">User</p>
+    </div>
+
+    <ion-list lines="none" *ngIf="settings" class="settings-list">
+
+      <!-- Notifications -->
+      <ion-item>
+        <ion-icon name="notifications-outline" slot="start"></ion-icon>
+        <ion-label>Notifications</ion-label>
+        <ion-toggle
+          color="tertiary"
+          [(ngModel)]="settings.notifications"
+          (ionChange)="toggleSetting('notifications', $event.detail.checked)"
+        ></ion-toggle>
+      </ion-item>
+
+      <!-- Dark Mode -->
+      <ion-item>
+        <ion-icon name="moon-outline" slot="start"></ion-icon>
+        <ion-label>Dark Mode</ion-label>
+        <ion-toggle
+          color="tertiary"
+          [(ngModel)]="settings.darkMode"
+          (ionChange)="toggleSetting('darkMode', $event.detail.checked)"
+        ></ion-toggle>
+      </ion-item>
+
+      <!-- Location Access -->
+      <ion-item>
+        <ion-icon name="location-outline" slot="start"></ion-icon>
+        <ion-label>Location Access</ion-label>
+        <ion-toggle
+          color="tertiary"
+          [(ngModel)]="settings.locationAccess"
+          (ionChange)="toggleSetting('locationAccess', $event.detail.checked)"
+        ></ion-toggle>
+      </ion-item>
+
+      <!-- Auto Play Videos -->
+      <ion-item>
+        <ion-icon name="play-circle-outline" slot="start"></ion-icon>
+        <ion-label>Auto-Play Videos</ion-label>
+        <ion-toggle
+          color="tertiary"
+          [(ngModel)]="settings.autoPlayVideos"
+          (ionChange)="toggleSetting('autoPlayVideos', $event.detail.checked)"
+        ></ion-toggle>
+      </ion-item>
+
+      <!-- Language -->
+      <ion-item>
+        <ion-icon name="globe-outline" slot="start"></ion-icon>
+        <ion-label>Language</ion-label>
+        <ion-select
+          [(ngModel)]="settings.language"
+          (ionChange)="toggleSetting('language', $event.detail.value)"
+        >
+          <ion-select-option value="English">English</ion-select-option>
+          <ion-select-option value="Hindi">Hindi</ion-select-option>
+          <ion-select-option value="Marathi">Marathi</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button expand="block" class="logout-btn" (click)="logout()">
+      <ion-icon name="log-out-outline"></ion-icon>
+      Log Out
+    </ion-button>
+  </div>
 </ion-content>

@@ -1,13 +1,157 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>staff-hiring</ion-title>
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Staff Hiring</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">staff-hiring</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="hiring-container">
+
+    <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+      <ion-segment-button value="jobs"><ion-label>Jobs</ion-label></ion-segment-button>
+      <ion-segment-button value="applicants"><ion-label>Applicants</ion-label></ion-segment-button>
+    </ion-segment>
+
+    <!-- JOBS -->
+    <div *ngIf="activeTab === 'jobs'">
+      <div class="top-bar">
+        <ion-input placeholder="Search jobs..." [(ngModel)]="searchQuery"></ion-input>
+        <div class="actions">
+          <ion-select [(ngModel)]="jobFilter" interface="popover">
+            <ion-select-option value="ALL">All</ion-select-option>
+            <ion-select-option value="OPEN">Open</ion-select-option>
+            <ion-select-option value="CLOSED">Closed</ion-select-option>
+          </ion-select>
+          <ion-button fill="outline" (click)="openCreateJob()"><ion-icon name="add-outline" slot="start"></ion-icon>New Job</ion-button>
+        </div>
+      </div>
+
+      <ion-card *ngFor="let j of filteredJobs()" class="job-card">
+        <ion-card-header>
+          <ion-card-title>{{ j.title }}</ion-card-title>
+          <ion-card-subtitle>{{ j.department }} • {{ j.location }} • {{ j.salaryRange }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="muted">{{ j.description }}</p>
+          <div class="meta-row">
+            <small>Vacancies: {{ j.vacancies }}</small>
+            <small>Posted: {{ j.postedAt | date:'shortDate' }}</small>
+            <small class="status" [class.open]="j.status==='OPEN'">{{ j.status }}</small>
+          </div>
+
+          <div class="card-actions">
+            <ion-button fill="clear" (click)="openEditJob(j)"><ion-icon name="create-outline" slot="start"></ion-icon>Edit</ion-button>
+            <ion-button fill="clear" (click)="toggleJobStatus(j)">{{ j.status === 'OPEN' ? 'Close' : 'Open' }}</ion-button>
+            <ion-button color="danger" fill="clear" (click)="deleteJob(j)"><ion-icon name="trash-outline" slot="start"></ion-icon>Delete</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- APPLICANTS -->
+    <div *ngIf="activeTab === 'applicants'">
+      <div class="top-bar">
+        <ion-input placeholder="Search applicants..." [(ngModel)]="searchQuery"></ion-input>
+        <div class="actions">
+          <ion-select [(ngModel)]="applicantFilter" interface="popover">
+            <ion-select-option value="ALL">All</ion-select-option>
+            <ion-select-option value="APPLIED">Applied</ion-select-option>
+            <ion-select-option value="SHORTLISTED">Shortlisted</ion-select-option>
+            <ion-select-option value="HIRED">Hired</ion-select-option>
+            <ion-select-option value="REJECTED">Rejected</ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+
+      <ion-card *ngFor="let a of filteredApplicants()" class="applicant-card">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img *ngIf="a.photo" [src]="a.photo" alt="photo" />
+            <div *ngIf="!a.photo" class="avatar-fallback">{{ a.name.charAt(0) }}</div>
+          </ion-avatar>
+          <ion-label>
+            <h3>{{ a.name }}</h3>
+            <p class="muted">{{ a.email }} • {{ a.phone }}</p>
+            <small>Applied for: {{ a.appliedFor }} • {{ a.appliedAt | date:'shortDate' }}</small>
+          </ion-label>
+        </ion-item>
+
+        <ion-card-content>
+          <div class="status-row">
+            <span class="status-pill" [ngClass]="a.status.toLowerCase()">{{ a.status }}</span>
+            <div class="right">
+              <ion-button size="small" fill="clear" (click)="viewApplicant(a)">View</ion-button>
+              <ion-button size="small" color="primary" fill="clear" (click)="shortlistApplicant(a)">Shortlist</ion-button>
+              <ion-button size="small" color="success" fill="clear" (click)="hireApplicant(a)">Hire</ion-button>
+              <ion-button size="small" color="danger" fill="clear" (click)="rejectApplicant(a)">Reject</ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- JOB MODAL -->
+    <ion-modal [isOpen]="showJobModal" (didDismiss)="showJobModal=false">
+      <ng-template>
+        <div *ngIf="editingJob" class="modal-shell">
+          <h3>{{ editingJob?.id ? 'Edit Job' : 'Create Job' }}</h3>
+
+          <ion-item class="input-item"><ion-input placeholder="Job Title" [(ngModel)]="editingJob.title"></ion-input></ion-item>
+          <ion-item class="input-item"><ion-input placeholder="Department" [(ngModel)]="editingJob.department"></ion-input></ion-item>
+          <ion-item class="input-item"><ion-input type="number" placeholder="Vacancies" [(ngModel)]="editingJob.vacancies"></ion-input></ion-item>
+          <ion-item class="input-item"><ion-input placeholder="Salary Range" [(ngModel)]="editingJob.salaryRange"></ion-input></ion-item>
+          <ion-item class="input-item"><ion-input placeholder="Location" [(ngModel)]="editingJob.location"></ion-input></ion-item>
+          <ion-item class="input-item"><ion-textarea placeholder="Description" [(ngModel)]="editingJob.description"></ion-textarea></ion-item>
+
+          <div class="modal-actions">
+            <ion-button expand="block" (click)="saveJob()">Save</ion-button>
+            <ion-button expand="block" fill="clear" (click)="showJobModal=false">Cancel</ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+    <!-- APPLICANT VIEW MODAL -->
+    <ion-modal [isOpen]="showApplicantModal" (didDismiss)="showApplicantModal=false">
+      <ng-template>
+        <div *ngIf="viewingApplicant" class="modal-shell applicant-view">
+          <h3>{{ viewingApplicant.name }}</h3>
+
+          <div class="photo-row">
+            <img *ngIf="viewingApplicant.photo" [src]="viewingApplicant.photo" alt="photo" />
+            <div *ngIf="!viewingApplicant.photo" class="avatar-large">{{ viewingApplicant.name.charAt(0) }}</div>
+            <div class="resume-links">
+              <div *ngIf="viewingApplicant.resume">
+                <a [href]="viewingApplicant.resume" target="_blank">View Resume</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="meta">
+            <p><strong>Email:</strong> {{ viewingApplicant.email }}</p>
+            <p><strong>Phone:</strong> {{ viewingApplicant.phone }}</p>
+            <p><strong>Applied For:</strong> {{ viewingApplicant.appliedFor }}</p>
+            <p><strong>Status:</strong> <span class="status-pill" [ngClass]="viewingApplicant.status.toLowerCase()">{{ viewingApplicant.status }}</span></p>
+            <p><strong>Notes:</strong> {{ viewingApplicant.notes || '—' }}</p>
+          </div>
+
+          <div class="file-upload">
+            <ion-button fill="outline" (click)="fileResumeInput.click()">Upload Resume</ion-button>
+            <input type="file" #fileResumeInput hidden accept=".pdf,.doc,.docx" (change)="onResumeSelected($any($event), viewingApplicant)" />
+            <ion-button fill="outline" (click)="filePhotoInput.click()">Upload Photo</ion-button>
+            <input type="file" #filePhotoInput hidden accept="image/*" (change)="onPhotoSelected($any($event), viewingApplicant)" />
+          </div>
+
+          <div class="modal-actions">
+            <ion-button expand="block" color="primary" (click)="shortlistApplicant(viewingApplicant)">Shortlist</ion-button>
+            <ion-button expand="block" color="success" (click)="hireApplicant(viewingApplicant)">Hire</ion-button>
+            <ion-button expand="block" color="danger" fill="clear" (click)="rejectApplicant(viewingApplicant)">Reject</ion-button>
+            <ion-button expand="block" fill="clear" (click)="showApplicantModal=false">Close</ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+  </div>
 </ion-content>

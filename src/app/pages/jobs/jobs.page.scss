@@ -1,0 +1,98 @@
+.job-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.job-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 18px rgba(255, 0, 180, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+/* === Input Box Fix (Remove Default Inner Border) === */
+.input-item {
+  --background: transparent !important;
+  --border-color: transparent !important;
+  --inner-border-width: 0 !important;
+  --highlight-color-focused: transparent !important;
+
+  border: 1.5px solid rgba(255, 0, 180, 0.8);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: 0.3s;
+  padding-inline-start: 6px;
+  padding-inline-end: 6px;
+
+  ion-input,
+  ion-textarea {
+    color: #fff;
+    border: none !important;
+    --background: transparent !important;
+    --highlight-color-focused: transparent !important;
+  }
+
+  /* Remove Ionic default gray line */
+  &::part(native),
+  &::part(container),
+  &::part(inner) {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* === Focus Glow === */
+.input-item.ion-focused {
+  border-color: #00f0ff;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+/* === Button === */
+ion-button {
+  margin-top: 10px;
+}
+
+/* === Applications List === */
+.applications-list {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.application-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  box-shadow: 0 0 15px rgba(255, 0, 180, 0.25);
+  color: #fff;
+  margin-bottom: 14px;
+
+  ion-card-title {
+    color: #ffb6d9;
+  }
+
+  ion-card-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* === Status Colors === */
+.pending {
+  color: #ffcc00;
+}
+
+.reviewed {
+  color: #00f0ff;
+}
+
+.accepted {
+  color: #00ff9d;
+}
+
+.rejected {
+  color: #ff4d4d;
+}

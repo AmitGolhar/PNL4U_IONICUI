@@ -1,0 +1,248 @@
+:root {
+  --primary: #6c63ff;
+  --accent: #ff6b6b;
+  --muted: #a0a0b4;
+  --surface: #ffffff;
+  --input-bg: #f5f5fa;
+  --gradient-start: #f3f0ff;
+  --gradient-end: #e6ebff;
+}
+
+/* Soft gradient background for full page */
+.gradient-bg {
+  --background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end)) !important;
+}
+
+/* --- Layout Fix: Make container scrollable and visible on mobile --- */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* content starts from top */
+  height: auto;
+  min-height: 100vh;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 80px 20px 40px; /* adds top space so tabs don’t hide */
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* --- Branding --- */
+.brand {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.brand img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 12px rgba(108, 99, 255, 0.3));
+}
+
+.brand-title {
+  font-size: 26px;
+  margin: 10px 0 4px 0;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.tagline {
+  color: #6c6c7a;
+  font-size: 14px;
+  margin-bottom: 16px; /* space before tabs */
+}
+
+/* --- Tabs (Segment Buttons) --- */
+.auth-tabs {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 4px;
+  z-index: 2;
+}
+
+ion-segment-button {
+  --color: #ffb6d9;
+  --color-checked: #fff;
+  --indicator-color: #ff4da6;
+  --background-checked: #ff4da6;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* --- Login Card --- */
+.login-card {
+  width: 100%;
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 26px 20px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 10px; /* space below tabs */
+}
+
+/* --- Inputs --- */
+.input-item {
+  --background: transparent !important;
+  --border-radius: 10px;
+  --inner-border-width: 0px; /* removes inner white border */
+  --highlight-color-focused: #ffcc00 !important; /* yellow glow on focus */
+  border: 1.5px solid #ff4da6; /* always pink border */
+  border-radius: 12px;
+  padding: 6px 12px;
+  transition: all 0.3s ease;
+  margin-bottom: 12px;
+  backdrop-filter: blur(4px);
+}
+
+/* glowing effect on focus */
+.input-item.ion-focused,
+.input-item.item-has-focus,
+.input-item.item-has-value:focus-within {
+  border-color: #ffcc00; /* yellow */
+  box-shadow: 0 0 10px 2px rgba(255, 204, 0, 0.6);
+}
+
+/* input text styling */
+ion-input {
+  color: #ffffff !important; /* pure white input text */
+  font-size: 15px;
+  --padding-start: 8px;
+  --placeholder-color: rgba(255, 182, 217, 0.9);
+  border: none !important;
+  outline: none !important;
+}
+
+ion-input::part(native) {
+  color: #ffffff !important;
+  caret-color: #ffcc00;
+  opacity: 0.95;
+}
+
+/* optional subtle glow on hover */
+.input-item:hover {
+  box-shadow: 0 0 6px rgba(255, 77, 166, 0.5);
+}
+
+/* --- Checkbox & links --- */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.remember-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.remember {
+  color: #6f6f7b;
+  font-size: 14px;
+}
+
+.forgot {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* --- Button --- */
+.btn-primary {
+  --background: linear-gradient(90deg, var(--primary), #8b7bff);
+  --border-radius: 10px;
+  font-weight: 600;
+  color: #fff;
+  --box-shadow: 0 6px 14px rgba(108, 99, 255, 0.4);
+}
+
+/* --- Divider --- */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 8px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e5e5;
+}
+
+/* --- Social Buttons --- */
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 500;
+  text-transform: none;
+  border-radius: 8px;
+  --border-color: #d0d0e0;
+  color: #ffffff;
+}
+
+/* --- Signup section --- */
+.signup {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.signup a {
+  color: var(--primary);
+  font-weight: 600;
+  margin-left: 6px;
+  text-decoration: none;
+}
+
+/* --- Footer --- */
+.footer-note {
+  text-align: center;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer-note a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* --- Scrollbar Hidden for Mobile --- */
+ion-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Responsive tweak --- */
+@media (max-width: 420px) {
+  .login-container {
+    padding-top: 60px;
+  }
+}
+
+@media (max-height: 750px) {
+  .login-card {
+    margin-top: 30px;
+  }
+}

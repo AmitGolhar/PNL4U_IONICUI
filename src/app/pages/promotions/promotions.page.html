@@ -1,13 +1,177 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>promotions</ion-title>
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Promotions</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">promotions</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="promos-container">
+    <!-- Tabs -->
+    <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+      <ion-segment-button value="offers"><ion-label>Offers</ion-label></ion-segment-button>
+      <ion-segment-button value="promocodes"><ion-label>Promo Codes</ion-label></ion-segment-button>
+    </ion-segment>
+
+    <!-- OFFERS TAB (unchanged) -->
+    <div *ngIf="activeTab === 'offers'">
+      <div class="toolbar-row">
+        <div class="left">
+          <ion-select [(ngModel)]="filterStatus" interface="popover">
+            <ion-select-option value="ALL">All</ion-select-option>
+            <ion-select-option value="ACTIVE">Active</ion-select-option>
+            <ion-select-option value="PAUSED">Paused</ion-select-option>
+            <ion-select-option value="DRAFT">Draft</ion-select-option>
+            <ion-select-option value="EXPIRED">Expired</ion-select-option>
+          </ion-select>
+        </div>
+        <div class="right">
+          <ion-button fill="outline" (click)="openCreateOffer()"><ion-icon name="add-circle-outline" slot="start"></ion-icon>New Offer</ion-button>
+        </div>
+      </div>
+
+      <div *ngIf="filteredOffers().length === 0" class="empty">No offers yet.</div>
+
+      <ion-card *ngFor="let o of filteredOffers()" class="offer-card">
+        <div class="banner" *ngIf="o.banner" [style.backgroundImage]="'url(' + o.banner + ')'"></div>
+        <ion-card-header>
+          <ion-card-title>{{ o.title }}</ion-card-title>
+          <ion-card-subtitle>{{ o.club }} • {{ o.discountPercent }}% off</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="muted">{{ o.description }}</p>
+          <div class="meta-row">
+            <small>From: {{ o.startDate | date:'shortDate' }} </small>
+            <small>To: {{ o.endDate | date:'shortDate' }}</small>
+            <small *ngIf="o.usageLimit">Limit: {{ o.usageLimit }}</small>
+            <small class="status" [class.active]="isActiveOffer(o)">{{ o.status }}</small>
+          </div>
+
+          <div class="actions">
+            <ion-button size="small" fill="clear" (click)="openEditOffer(o)"><ion-icon name="create-outline" slot="start"></ion-icon>Edit</ion-button>
+            <ion-button size="small" (click)="toggleOfferStatus(o)">{{ o.status === 'ACTIVE' ? 'Pause' : 'Activate' }}</ion-button>
+            <ion-button size="small" color="danger" fill="clear" (click)="deleteOffer(o.id)"><ion-icon name="trash-outline" slot="start"></ion-icon>Delete</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- PROMO CODES TAB (unchanged) -->
+    <div *ngIf="activeTab === 'promocodes'">
+      <div class="toolbar-row">
+        <div class="left">
+          <ion-input placeholder="Search code" (ionInput)="null"></ion-input>
+        </div>
+        <div class="right">
+          <ion-button fill="outline" (click)="openCreatePromo()"><ion-icon name="pricetag-outline" slot="start"></ion-icon>New Promo</ion-button>
+        </div>
+      </div>
+
+      <ion-card *ngFor="let p of promoCodes" class="promo-card">
+        <ion-card-header>
+          <ion-card-title>{{ p.code }}</ion-card-title>
+          <ion-card-subtitle>{{ p.description }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="meta-row">
+            <small>Valid Till: {{ p.validTill | date:'shortDate' }}</small>
+            <small>Uses: {{ p.uses }}</small>
+            <small class="status" [class.active]="p.status === 'ACTIVE'">{{ p.status }}</small>
+          </div>
+
+          <div class="actions">
+            <ion-button size="small" fill="clear" (click)="openEditPromo(p)"><ion-icon name="create-outline" slot="start"></ion-icon>Edit</ion-button>
+            <ion-button size="small" color="danger" fill="clear" (click)="deletePromo(p.id)"><ion-icon name="trash-outline" slot="start"></ion-icon>Delete</ion-button>
+            <ion-button size="small" (click)="applyPromo(p.code)">Apply</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Offer Modal (safe guard with *ngIf) -->
+    <ion-modal [isOpen]="showOfferModal" (didDismiss)="showOfferModal = false">
+      <ng-template>
+        <!-- guard so template binding is only evaluated when editingOffer is non-null -->
+        <div *ngIf="editingOffer" class="modal-shell">
+          <h3>{{ editingOffer?.id ? 'Edit Offer' : 'Create Offer' }}</h3>
+
+          <ion-item class="input-item">
+            <ion-input placeholder="Title" [(ngModel)]="editingOffer.title"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-input placeholder="Club" [(ngModel)]="editingOffer.club"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-input type="date" [(ngModel)]="editingOffer.startDate"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-input type="date" [(ngModel)]="editingOffer.endDate"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-input type="number" placeholder="Discount Percent" [(ngModel)]="editingOffer.discountPercent"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-textarea placeholder="Description" [(ngModel)]="editingOffer.description"></ion-textarea>
+          </ion-item>
+
+          <div class="upload-row">
+            <ion-button fill="outline" (click)="fileInput.click()">
+              <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>Upload Banner
+            </ion-button>
+            <input #fileInput type="file" accept="image/*" hidden (change)="onBannerSelected($any($event))" />
+          </div>
+
+          <div *ngIf="bannerPreview" class="banner-preview">
+            <img [src]="bannerPreview" alt="banner preview" />
+          </div>
+
+          <div class="modal-actions">
+            <ion-button expand="block" (click)="saveOffer()">Save Offer</ion-button>
+            <ion-button expand="block" fill="clear" (click)="showOfferModal = false">Cancel</ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Promo Modal (safe guard with *ngIf) -->
+    <ion-modal [isOpen]="showPromoModal" (didDismiss)="showPromoModal = false">
+      <ng-template>
+        <div *ngIf="editingPromo" class="modal-shell">
+          <h3>{{ editingPromo?.id ? 'Edit Promo' : 'Create Promo' }}</h3>
+
+          <ion-item class="input-item">
+            <ion-input placeholder="Code" [(ngModel)]="editingPromo.code"></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item">
+            <ion-input placeholder="Description" [(ngModel)]="editingPromo.description"></ion-input>
+          </ion-item>
+
+          <div class="split-row">
+            <ion-item class="input-item">
+              <ion-input type="number" placeholder="Amount (₹)" [(ngModel)]="editingPromo.discountAmount"></ion-input>
+            </ion-item>
+            <ion-item class="input-item">
+              <ion-input type="number" placeholder="% Discount" [(ngModel)]="editingPromo.discountPercent"></ion-input>
+            </ion-item>
+          </div>
+
+          <ion-item class="input-item">
+            <ion-input type="date" placeholder="Valid Till" [(ngModel)]="editingPromo.validTill"></ion-input>
+          </ion-item>
+
+          <div class="modal-actions">
+            <ion-button expand="block" (click)="savePromo()">Save Promo</ion-button>
+            <ion-button expand="block" fill="clear" (click)="showPromoModal = false">Cancel</ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+  </div>
 </ion-content>

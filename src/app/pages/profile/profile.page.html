@@ -1,58 +1,150 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar color="dark">
-    <ion-title>Profile</ion-title>
+    <ion-title class="profile-header-title">My Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding profile-bg">
+  <!-- 🧭 Inline Header -->
+  <div class="inline-header">
+    <div class="header-left">
+      <ion-icon name="person-circle-outline" class="header-icon"></ion-icon>
+      <h2>My Profile</h2>
+    </div>
+    <div class="header-actions">
+      <ion-button *ngIf="!editMode" fill="clear" color="warning" (click)="toggleEdit()">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        <span>Edit</span>
+      </ion-button>
+      <ion-button *ngIf="editMode" fill="clear" color="success" (click)="saveProfile()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        <span>Save</span>
+      </ion-button>
+    </div>
+  </div>
 
-  <!-- Profile Card -->
-  <ion-card class="profile-card">
-    <img src="https://i.pravatar.cc/300?img=12" alt="Profile Picture" class="profile-img" />
-    <ion-card-header>
-      <ion-card-title>John Doe</ion-card-title>
-      <ion-card-subtitle>Gold Member</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-     <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Phone:</strong> {{ user.phone }}</p>
-      <p><strong>Loyalty Points:</strong> {{ user.loyaltyPoints }}</p>
+  <div *ngIf="loading" class="loading-text">Loading profile...</div>
 
-      <p><strong>Membership Since:</strong> Jan 2023</p>
-      <p><strong>Upcoming Bookings:</strong> 3</p>
+  <div *ngIf="!loading">
+    <!-- 🧑 Profile Card -->
+    <ion-card class="profile-card">
+      <div class="profile-photo-container">
+       
+         <img class="profile-img"
+            [src]="editableUser.profileImage 
+              ? 'data:image/jpeg;base64,' + editableUser.profileImage 
+              : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'"
+            (error)="onImageError($event)"
+            alt="User"
+          />
+        <div *ngIf="editMode" class="upload-overlay">
+          <ion-button color="warning" fill="solid" size="small" (click)="triggerFileUpload()">
+            <ion-icon name="camera-outline" slot="start"></ion-icon>
+            Change
+          </ion-button>
+          <input type="file" hidden #fileInput accept="image/*" (change)="onFileSelected($event)" />
+        </div>
+      </div>
+
+      <ion-card-header>
+        <ion-card-title>{{ user.displayName || 'User' }}</ion-card-title>
+        <ion-card-subtitle>{{ user.bio || 'No bio added yet.' }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <!-- 🔹 View Mode -->
+      <ion-card-content *ngIf="!editMode">
+        <p><strong>Gender:</strong> {{ user.gender || 'Not specified' }}</p>
+        <p><strong>Date of Birth:</strong> {{ user.dateOfBirth | date: 'mediumDate' }}</p>
+        <p><strong>Location:</strong> {{ user.city }}, {{ user.state }}, {{ user.country }}</p>
+        <p><strong>Interests:</strong> {{ user.interests || 'N/A' }}</p>
+      </ion-card-content>
+
+   <!-- ✏️ Edit Mode -->
+    <ion-card-content *ngIf="editMode" class="edit-mode-container">
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">Display Name</ion-label>
+        <ion-input placeholder="Enter your name" [(ngModel)]="editableUser.displayName"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">Bio</ion-label>
+        <ion-textarea autoGrow="true" placeholder="Tell something about yourself" [(ngModel)]="editableUser.bio"></ion-textarea>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">Gender</ion-label>
+        <ion-select placeholder="Select Gender" [(ngModel)]="editableUser.gender" interface="popover">
+          <ion-select-option value="Male">Male</ion-select-option>
+          <ion-select-option value="Female">Female</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+          <ion-select-option value="Prefer not to say">Prefer not to say</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">Date of Birth</ion-label>
+        <ion-datetime
+          displayFormat="DD MMM YYYY"
+          placeholder="Select your birth date"
+          [(ngModel)]="editableUser.dateOfBirth"
+        ></ion-datetime>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">City</ion-label>
+        <ion-input placeholder="Enter your city" [(ngModel)]="editableUser.city"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">State</ion-label>
+        <ion-input placeholder="Enter your state" [(ngModel)]="editableUser.state"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">Country</ion-label>
+        <ion-input placeholder="Enter your country" [(ngModel)]="editableUser.country"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="profile-field">
+        <ion-label position="stacked">Interests</ion-label>
+        <ion-input placeholder="e.g. Music, Dance, Nightlife" [(ngModel)]="editableUser.interests"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="success" class="save-btn" (click)="saveProfile()">
+        💾 Save Changes
+      </ion-button>
+
     </ion-card-content>
-  </ion-card>
 
-  <!-- Profile Options -->
-  <ion-list>
-    <ion-item button routerLink="/wallet">
-      <ion-icon name="wallet-outline" slot="start"></ion-icon>
-      <ion-label>Wallet & Rewards</ion-label>
-    </ion-item>
-    <ion-item button routerLink="/bookings">
-      <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-label>My Bookings</ion-label>
-    </ion-item>
-    <ion-item button routerLink="/influencer-dashboard">
-      <ion-icon name="people-outline" slot="start"></ion-icon>
-      <ion-label>Influencer Dashboard</ion-label>
-    </ion-item>
-    <ion-item button routerLink="/promoter-dashboard">
-      <ion-icon name="briefcase-outline" slot="start"></ion-icon>
-      <ion-label>Promoter Dashboard</ion-label>
-    </ion-item>
-    <ion-item button routerLink="/notifications">
-      <ion-icon name="notifications-outline" slot="start"></ion-icon>
-      <ion-label>Notifications</ion-label>
-    </ion-item>
-    <ion-item button routerLink="/settings">
-      <ion-icon name="settings-outline" slot="start"></ion-icon>
-      <ion-label>Settings</ion-label>
-    </ion-item>
-    <ion-item button (click)="logout()">
-      <ion-icon name="log-out-outline" slot="start"></ion-icon>
-      <ion-label>Logout</ion-label>
-    </ion-item>
-  </ion-list>
+    </ion-card>
 
+    <!-- ⚙️ Profile Options -->
+    <ion-list>
+      <ion-item button routerLink="/wallet">
+        <ion-icon name="wallet-outline" slot="start"></ion-icon>
+        <ion-label>Wallet & Rewards</ion-label>
+      </ion-item>
+      <ion-item button routerLink="/bookings">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-label>My Bookings</ion-label>
+      </ion-item>
+      <ion-item button routerLink="/notifications">
+        <ion-icon name="notifications-outline" slot="start"></ion-icon>
+        <ion-label>Notifications</ion-label>
+      </ion-item>
+      <ion-item button routerLink="/settings">
+        <ion-icon name="settings-outline" slot="start"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-item>
+      <ion-item button  (click)="deleteProfile()">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        <ion-label>Delete Profile</ion-label>
+      </ion-item>
+      <ion-item button (click)="logout()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Logout</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

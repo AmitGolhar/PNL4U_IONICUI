@@ -1,13 +1,61 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>refer</ion-title>
+    <ion-title>Refer & Earn</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">refer</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <!-- Summary -->
+  <div class="referral-summary">
+    <h2>Invite Friends. Earn Rewards. 💰</h2>
+    <p>Get ₹200 bonus for every successful referral!</p>
+  </div>
+
+  <!-- Referral Code Card -->
+  <ion-card class="referral-card">
+    <ion-card-content>
+      <div class="ref-code">{{ referralCode }}</div>
+      <div class="btn-group">
+        <ion-button fill="outline" (click)="copyCode()">Copy</ion-button>
+        <ion-button (click)="shareReferral()">Share</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Stats -->
+  <div class="stats-container">
+    <div class="stat">
+      <h3>{{ stats.total }}</h3>
+      <p>Total Referrals</p>
+    </div>
+    <div class="stat">
+      <h3>{{ stats.rewarded }}</h3>
+      <p>Rewarded</p>
+    </div>
+    <div class="stat">
+      <h3>{{ stats.pending }}</h3>
+      <p>Pending</p>
+    </div>
+    <div class="stat">
+      <h3>₹{{ stats.totalEarnings }}</h3>
+      <p>Total Earnings</p>
+    </div>
+  </div>
+
+  <!-- Referral List -->
+  <h3 class="section-title">Your Referrals</h3>
+  <ion-card *ngFor="let r of referrals" class="referral-item">
+    <ion-card-content>
+      <div class="ref-row">
+        <div>
+          <h4>{{ r.referredName }}</h4>
+          <small>{{ r.joinedDate | date: 'mediumDate' }}</small>
+        </div>
+        <div class="status" [ngClass]="r.status.toLowerCase()">
+          {{ r.status }}
+        </div>
+      </div>
+      <div *ngIf="r.status === 'REWARDED'" class="bonus">+₹{{ r.bonusAmount }}</div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

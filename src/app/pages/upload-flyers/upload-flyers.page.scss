@@ -1,0 +1,222 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===========================
+   GLOBAL SPACING (TOP & BOTTOM)
+=========================== */
+ion-content {
+  --padding-top: 60px !important;      /* top breathing space */
+  --padding-bottom: 120px !important;  /* bottom breathing space */
+  padding-top: 60px !important;
+  padding-bottom: 120px !important;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+/* Safe-area support for iOS / modern devices */
+@supports (padding: max(0px)) {
+  ion-content {
+    padding-top: max(60px, env(safe-area-inset-top)) !important;
+    padding-bottom: max(120px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* ===========================
+   CONTAINER
+=========================== */
+.flyer-uploader {
+  max-width: 720px;
+  margin: 60px auto 120px auto; /* ✅ adds top & bottom margin */
+  color: #fff;
+  padding: 24px;
+  background: rgba(20, 20, 30, 0.55);
+  border-radius: 16px;
+  box-shadow: 0 0 22px rgba(255, 0, 180, 0.15);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+/* ===========================
+   DROPZONE
+=========================== */
+.dropzone {
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 36px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: inset 0 0 12px rgba(255, 0, 180, 0.08);
+}
+
+.dropzone:hover,
+.dropzone.drag-over {
+  border-color: #ff4da6;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 25px rgba(255, 0, 180, 0.35);
+  transform: translateY(-2px);
+}
+
+.drop-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon {
+  font-size: 38px;
+  color: #ff99cc;
+}
+
+.text .title {
+  font-weight: 600;
+  color: #fff;
+}
+
+.text .sub {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+/* ===========================
+   PREVIEW
+=========================== */
+.preview {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  align-items: flex-start;
+  box-shadow: 0 0 18px rgba(255, 0, 180, 0.1);
+}
+
+.thumb {
+  width: 110px;
+  height: 80px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(255, 0, 180, 0.2);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pdf-icon {
+  font-size: 32px;
+  color: #ffcc00;
+}
+
+/* ===========================
+   FILE INFO & ACTIONS
+=========================== */
+.preview-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+  word-break: break-all;
+}
+
+.meta {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+ion-button {
+  --border-radius: 10px;
+  --box-shadow: 0 0 8px rgba(255, 0, 180, 0.2);
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 60px; /* ✅ ensures last button is visible */
+}
+
+/* ===========================
+   INPUT FIELDS (no gray borders)
+=========================== */
+ion-item.input-item {
+  --background: transparent !important;
+  --inner-border-width: 0px !important;
+  --highlight-color-focused: transparent !important;
+  border: 1.5px solid rgba(255, 0, 180, 0.8);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  padding: 4px 10px;
+  box-shadow: 0 0 6px rgba(255, 0, 180, 0.15);
+}
+
+ion-item.input-item:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 10px rgba(255, 77, 166, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+ion-input,
+ion-textarea {
+  color: #ffffff !important;
+  font-size: 15px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+ion-input::part(native)::placeholder,
+ion-textarea::part(native)::placeholder {
+  color: rgba(255, 182, 217, 0.6);
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 520px) {
+  .flyer-uploader {
+    padding: 18px;
+    margin-top: 40px;
+  }
+
+  .preview {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .thumb {
+    width: 100%;
+    height: 180px;
+  }
+
+  .actions {
+    justify-content: space-between;
+  }
+}

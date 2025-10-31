@@ -1,0 +1,249 @@
+.venue-settings-container {
+  max-width: 720px;
+  margin: 60px auto 120px auto;
+  padding: 24px;
+  color: #fff;
+  background: rgba(20, 20, 30, 0.55);
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255, 0, 180, 0.15);
+  backdrop-filter: blur(12px);
+}
+
+/* Inputs */
+ion-item.input-item {
+  --background: transparent !important;
+  border: 1.5px solid rgba(255, 0, 180, 0.7);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+ion-item.input-item:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 10px rgba(255, 77, 166, 0.4);
+}
+
+/* Time inputs */
+.time-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* Amenities */
+.amenities-section {
+  margin-top: 18px;
+}
+.amenity-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.amenity-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Image upload */
+.image-upload {
+  margin-top: 18px;
+}
+.upload-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.upload-box:hover {
+  border-color: #ff4da6;
+  box-shadow: 0 0 20px rgba(255, 0, 180, 0.25);
+}
+.upload-box img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 16px rgba(255, 0, 180, 0.15);
+}
+
+/* Buttons */
+ion-button {
+  margin-top: 16px;
+  margin-bottom: 60px;
+  --border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Top & bottom spacing */
+ion-content {
+  --padding-top: 60px !important;
+  --padding-bottom: 120px !important;
+}
+.venue-settings-container {
+  max-width: 720px;
+  margin: 60px auto 120px auto;
+  padding: 24px;
+  color: #fff;
+  background: rgba(20, 20, 30, 0.55);
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255, 0, 180, 0.15);
+  backdrop-filter: blur(12px);
+}
+
+/* Remove gray borders from inputs */
+ion-item.input-item {
+  --background: transparent !important;
+  --inner-border-width: 0 !important;
+  --highlight-color-focused: transparent !important;
+  border: 1.5px solid rgba(255, 0, 180, 0.75);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+
+ion-item.input-item:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 12px rgba(255, 77, 166, 0.4);
+}
+
+ion-input,
+ion-textarea {
+  color: #ffffff !important;
+  font-size: 15px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+ion-input::part(native)::placeholder,
+ion-textarea::part(native)::placeholder {
+  color: rgba(255, 182, 217, 0.6);
+}
+
+/* Amenities */
+.amenity-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.amenity-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* Time row */
+.time-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* Upload */
+.upload-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+}
+.upload-box:hover {
+  border-color: #ff4da6;
+  box-shadow: 0 0 20px rgba(255, 0, 180, 0.25);
+}
+.upload-box img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+/* Spacing */
+ion-content {
+  --padding-top: 60px !important;
+  --padding-bottom: 120px !important;
+}
+/* ===========================
+   AMENITIES SECTION FIX
+=========================== */
+.amenities-section {
+  margin-top: 24px;
+}
+
+.amenity-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Make chips visible and stylish */
+ion-chip {
+  --background: rgba(255, 255, 255, 0.08);
+  --color: #ffffff;
+  border: 1.5px solid rgba(255, 0, 180, 0.7);
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 4px 10px;
+  box-shadow: 0 0 8px rgba(255, 0, 180, 0.15);
+  transition: all 0.3s ease;
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+}
+
+ion-chip:hover {
+  background: linear-gradient(135deg, rgba(255, 0, 180, 0.18), rgba(140, 0, 255, 0.12));
+  box-shadow: 0 0 14px rgba(255, 0, 180, 0.35);
+  transform: translateY(-1px);
+}
+
+ion-chip ion-icon {
+  color: #ffb6d9;
+  font-size: 16px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+ion-chip ion-icon:hover {
+  color: #ff4da6;
+  transform: scale(1.2);
+}
+
+/* Amenity input box styling */
+.amenity-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.amenity-input ion-input {
+  flex: 1;
+  --background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 0, 180, 0.7);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  color: #fff !important;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.amenity-input ion-input:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 10px rgba(255, 77, 166, 0.4);
+}
+
+.amenity-input ion-input::part(native)::placeholder {
+  color: rgba(255, 182, 217, 0.6);
+}

@@ -23,3 +23,328 @@ ion-card img {
   color: #aaa;
   font-size: 1.2rem;
 }
+
+ion-header {
+  ion-toolbar {
+    --background: #111;
+    --color: #fff;
+  }
+}
+
+.filter-toolbar {
+  display: flex;
+  flex-direction: column;
+  background: #1e1e1e;
+  ion-searchbar {
+    margin: 8px;
+    --background: #2b2b2b;
+    --color: #fff;
+    --placeholder-color: #aaa;
+    --icon-color: #aaa;
+    border-radius: 12px;
+    padding: 0;
+  }
+
+  ion-segment {
+    margin: 8px;
+    background: #2b2b2b;
+    border-radius: 10px;
+    ion-segment-button {
+      --color: #bbb;
+      --color-checked: #fff;
+      --indicator-color: #ff4081;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+/* Feed Cards */
+.club-card {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: #181818;
+  color: #fff;
+
+  ion-img {
+    height: 220px;
+    object-fit: cover;
+  }
+
+  ion-card-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  ion-card-subtitle {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+
+  .rating {
+    margin-top: 6px;
+    font-weight: 600;
+    color: #ffd700;
+  }
+}
+
+/* Center spinner */
+.spinner-center {
+  display: block;
+  margin: 50px auto;
+}
+/* ===============================
+   🌈 Filter Toolbar Styling
+================================ */
+.filter-toolbar {
+  padding: 6px 8px;
+  background: #1a1a1a;
+
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* 🔍 Search Bar */
+  .custom-search {
+    flex: 1 1 auto;
+    --background: #2b2b2b;
+    --color: #fff;
+    --placeholder-color: #bbb;
+    --icon-color: #bbb;
+    border-radius: 12px;
+    --height: 40px;
+    filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1));
+  }
+
+  /* 🎛️ Segment Wrapper */
+  .segment-wrap {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 240px;
+  }
+
+  /* ===============================
+     🌈 Gradient Segment Buttons
+  =============================== */
+  ion-segment {
+    --background: transparent;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(90deg, #ff007f, #ffda00);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  ion-segment-button {
+    --background: rgba(0, 0, 0, 0.3);
+    --color: #ffffff; /* White font color */
+    --color-checked: #fff;
+    --indicator-color: transparent; /* Hide default underline */
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin: 2px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+
+    /* ✨ Glossy look using gradient overlay when selected */
+    &[aria-checked="true"] {
+      background: linear-gradient(135deg, #ff1493 0%, #ffda00 100%);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+                  0 0 15px rgba(255, 20, 147, 0.5);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+}
+
+/* Responsive layout fix for small screens */
+@media (max-width: 520px) {
+  .filter-toolbar .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .segment-wrap {
+    min-width: auto;
+    margin-top: 8px;
+  }
+}
+/* ==========================
+   Club Card Details Section
+========================== */
+ion-card-content {
+  color: #eee;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  background: #1b1b1b;
+  border-radius: 0 0 14px 14px;
+  padding-bottom: 16px;
+
+  .club-desc {
+    margin-bottom: 8px;
+    color: #ccc;
+  }
+
+  .club-tags p {
+    margin: 2px 0;
+    color: #ffccf5;
+    font-size: 0.85rem;
+  }
+
+  .happy-hour {
+    margin-top: 4px;
+    font-weight: 500;
+    color: #ff69b4;
+  }
+
+  .crowd-level {
+    margin-top: 10px;
+    .crowd-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: #ffd54f;
+    }
+    ion-progress-bar {
+      height: 6px;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+  }
+
+  .rating-trend {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+
+    .rating {
+      color: #ffd700;
+      font-weight: 600;
+    }
+
+    .trend-score {
+      color: #ff7b00;
+      font-weight: 500;
+    }
+  }
+
+  .club-meta {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #aaa;
+    font-size: 0.85rem;
+  }
+
+  .social-links {
+    margin-top: 8px;
+    display: flex;
+    gap: 14px;
+    a {
+      color: #ffb6c1;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      &:hover {
+        color: #ff66b2;
+      }
+    }
+  }
+
+ 
+
+
+
+
+
+/* ===============================
+   🎫 Glossy Neon Button Styling
+================================ */
+.club-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  background: transparent; /* no background at all */
+  padding: 6px 0;
+
+  ion-button.pink-outline {
+    --border-color: transparent;
+    --color: #fff;
+    --background: transparent;
+    --border-radius: 8px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    height: 30px;
+    min-height: 28px;
+    line-height: 1;
+
+    /* ✨ Custom glossy border via pseudo-element */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      padding: 1px; /* border thickness */
+      background:   #0000;
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      z-index: -1;
+    }
+
+    /* glossy inner highlight */
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ff007f, #fd2a85);
+      z-index: -2;
+    }
+
+    ion-icon {
+      font-size: 0.9rem;
+      margin-right: 4px;
+    }
+
+    /* 💫 Hover / Tap effect */
+    &:hover,
+    &:active {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(255, 20, 147, 0.5);
+      background: #ff66b2;
+    }
+  }
+}
+}

@@ -1,10 +1,90 @@
-<app-header [title]="'Login Dashboard'" [userName]="'Amit'"></app-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title class="header-title">Welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding gradient-bg">
+  <div class="login-container">
+    <div class="brand">
+      <h1 class="brand-title">PNL4U</h1>
+      <p class="tagline">From vision to reality — Nightlife, reimagined</p>
+    </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">login</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <!-- Tabs -->
+    <ion-segment [(ngModel)]="selectedTab" class="auth-tabs" value="login">
+      <ion-segment-button value="login"><ion-label>Login</ion-label></ion-segment-button>
+      <ion-segment-button value="signup"><ion-label>Sign Up</ion-label></ion-segment-button>
+    </ion-segment>
+
+    <!-- LOGIN FORM -->
+    <form *ngIf="selectedTab === 'login'" class="login-card" (submit)="onSubmit($event)">
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          type="text"
+          required
+          placeholder="Email / Username / Phone"
+          [(ngModel)]="loginData.loginId"
+          name="loginId"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          type="password"
+          required
+          placeholder="Password"
+          [(ngModel)]="loginData.password"
+          name="loginPassword"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="btn-primary" type="submit">Log In</ion-button>
+    </form>
+
+    <!-- SIGN-UP FORM -->
+    <form *ngIf="selectedTab === 'signup'" class="login-card" (submit)="onSignup($event)">
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          type="text"
+          required
+          placeholder="Username"
+          [(ngModel)]="signupData.username"
+          name="signupUsername"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          type="email"
+          required
+          placeholder="Email address"
+          [(ngModel)]="signupData.email"
+          name="signupEmail"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          type="tel"
+          required
+          placeholder="Phone number"
+          [(ngModel)]="signupData.phone"
+          name="signupPhone"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-item">
+        <ion-input
+          type="password"
+          required
+          placeholder="Password"
+          [(ngModel)]="signupData.password"
+          name="signupPassword"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="btn-primary" type="submit">Sign Up</ion-button>
+    </form>
+  </div>
 </ion-content>

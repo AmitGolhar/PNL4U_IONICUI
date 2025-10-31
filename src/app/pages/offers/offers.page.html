@@ -1,13 +1,51 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>offers</ion-title>
+    <ion-title>Offers & Promo Codes</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">offers</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+    <ion-segment-button value="offers"><ion-label>Offers</ion-label></ion-segment-button>
+    <ion-segment-button value="promo"><ion-label>Promo Codes</ion-label></ion-segment-button>
+  </ion-segment>
+
+  <!-- OFFERS TAB -->
+  <div *ngIf="activeTab === 'offers'">
+    <ion-card *ngFor="let offer of offers" class="offer-card">
+      <ion-card-header>
+        <ion-card-title>{{ offer.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ offer.description }}</p>
+        <p *ngIf="offer.discountPercent">Discount: {{ offer.discountPercent }}%</p>
+        <p *ngIf="offer.cashbackAmount">Cashback: ₹{{ offer.cashbackAmount }}</p>
+        <div class="offer-actions">
+          <ion-button *ngIf="userRole==='USER'" fill="outline" size="small">Redeem</ion-button>
+          <ion-button *ngIf="userRole==='CLUBADMIN'" size="small" (click)="createOffer()">Create Offer</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- PROMO CODE TAB -->
+  <div *ngIf="activeTab === 'promo'" class="promo-section">
+    <ion-item class="input-item" lines="none">
+      <ion-input [(ngModel)]="promoInput" placeholder="Enter promo code"></ion-input>
+      <ion-button slot="end" color="primary" (click)="applyPromo()">Apply</ion-button>
+    </ion-item>
+
+    <div class="promo-list">
+      <ion-card *ngFor="let promo of promoCodes" class="promo-card">
+        <ion-card-header>
+          <ion-card-title>{{ promo.code }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ promo.description }}</p>
+          <p>Discount: {{ promo.discountPercent }}%</p>
+          <small>Expires: {{ promo.expiryDate | date: 'mediumDate' }}</small>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

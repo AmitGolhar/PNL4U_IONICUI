@@ -1,13 +1,66 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>upload-flyers</ion-title>
+    <ion-title>Upload Flyers & Party Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">upload-flyers</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+
+  <div class="upload-section">
+
+    <!-- Upload Box -->
+    <div class="dropzone" (click)="fileInput.click()">
+      <ng-container *ngIf="!previewDataUrl; else preview">
+        <p class="upload-text">🎉 Click or drag flyer here</p>
+        <p class="sub-text">Supported: JPG, PNG, PDF (max {{ maxSizeMB }} MB)</p>
+      </ng-container>
+
+      <ng-template #preview>
+        <div class="preview">
+          <img *ngIf="isImagePreview" [src]="previewDataUrl" alt="Preview" />
+          <ion-button fill="outline" color="light" (click)="removeFile()">Remove</ion-button>
+        </div>
+      </ng-template>
+
+      <input #fileInput type="file" [accept]="accept" hidden (change)="onFileInputChange($event)" />
+    </div>
+
+    <!-- Upload progress -->
+    <div *ngIf="isUploading" class="progress-bar">
+      <div class="progress" [style.width.%]="uploadProgress"></div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+    <!-- Event form -->
+    <div class="event-form">
+      <ion-item class="input-item"><ion-input placeholder="Event Title" [(ngModel)]="event.title"></ion-input></ion-item>
+      <ion-item class="input-item"><ion-input type="date" [(ngModel)]="event.date"></ion-input></ion-item>
+      <ion-item class="input-item"><ion-input type="time" [(ngModel)]="event.time"></ion-input></ion-item>
+      <ion-item class="input-item"><ion-input placeholder="Venue" [(ngModel)]="event.venue"></ion-input></ion-item>
+      <ion-item class="input-item"><ion-input type="number" placeholder="Entry Fee (₹)" [(ngModel)]="event.entryFee"></ion-input></ion-item>
+      <ion-item class="input-item"><ion-textarea placeholder="Description" rows="3" [(ngModel)]="event.description"></ion-textarea></ion-item>
+
+      <ion-button expand="block" (click)="upload()">Upload Flyer & Event</ion-button>
+    </div>
+
+    <!-- Uploaded events -->
+    <div class="uploaded-events" *ngIf="events.length > 0">
+      <h3 class="section-title">Uploaded Events</h3>
+      <ion-card *ngFor="let e of events">
+        <img [src]="e.flyerUrl" alt="{{ e.title }}" />
+        <ion-card-header>
+          <ion-card-title>{{ e.title }}</ion-card-title>
+          <ion-card-subtitle>{{ e.date }} • {{ e.time }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ e.venue }}</p>
+          <p>{{ e.description }}</p>
+          <small>₹{{ e.entryFee }}</small>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+
 </ion-content>

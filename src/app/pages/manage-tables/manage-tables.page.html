@@ -1,13 +1,149 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>manage-tables</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Manage Tables & Guests</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">manage-tables</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="manage-container">
+
+    <!-- Tabs -->
+    <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+      <ion-segment-button value="floor"><ion-label>Floor Layout</ion-label></ion-segment-button>
+      <ion-segment-button value="tables"><ion-label>Tables</ion-label></ion-segment-button>
+      <ion-segment-button value="guests"><ion-label>Guest List</ion-label></ion-segment-button>
+      <ion-segment-button value="property"><ion-label>Property</ion-label></ion-segment-button>
+    </ion-segment>
+
+    <!-- FLOOR LAYOUT -->
+    <div *ngIf="activeTab === 'floor'" class="floor-layout">
+      <div class="floor">
+        <div
+          *ngFor="let t of tables"
+          class="table-dot"
+          [class.booked]="!t.isAvailable"
+          [style.left.%]="t.x"
+          [style.top.%]="t.y"
+          title="{{ t.tableNumber }} • ₹{{ t.price }}"
+        >
+          {{ t.tableNumber }}
+        </div>
+      </div>
+      <p class="legend">💡 Green = Available | 🔴 Red = Booked</p>
+    </div>
+
+    <!-- TABLES -->
+    <div *ngIf="activeTab === 'tables'">
+      <div class="top-bar">
+        <h2>Manage Tables</h2>
+        <ion-button fill="outline" (click)="openModal('TABLE')">
+          <ion-icon name="add-outline" slot="start"></ion-icon>Add Table
+        </ion-button>
+      </div>
+
+      <ion-card *ngFor="let t of tables" class="table-card">
+        <ion-card-header>
+          <ion-card-title>{{ t.tableNumber }}</ion-card-title>
+          <ion-card-subtitle>Capacity: {{ t.capacity }} • ₹{{ t.price }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="status" [class.available]="t.isAvailable" [class.booked]="!t.isAvailable">
+            {{ t.isAvailable ? 'Available' : 'Booked' }}
+          </div>
+          <div class="actions-row">
+            <ion-button fill="clear" (click)="toggleAvailability(t)">
+              <ion-icon name="swap-horizontal-outline" slot="start"></ion-icon>Toggle
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="deleteTable(t)">
+              <ion-icon name="trash-outline" slot="start"></ion-icon>Delete
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- GUESTS -->
+    <div *ngIf="activeTab === 'guests'">
+      <div class="top-bar">
+        <h2>Guest List</h2>
+        <ion-button fill="outline" (click)="openModal('GUEST')">
+          <ion-icon name="add-outline" slot="start"></ion-icon>Add Guest
+        </ion-button>
+      </div>
+
+      <ion-card *ngFor="let g of guests" class="guest-card">
+        <ion-card-header>
+          <ion-card-title>{{ g.name }}</ion-card-title>
+          <ion-card-subtitle>{{ g.contact }} • {{ g.gender }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="status" [ngClass]="g.status.toLowerCase()">{{ g.status }}</div>
+          <div class="actions-row">
+            <ion-button fill="clear" color="success" (click)="changeGuestStatus(g, 'APPROVED')">
+              <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>Approve
+            </ion-button>
+            <ion-button fill="clear" color="warning" (click)="changeGuestStatus(g, 'REJECTED')">
+              <ion-icon name="close-circle-outline" slot="start"></ion-icon>Reject
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="deleteGuest(g)">
+              <ion-icon name="trash-outline" slot="start"></ion-icon>Remove
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- PROPERTY DETAILS -->
+    <div *ngIf="activeTab === 'property'" class="property-section">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ property.name }}</ion-card-title>
+          <ion-card-subtitle>{{ property.location }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Total Floors:</strong> {{ property.totalFloors }}</p>
+          <p><strong>Capacity:</strong> {{ property.capacity }} people</p>
+          <p><strong>Hours:</strong> {{ property.openingHours }}</p>
+          <p><strong>Contact:</strong> {{ property.contactEmail }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- ADD MODAL -->
+    <ion-modal [isOpen]="showAddModal" (didDismiss)="closeModal()">
+      <ng-template>
+        <div class="create-modal">
+          <h2 *ngIf="modalType === 'TABLE'">Add New Table</h2>
+          <h2 *ngIf="modalType === 'GUEST'">Add Guest</h2>
+
+          <div *ngIf="modalType === 'TABLE'">
+            <ion-item class="input-item"><ion-input placeholder="Table Number" [(ngModel)]="newTable.tableNumber"></ion-input></ion-item>
+            <ion-item class="input-item"><ion-input type="number" placeholder="Capacity" [(ngModel)]="newTable.capacity"></ion-input></ion-item>
+            <ion-item class="input-item"><ion-input type="number" placeholder="Price" [(ngModel)]="newTable.price"></ion-input></ion-item>
+          </div>
+
+          <div *ngIf="modalType === 'GUEST'">
+            <ion-item class="input-item"><ion-input placeholder="Full Name" [(ngModel)]="newGuest.name"></ion-input></ion-item>
+            <ion-item class="input-item"><ion-input placeholder="Contact" [(ngModel)]="newGuest.contact"></ion-input></ion-item>
+            <ion-item class="input-item">
+              <ion-select placeholder="Gender" [(ngModel)]="newGuest.gender">
+                <ion-select-option value="Male">Male</ion-select-option>
+                <ion-select-option value="Female">Female</ion-select-option>
+                <ion-select-option value="Other">Other</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
+
+          <div class="modal-actions">
+            <ion-button expand="block" (click)="addEntry()">Save</ion-button>
+            <ion-button expand="block" fill="clear" (click)="closeModal()">Cancel</ion-button>
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+  </div>
 </ion-content>

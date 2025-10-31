@@ -1,0 +1,82 @@
+.wallet-summary {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.offer-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(255, 0, 153, 0.3);
+  color: #fff;
+}
+
+.credit { color: #00ff99; }
+.debit { color: #ff3366; }
+.wallet-summary {
+  text-align: center;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff00b3, #00f0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  small {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.txn-card,
+.offer-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 0, 180, 0.3);
+}
+
+.txn-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.amt.credit {
+  color: #00ff99;
+  font-weight: 600;
+}
+
+.amt.debit {
+  color: #ff3366;
+  font-weight: 600;
+}
+
+.txn-date {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 6px;
+}
+
+.offer-card ion-card-title {
+  color: #fff;
+  font-size: 18px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+}

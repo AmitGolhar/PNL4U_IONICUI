@@ -1,0 +1,154 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Submit Club Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding club-request-bg">
+  <h3>Submit Add Club Request</h3>
+
+  <form [formGroup]="clubForm" (ngSubmit)="onSubmit()">
+    <ion-list lines="full" class="form-container">
+
+      <!-- 🔹 Club Name -->
+      <ion-item>
+        <ion-label position="stacked">
+          Club Name <span class="required">*</span>
+        </ion-label>
+        <ion-input placeholder="Enter your club name" formControlName="clubName"></ion-input>
+      </ion-item>
+      <p class="error" *ngIf="clubForm.get('clubName')?.touched && clubForm.get('clubName')?.hasError('required')">
+        Club name is required.
+      </p>
+
+      <!-- 🔹 Owner Name -->
+      <ion-item>
+        <ion-label position="stacked">
+          Owner / Manager Name <span class="required">*</span>
+        </ion-label>
+        <ion-input placeholder="Enter owner's full name" formControlName="ownerName"></ion-input>
+      </ion-item>
+      <p class="error" *ngIf="clubForm.get('ownerName')?.touched && clubForm.get('ownerName')?.hasError('required')">
+        Owner name is required.
+      </p>
+
+      <!-- 🔹 Email -->
+      <ion-item>
+        <ion-label position="stacked">
+          Email <span class="required">*</span>
+        </ion-label>
+        <ion-input placeholder="example@domain.com" type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <p class="error" *ngIf="clubForm.get('email')?.touched && clubForm.get('email')?.hasError('required')">
+        Email is required.
+      </p>
+      <p class="error" *ngIf="clubForm.get('email')?.hasError('email')">
+        Enter a valid email address.
+      </p>
+
+      <!-- 🔹 Phone -->
+      <ion-item>
+        <ion-label position="stacked">
+          Phone Number <span class="required">*</span>
+        </ion-label>
+        <ion-input placeholder="e.g. 9876543210" type="tel" formControlName="phoneNumber"></ion-input>
+      </ion-item>
+      <p class="error" *ngIf="clubForm.get('phoneNumber')?.touched && clubForm.get('phoneNumber')?.hasError('required')">
+        Phone number is required.
+      </p>
+
+      <!-- 🔹 Address -->
+      <ion-item>
+        <ion-label position="stacked">
+          Address <span class="required">*</span>
+        </ion-label>
+        <ion-input placeholder="Enter club address" formControlName="address"></ion-input>
+      </ion-item>
+
+     <!-- 🔹 City Dropdown -->
+    <ion-item class="dropdown-item">
+      <ion-label>City <span class="required">*</span></ion-label>
+      <ion-select formControlName="city" interface="popover" placeholder="Select your city" class="custom-select">
+        <ion-select-option *ngFor="let c of cities" [value]="c">{{ c }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+   <!-- 🔹 Club Type (Multi-Select) -->
+      <ion-item class="dropdown-item">
+        <ion-label>Club Type <span class="required">*</span></ion-label>
+        <ion-select
+          formControlName="clubType"
+          multiple="true"
+          interface="popover"
+          placeholder="Select one or more types"
+          class="custom-select"
+        >
+          <ion-select-option *ngFor="let type of clubTypes" [value]="type">
+            {{ type }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <p class="error" *ngIf="clubForm.get('clubType')?.touched && clubForm.get('clubType')?.hasError('required')">
+        Please select at least one club type.
+      </p>
+
+
+      <!-- 🔹 Description -->
+      <ion-item>
+        <ion-label position="stacked">
+          Description <span class="required">*</span>
+        </ion-label>
+        <ion-textarea placeholder="Briefly describe your club" formControlName="description"></ion-textarea>
+      </ion-item>
+
+      <!-- 🔹 Instagram -->
+      <ion-item>
+        <ion-label position="stacked">Instagram Handle</ion-label>
+        <ion-input placeholder="@yourclub" formControlName="instagramHandle"></ion-input>
+      </ion-item>
+
+      <!-- 🔹 Website -->
+      <ion-item>
+        <ion-label position="stacked">Website</ion-label>
+        <ion-input placeholder="https://yourclub.com" formControlName="website"></ion-input>
+      </ion-item>
+
+      <!-- 🔹 Want Website -->
+      <ion-item class="dropdown-item">
+        <ion-label>Want Website? <span class="required">*</span></ion-label>
+        <ion-select formControlName="wantWebsite" interface="popover" class="custom-select">
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- 💎 View Packages Button -->
+      <ion-item lines="none" class="view-packages-btn">
+        <ion-button color="tertiary" expand="block" (click)="openPackagesModal()">
+          💎 View Available Packages
+        </ion-button>
+      </ion-item>
+
+      <!-- 🔹 Preferred Package -->
+      <ion-item class="dropdown-item">
+        <ion-label>Preferred Package <span class="required">*</span></ion-label>
+        <ion-select formControlName="preferredPackage" interface="popover" class="custom-select">
+          <ion-select-option *ngFor="let pkg of packageTypes" [value]="pkg">{{ pkg }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- 🔹 File Upload -->
+      <ion-item class="file-upload">
+        <ion-label>Upload Club Photo</ion-label>
+        <input type="file" id="photoUpload" (change)="onFileSelected($event)" accept="image/*" />
+        <label for="photoUpload">Choose File</label>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-button expand="block" type="submit" color="success" class="submit-btn" [disabled]="clubForm.invalid">
+      Submit Club For Approval
+    </ion-button>
+  </form>
+</ion-content>

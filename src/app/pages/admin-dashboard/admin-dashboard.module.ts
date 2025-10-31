@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -8,6 +8,7 @@ import { AdminDashboardPageRoutingModule } from './admin-dashboard-routing.modul
 
 import { AdminDashboardPage } from './admin-dashboard.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ClubRequestsComponent } from './club-requests/club-requests.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AdminDashboardPageRoutingModule,
     SharedModule
   ],
-  declarations: [AdminDashboardPage]
+  declarations: [AdminDashboardPage,ClubRequestsComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class AdminDashboardPageModule {}

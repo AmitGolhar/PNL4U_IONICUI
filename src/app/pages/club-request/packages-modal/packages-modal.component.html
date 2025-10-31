@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Compare Club Packages</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">✖</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding modal-bg">
+  <h2 class="text-center">📊 Compare All Packages</h2>
+
+  <!-- 🌈 Scrollable Comparison Container -->
+  <div class="scroll-container">
+    <div class="comparison-table">
+      <div class="table-header">
+        <div class="feature-title">Features</div>
+        <div *ngFor="let pkg of packages" class="pkg-column" [style.background]="pkg.bgColor">
+          <h3 [style.color]="pkg.textColor">{{ pkg.name }}</h3>
+        </div>
+      </div>
+
+      <div *ngFor="let feature of features" class="table-row">
+        <div class="feature-title">{{ feature.name }}</div>
+        <div *ngFor="let pkg of packages" class="pkg-column">
+          <ion-icon
+            *ngIf="pkg.features.includes(feature.key)"
+            name="checkmark-circle"
+            color="success">
+          </ion-icon>
+          <ion-icon
+            *ngIf="!pkg.features.includes(feature.key)"
+            name="close-circle"
+            color="danger">
+          </ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-button expand="block" color="success" class="close-btn" (click)="closeModal()">
+    Got It!
+  </ion-button>
+</ion-content>

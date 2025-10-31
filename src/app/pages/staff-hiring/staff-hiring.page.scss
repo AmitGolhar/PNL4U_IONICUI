@@ -1,0 +1,194 @@
+/* ==========================
+   Staff Hiring — Refactored
+   (only rules from last 3 requests)
+   ========================== */
+
+.hiring-container {
+  max-width: 980px;
+  margin: 0 auto;
+  color: #fff;
+  padding-bottom: 120px;
+}
+
+/* --- Top Bar & Search Input --- */
+.top-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.top-bar ion-input {
+  flex: 1;
+  --background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 0, 180, 0.7);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  padding: 6px 12px !important;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  font-size: 15px;
+  color: #fff !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.top-bar ion-input::part(native) {
+  color: #fff !important;
+  caret-color: #ffcc00;
+}
+
+.top-bar ion-input::part(native)::placeholder {
+  color: rgba(255, 182, 217, 0.6);
+}
+
+.top-bar ion-input:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 10px rgba(255, 77, 166, 0.36);
+}
+
+/* --- Auth Tabs (Jobs / Applicants) --- */
+.auth-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 0 10px rgba(255, 0, 180, 0.10);
+  overflow: hidden;
+}
+
+ion-segment-button {
+  --background: transparent;
+  --color: rgba(255, 255, 255, 0.77);
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.28s ease-in-out;
+  padding: 6px 12px;
+}
+
+ion-segment-button.segment-button-checked {
+  border: 1.5px solid #ff4da6;
+  color: #fff !important;
+  background: linear-gradient(135deg, rgba(255, 0, 180, 0.18), rgba(140, 0, 255, 0.10));
+  box-shadow: 0 0 14px rgba(255, 0, 180, 0.34);
+  text-shadow: 0 0 8px rgba(255, 153, 204, 0.25);
+}
+
+/* --- Cards & Hover Effects --- */
+.job-card,
+.applicant-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.job-card:hover,
+.applicant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 0, 180, 0.20);
+  border-color: #ff4da6;
+}
+
+/* --- Status / Meta --- */
+.meta-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.status.open { color: #00ff9d; }
+.status.closed { color: #ff6b6b; }
+
+/* --- Applicant badges --- */
+.status-row { display: flex; align-items: center; justify-content: space-between; }
+.status-pill {
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-weight: 600;
+}
+.status-pill.applied { background: rgba(255,255,255,0.03); color: #ffcc00; }
+.status-pill.shortlisted { background: rgba(0,255,157,0.06); color: #00ff9d; }
+.status-pill.hired { background: rgba(0,255,157,0.08); color: #00ff9d; }
+.status-pill.rejected { background: rgba(255,0,0,0.06); color: #ff6b6b; }
+
+/* --- Modal shell & spacing for bottom buttons --- */
+.modal-shell {
+  background: rgba(15, 15, 25, 0.96);
+  padding: 18px;
+  max-width: 640px;
+  margin: auto;
+  border-radius: 14px;
+  color: #fff;
+  padding-bottom: 60px; /* keeps buttons accessible */
+}
+
+/* --- Inputs: keep outer pink border, remove Ionic inner gray line --- */
+ion-item.input-item {
+  --background: transparent !important;
+  --inner-border-width: 0px !important;
+  --highlight-color-focused: transparent !important;
+  border: 1.5px solid rgba(255, 0, 180, 0.82);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(6px);
+  padding: 6px 10px;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+/* remove default inner line parts */
+ion-item.input-item::part(native),
+ion-item.input-item::part(container),
+ion-item.input-item::part(inner) {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* focused glow */
+ion-item.input-item.ion-focused,
+ion-item.input-item.item-has-focus,
+ion-item.input-item:focus-within {
+  border-color: #ff4da6;
+  box-shadow: 0 0 10px rgba(255, 77, 166, 0.40);
+  background: rgba(255,255,255,0.035);
+}
+
+/* text & placeholder */
+ion-input,
+ion-textarea {
+  color: #ffffff !important;
+  font-size: 15px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+}
+
+ion-input::part(native),
+ion-textarea::part(native) {
+  color: #ffffff !important;
+  caret-color: #ffcc00;
+}
+
+ion-input::part(native)::placeholder,
+ion-textarea::part(native)::placeholder {
+  color: rgba(255, 182, 217, 0.6);
+  padding-left: 4px;
+}
+
+/* --- Responsive tweaks --- */
+@media (max-width: 520px) {
+  .modal-shell { padding: 12px; padding-bottom: 60px; }
+  .top-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+}

@@ -1,13 +1,90 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>payout-reports</ion-title>
+    <ion-title>Payout Report</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="exportCSV()">
+        <ion-icon name="download-outline"></ion-icon>
+        Export CSV
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">payout-reports</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="payout-container">
+    <!-- Filters -->
+    <div class="filters">
+      <ion-item class="input-item">
+        <ion-input
+          type="search"
+          placeholder="Search by Club or ID"
+          [(ngModel)]="searchText"
+          (ionInput)="filterPayouts()"
+        ></ion-input>
+      </ion-item>
+
+      <div class="date-filters">
+        <ion-item class="input-item">
+          <ion-input type="date" [(ngModel)]="startDate" (ionChange)="filterPayouts()"></ion-input>
+        </ion-item>
+        <ion-item class="input-item">
+          <ion-input type="date" [(ngModel)]="endDate" (ionChange)="filterPayouts()"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="summary-row">
+      <div class="summary-card">
+        <div class="label">Total Payouts</div>
+        <div class="value">₹{{ summary.total | number }}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Completed</div>
+        <div class="value text-green">₹{{ summary.completed | number }}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Pending</div>
+        <div class="value text-yellow">{{ summary.pending }}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Last Updated</div>
+        <div class="value small">{{ summary.lastUpdated }}</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <ion-card class="table-card">
+      <ion-card-header>
+        <ion-card-title>Transaction Details</ion-card-title>
+      </ion-card-header>
+
+      <div class="table-wrapper">
+        <table class="payout-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Club</th>
+              <th>Amount (₹)</th>
+              <th>Status</th>
+              <th>Requested</th>
+              <th>Processed</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of filteredPayouts">
+              <td>{{ p.id }}</td>
+              <td>{{ p.clubName }}</td>
+              <td>{{ p.amount | number }}</td>
+              <td><span class="status-pill" [ngClass]="getStatusClass(p.status)">{{ p.status }}</span></td>
+              <td>{{ p.requestedAt | date: 'short' }}</td>
+              <td>{{ p.processedAt ? (p.processedAt | date: 'short') : '-' }}</td>
+              <td>{{ p.remarks || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ion-card>
+  </div>
 </ion-content>

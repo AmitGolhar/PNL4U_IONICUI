@@ -1,13 +1,58 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>support</ion-title>
+    <ion-title>Customer Support</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">support</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="support-container">
+
+    <!-- Support Introduction -->
+    <div class="intro">
+      <h1>Need Help? 💬</h1>
+      <p>Our team is here 24/7 to assist you. Check FAQs or raise a support ticket.</p>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <h2>📚 Frequently Asked Questions</h2>
+      <ion-accordion-group>
+        <ion-accordion *ngFor="let faq of faqs">
+          <ion-item slot="header" color="dark">
+            <ion-label>{{ faq.question }}</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            {{ faq.answer }}
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"><span>or</span></div>
+
+    <!-- New Ticket Form -->
+    <div class="ticket-form">
+      <h2>🎟️ Submit a Support Ticket</h2>
+      <ion-item class="input-item">
+        <ion-input placeholder="Subject" [(ngModel)]="newTicket.subject"></ion-input>
+      </ion-item>
+      <ion-item class="input-item">
+        <ion-textarea rows="4" placeholder="Describe your issue..." [(ngModel)]="newTicket.message"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" class="btn-primary" (click)="submitTicket()">Submit Ticket</ion-button>
+    </div>
+
+    <!-- Previous Tickets -->
+    <div *ngIf="tickets.length > 0" class="previous-tickets">
+      <h2>🕒 Your Previous Tickets</h2>
+      <ion-card *ngFor="let t of tickets">
+        <ion-card-header>
+          <ion-card-title>{{ t.subject }}</ion-card-title>
+          <ion-card-subtitle>{{ t.status }} • {{ t.date | date:'short' }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>{{ t.message }}</ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

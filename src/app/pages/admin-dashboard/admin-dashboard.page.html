@@ -1,10 +1,95 @@
-<app-header [title]="'Admin Dashboard'" [userName]="'Amit'"></app-header>
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Admin Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding gradient-bg">
+  <div class="admin-dashboard-container">
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin-dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <!-- Welcome Section -->
+    <div class="welcome-card">
+      <h2>Welcome, <span>{{ adminName }}</span> 👑</h2>
+      <p>Here’s an overview of platform activity and insights.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div *ngFor="let s of stats" class="stat-card" [style.--icon-color]="s.color">
+        <ion-icon [name]="s.icon"></ion-icon>
+        <div>
+          <h3>{{ s.value }}</h3>
+          <small>{{ s.title }}</small>
+        </div>
+      </div>
+    </div>
+
+        <!-- 🧾 Club Requests Management Section -->
+   
+            <app-club-requests ></app-club-requests>
+   
+
+    <!-- Quick Actions -->
+    <h3 class="section-title">Quick Actions</h3>
+    <div class="quick-actions">
+      <ion-button
+        *ngFor="let action of quickActions"
+        expand="block"
+        fill="outline"
+        [ngStyle]="{'--border-color': action.color, '--color': action.color}"
+        (click)="openAction(action)">
+        <ion-icon [name]="action.icon" slot="start"></ion-icon>
+        {{ action.label }}
+      </ion-button>
+    </div>
+
+   
+
+    <!-- Revenue Analytics (placeholder) -->
+    <h3 class="section-title">Weekly Revenue Overview</h3>
+    <div class="bar-chart">
+      <div class="bar" style="--w:60%">Mon</div>
+      <div class="bar" style="--w:85%">Tue</div>
+      <div class="bar" style="--w:40%">Wed</div>
+      <div class="bar" style="--w:75%">Thu</div>
+      <div class="bar" style="--w:95%">Fri</div>
+      <div class="bar" style="--w:65%">Sat</div>
+      <div class="bar" style="--w:50%">Sun</div>
+    </div>
+
+    <!-- Top Clubs -->
+    <h3 class="section-title">Top Performing Clubs</h3>
+    <div class="club-grid">
+      <ion-card *ngFor="let c of topClubs" class="club-card">
+        <img [src]="c.image" alt="{{ c.name }}" />
+        <ion-card-header>
+          <ion-card-title>{{ c.name }}</ion-card-title>
+          <ion-card-subtitle>{{ c.location }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ c.category }}</p>
+          <div class="club-meta">
+            <span>⭐ {{ c.rating }}</span>
+            <span>👥 {{ c.followers | number }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+ 
+   
+   
+    <!-- System Logs -->
+    <h3 class="section-title">System Logs</h3>
+    <ion-card *ngFor="let log of systemLogs" class="log-card" [ngClass]="log.type.toLowerCase()">
+      <ion-card-content>
+        <div class="log-line">
+          <strong>[{{ log.type }}]</strong> {{ log.message }}
+        </div>
+        <small>{{ log.timestamp | date:'short' }}</small>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

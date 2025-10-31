@@ -1,13 +1,76 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>club-dashboard</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ clubName }} Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">club-dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="club-dashboard-container">
+
+    <!-- Welcome -->
+    <div class="welcome-card">
+      <h2>Welcome, <span>{{ clubName }}</span> 🎉</h2>
+      <p>Here’s your club’s performance overview and latest updates.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div *ngFor="let s of stats" class="stat-card" [style.--icon-color]="s.color">
+        <ion-icon [name]="s.icon"></ion-icon>
+        <div>
+          <h3>{{ s.value }}</h3>
+          <small>{{ s.title }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <h3 class="section-title">Quick Actions</h3>
+    <div class="quick-actions">
+      <ion-button
+        *ngFor="let action of quickActions"
+        expand="block"
+        fill="outline"
+        [ngStyle]="{'--border-color': action.color, '--color': action.color}"
+        (click)="openAction(action)"
+      >
+        <ion-icon [name]="action.icon" slot="start"></ion-icon>
+        {{ action.label }}
+      </ion-button>
+    </div>
+
+    <!-- Upcoming Events -->
+    <h3 class="section-title">Upcoming Events</h3>
+    <div class="event-grid">
+      <ion-card *ngFor="let e of events" class="event-card">
+        <img [src]="e.image" alt="{{ e.title }}" />
+        <ion-card-header>
+          <ion-card-title>{{ e.title }}</ion-card-title>
+          <ion-card-subtitle>{{ e.date | date:'EEE, MMM d' }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Attendees: {{ e.attendees }}</p>
+          <p>Revenue: ₹{{ e.revenue | number }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Transactions -->
+    <h3 class="section-title">Recent Transactions</h3>
+    <ion-card *ngFor="let t of transactions" class="transaction-card" [ngClass]="t.type.toLowerCase()">
+      <ion-card-content>
+        <div class="transaction-line">
+          <strong>{{ t.description }}</strong>
+          <span [class.credit]="t.type==='CREDIT'" [class.debit]="t.type==='DEBIT'">
+            {{ t.type === 'CREDIT' ? '+' : '-' }}₹{{ t.amount | number }}
+          </span>
+        </div>
+        <small>{{ t.date | date:'short' }}</small>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
 </ion-content>

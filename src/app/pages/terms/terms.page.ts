@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms.page.scss'],
 })
 export class TermsPage implements OnInit {
+  activeTab: 'terms' | 'privacy' = 'terms';
 
   constructor() { }
 

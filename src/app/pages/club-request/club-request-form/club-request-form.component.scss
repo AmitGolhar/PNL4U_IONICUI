@@ -1,0 +1,147 @@
+.club-request-bg {
+  --background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+}
+
+/* 🔲 Ion item containers with glossy frame */
+.form-container ion-item {
+  margin-bottom: 16px;
+  border-radius: 14px;
+  --background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+/* ✨ Glow effect on focus */
+.form-container ion-item.ion-focused,
+.form-container ion-item:focus-within {
+  border: 1px solid #ffcc00;
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+  --background: rgba(255, 255, 255, 0.08);
+}
+
+/* 🏷️ Label */
+ion-label {
+  color: #d5d5d5 !important;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+}
+
+/* ✏️ Input and textarea cleanup */
+ion-input,
+ion-textarea {
+  color: #ffffff !important;
+  --placeholder-color: #aaaaaa;
+  --highlight-color-focused: transparent;
+  --border-color: transparent;
+  background: transparent;
+  box-shadow: none !important;
+  border: none !important;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* 📦 Dropdown (ion-select) */
+ion-select.custom-select {
+  color: #fff9cc;
+  font-weight: 600;
+  --placeholder-opacity: 0.8;
+}
+
+ion-select::part(icon) {
+  color: #ffd966; /* Gold accent for dropdown arrow */
+}
+
+.dropdown-item ion-label {
+  color: #f8e5b7 !important;
+}
+
+/* 📁 Fancy Upload Button */
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.file-upload input[type="file"] {
+  display: none; /* Hide the default ugly file input */
+}
+
+.file-upload label {
+  display: inline-block;
+  background: linear-gradient(45deg, #ff6a00, #ffcc00);
+  color: #000;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px rgba(255, 204, 0, 0.3);
+}
+
+.file-upload label:hover {
+  background: linear-gradient(45deg, #ffcc00, #ffe066);
+  box-shadow: 0 4px 18px rgba(255, 221, 0, 0.6);
+  transform: scale(1.04);
+}
+
+/* 🟢 Submit Button */
+.submit-btn {
+  margin: 40px 0 80px 0;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #00ff99, #00ccff);
+  color: #000;
+  letter-spacing: 0.6px;
+  box-shadow: 0 0 15px rgba(0, 255, 180, 0.4);
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 0 22px rgba(0, 255, 200, 0.8);
+  transform: translateY(-2px);
+}
+.required {
+  color: #ff4d4d;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.error {
+  color: #ff6666;
+  font-size: 0.8rem;
+  margin: 2px 0 8px 12px;
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.4);
+}
+
+ion-item.ion-invalid.ion-touched {
+  border: 1px solid rgba(255, 80, 80, 0.8);
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+ion-select.custom-select {
+  color: #f5f5f5 !important;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+ion-select::part(placeholder) {
+  color: #c7c7c7 !important;
+  opacity: 0.8;
+}
+
+ion-item.dropdown-item {
+  border-radius: 12px;
+  margin-bottom: 12px;
+  --background: rgba(255, 255, 255, 0.05);
+  --highlight-color-focused: #ffd700;
+}

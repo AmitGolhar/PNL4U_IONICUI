@@ -1,13 +1,150 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>influencer-dashboard</ion-title>
+    <ion-title>Influencer Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">influencer-dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="container">
+
+    <!-- Top summary -->
+    <div class="summary-card" *ngIf="influencer">
+      <img [src]="influencer.avatar" class="avatar" alt="avatar" />
+      <div class="meta">
+        <h2>{{ influencer.name }}</h2>
+        <p class="handle">{{ influencer.handle }} •   {{ influencer.followers | number }} followers</p>
+      </div>
+
+      <div class="balances">
+        <div class="bal">
+          <small>Total Earned</small>
+          <h3>₹{{ influencer.totalEarnings }}</h3>
+        </div>
+        <div class="bal">
+          <small>Available</small>
+          <h3>₹{{ influencer.currentBalance }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+      <ion-segment-button value="overview"><ion-label>Overview</ion-label></ion-segment-button>
+      <ion-segment-button value="campaigns"><ion-label>Campaigns</ion-label></ion-segment-button>
+      <ion-segment-button value="wallet"><ion-label>Wallet</ion-label></ion-segment-button>
+      <ion-segment-button value="analytics"><ion-label>Analytics</ion-label></ion-segment-button>
+    </ion-segment>
+
+    <!-- Overview -->
+    <ng-container *ngIf="activeTab === 'overview'">
+      <div class="cards-row">
+        <div class="mini-card">
+          <h4>Active Campaigns</h4>
+          <p>{{ activeCampaignCount }}</p>
+        </div>
+        <div class="mini-card">
+          <h4>Open Invitations</h4>
+          <p>{{ openInvitationCount }}</p>
+        </div>
+        <div class="mini-card">
+          <h4>Pending Payouts</h4>
+          <p>{{ pendingPayoutCount }}</p>
+        </div>
+      </div>
+
+      <h3 class="section-title">Recent Campaigns</h3>
+      <ion-card *ngFor="let c of campaigns | slice:0:3" class="campaign-card">
+        <ion-card-header>
+          <ion-card-title>{{ c.title }}</ion-card-title>
+          <ion-card-subtitle>{{ c.type }} · ₹{{ c.payoutAmount }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ c.description }}</p>
+          <small>Ends: {{ c.endDate | date:'shortDate' }}</small>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <!-- Campaigns -->
+    <ng-container *ngIf="activeTab === 'campaigns'">
+      <div class="filter-row">
+        <ion-button fill="clear" (click)="showAll()">All</ion-button>
+        <ion-button fill="clear" (click)="filterActive()">Active</ion-button>
+      </div>
+
+      <ion-card *ngFor="let c of filteredCampaigns" class="campaign-card">
+        <ion-card-header>
+          <ion-card-title>{{ c.title }}</ion-card-title>
+          <ion-card-subtitle>{{ c.type }} · ₹{{ c.payoutAmount }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p>{{ c.description }}</p>
+          <div class="campaign-meta">
+            <small>Applications: {{ c.applications }}</small>
+            <small>Ends: {{ c.endDate | date:'shortDate' }}</small>
+          </div>
+
+          <div class="campaign-actions">
+            <ion-button size="small" (click)="apply(c.id)" 
+              [disabled]="applyInProgress || c.assignedInfluencerIds?.includes(influencer?.id || -1)">
+              Apply
+            </ion-button>
+
+            <label class="upload-btn">
+              <input type="file" (change)="uploadContent(c, $event)" style="display:none" />
+              <ion-button size="small" fill="outline">Upload Content</ion-button>
+            </label>
+          </div>
+
+          <div class="upload-message" *ngIf="uploadMessage">{{ uploadMessage }}</div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <!-- Wallet -->
+    <ng-container *ngIf="activeTab === 'wallet'">
+      <ion-card class="wallet-card">
+        <ion-card-header>
+          <ion-card-title>Wallet</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <h3>Available: ₹{{ influencer?.currentBalance }}</h3>
+          <div class="payout-row">
+            <ion-input placeholder="Enter amount" type="number" #payoutAmt></ion-input>
+            <ion-button (click)="requestPayout('1000')">Request Payout</ion-button>
+          </div>
+
+          <h4 class="section-title">Payout Requests</h4>
+          <ion-card *ngFor="let p of payoutRequests" class="payout-card">
+            <ion-card-content>
+              <div class="payout-row-sm">
+                <div>{{ p.method }} • ₹{{ p.amount }}</div>
+                <div class="status {{ p.status.toLowerCase() }}">{{ p.status }}</div>
+              </div>
+              <small>{{ p.requestedAt | date:'short' }}</small>
+            </ion-card-content>
+          </ion-card>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+
+    <!-- Analytics -->
+    <ng-container *ngIf="activeTab === 'analytics'">
+      <h3 class="section-title">Quick Analytics</h3>
+      <div class="analytics-grid">
+        <div class="analytic"><small>Reach (last 30d)</small><h3>56.2k</h3></div>
+        <div class="analytic"><small>Conversions</small><h3>1,240</h3></div>
+        <div class="analytic"><small>CTR</small><h3>3.6%</h3></div>
+      </div>
+
+      <h4>Campaign Performance</h4>
+      <div class="bar-chart">
+        <div class="bar" style="--w:70%">70%</div>
+        <div class="bar" style="--w:45%">45%</div>
+        <div class="bar" style="--w:80%">80%</div>
+      </div>
+    </ng-container>
+
+  </div>
 </ion-content>

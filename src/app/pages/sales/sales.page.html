@@ -1,13 +1,90 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>sales</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Sales & Revenue</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">sales</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="sales-container">
+
+    <!-- Tabs -->
+    <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+      <ion-segment-button value="overview">
+        <ion-label>Overview</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="transactions">
+        <ion-label>Transactions</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="charts">
+        <ion-label>Charts</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Overview -->
+    <div *ngIf="activeTab === 'overview'" class="overview-section">
+      <div class="summary-grid">
+        <div class="metric-card">
+          <h4>Total Revenue</h4>
+          <h2>{{ formatCurrency(totalRevenue) }}</h2>
+          <p><ion-icon name="trending-up-outline"></ion-icon> {{ monthlyGrowth }}% Growth</p>
+        </div>
+        <div class="metric-card">
+          <h4>Total Transactions</h4>
+          <h2>{{ totalTransactions }}</h2>
+          <p><ion-icon name="swap-horizontal-outline"></ion-icon> Completed</p>
+        </div>
+        <div class="metric-card">
+          <h4>Avg Ticket Size</h4>
+          <h2>{{ formatCurrency(avgTicketSize) }}</h2>
+          <p><ion-icon name="cash-outline"></ion-icon> Per Order</p>
+        </div>
+      </div>
+
+      <h3 class="section-title">Top Performing Clubs</h3>
+      <ion-card *ngFor="let club of topClubs" class="club-card">
+        <ion-card-content>
+          <div class="club-row">
+            <strong>{{ club.name }}</strong>
+            <span>{{ formatCurrency(club.revenue) }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Transactions -->
+    <div *ngIf="activeTab === 'transactions'">
+      <h3 class="section-title">Recent Transactions</h3>
+      <ion-card *ngFor="let s of sales" class="transaction-card">
+        <ion-card-content>
+          <div class="row">
+            <div>
+              <strong>{{ s.club }}</strong>
+              <p>{{ s.category }} • {{ s.paymentMethod }}</p>
+            </div>
+            <div class="amount">{{ formatCurrency(s.amount) }}</div>
+          </div>
+          <small>{{ s.date | date:'mediumDate' }}</small>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Charts -->
+    <div *ngIf="activeTab === 'charts'" class="charts-section">
+      <h3 class="section-title">Monthly Revenue Trend</h3>
+      <div class="bar-chart">
+        <div
+          *ngFor="let r of revenueTrends"
+          class="bar"
+          [style.height.%]="r.growth + 60"
+        >
+          <span>{{ r.month }}</span>
+          <div class="tooltip">{{ formatCurrency(r.totalRevenue) }}</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </ion-content>

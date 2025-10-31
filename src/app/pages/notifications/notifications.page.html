@@ -1,13 +1,36 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>notifications</ion-title>
+    <ion-title>Notifications</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">notifications</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="notif-header">
+    <h2>🔔 Latest Updates</h2>
+    <ion-button
+      *ngIf="userRole === 'APPADMIN' || userRole === 'CLUBADMIN'"
+      size="small"
+      fill="outline"
+      (click)="sendAdminNotification()"
+      >Send Notification</ion-button
+    >
+  </div>
+
+  <ion-list>
+    <ion-item
+      *ngFor="let n of notifications"
+      [class.unread]="!n.isRead"
+      (click)="markAsRead(n.id)"
+      lines="none"
+      class="notif-card"
+    >
+      <ion-icon [name]="n.icon || 'notifications-outline'" slot="start"></ion-icon>
+      <ion-label>
+        <h3>{{ n.title }}</h3>
+        <p>{{ n.message }}</p>
+        <small>{{ n.createdAt | date: 'short' }}</small>
+      </ion-label>
+      <ion-badge *ngIf="!n.isRead" color="warning">New</ion-badge>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -1,33 +1,117 @@
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-title>Clubs</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="toggleView()">
-        <ion-icon [name]="viewMode === 'list' ? 'map-outline' : 'list-outline'"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Nightlife Feed</ion-title>
+  </ion-toolbar>
+
+  <!-- Filter toolbar: search + segment -->
+  <ion-toolbar class="filter-toolbar" color="light">
+    <!-- container to allow flex alignment -->
+    <div class="filter-row">
+      <ion-searchbar class="custom-search" placeholder="Search by city..."
+        (ionChange)="applyFilters('city', $event.detail.value)">
+      </ion-searchbar>
+
+      <div class="segment-wrap">
+        <ion-segment value="trendingScore" (ionChange)="applyFilters('sortBy', $event.detail.value)">
+          <ion-segment-button value="trendingScore">
+            <ion-label>Trending</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="rating">
+            <ion-label>Rating</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="popularityScore">
+            <ion-label>Popular</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ng-container *ngIf="viewMode === 'list'">
-    <ion-card *ngFor="let c of clubs">
-      <img [src]="c.img" />
-      <ion-card-header>
-        <ion-card-title>{{ c.name }}</ion-card-title>
-        <ion-card-subtitle>{{ c.genre }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p>{{ c.location }}</p>
-        <ion-chip color="secondary">{{ c.offers }}</ion-chip>
-        <ion-badge color="success">{{ c.rating }}</ion-badge>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
 
-  <ng-container *ngIf="viewMode === 'map'">
-    <div class="map-placeholder">
-      🗺️ Map View Coming Soon
-    </div>
-  </ng-container>
+<ion-content [fullscreen]="true">
+
+  <!-- 🔄 Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" refreshingSpinner="bubbles"
+      pullingText="Pull down to refresh..." refreshingText="Refreshing feed...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- ⏳ Loader -->
+  <ion-spinner *ngIf="loading" name="crescent" class="spinner-center"></ion-spinner>
+
+  <!-- 🏙️ Club Feed -->
+  <ion-grid *ngIf="!loading && clubs.length > 0">
+    <ion-row>
+      <ion-col size="12" *ngFor="let club of clubs">
+        <ion-card class="club-card" (click)="openClubDetail(club.clubId)">
+
+          <ion-img *ngIf="club.imagesBase64?.length" [src]="club.imagesBase64[0]" alt="{{ club.clubName }}">
+          </ion-img>
+
+          <ion-card-header>
+            <ion-card-title>
+              {{ club.clubName }}
+              <ion-icon *ngIf="club.verified" name="checkmark-circle-outline" color="success"></ion-icon>
+            </ion-card-title>
+            <ion-card-subtitle>{{ club.city }} • {{ club.category }}</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+
+            <!-- 🏙️ Description -->
+            <p class="club-desc">{{ club.description }}</p>
+
+            <!-- 🎵 Genres & Crowd -->
+            <div class="club-tags">
+              <p *ngIf="club.genre?.length">
+                <strong>🎶 Genres:</strong> {{ club.genre.join(', ') }}
+              </p>
+              <p *ngIf="club.crowdType?.length">
+                <strong>👥 Crowd:</strong> {{ club.crowdType.join(', ') }}
+              </p>
+            </div>
+
+            <!-- 🍹 Happy Hours -->
+            <p *ngIf="club.hasHappyHours" class="happy-hour">
+              🍹 <strong>Happy Hours Active</strong> — Check offers before 9 PM!
+            </p>
+
+            <!-- ⭐ Rating and Trend -->
+            <div class="rating-trend">
+              <div class="rating">
+                ⭐ {{ club.rating || 0 }} / 5
+              </div>
+              <div class="trend-score" *ngIf="club.trendingScore">
+                🔥 Trend: {{ club.trendingScore | number:'1.0-0' }} pts
+              </div>
+            </div>
+
+
+            <!-- 🎫 Actions -->
+            <div class="club-actions">
+              <ion-button fill="outline" size="small" class="pink-outline" (click)="bookTable(club)">
+                <ion-icon name="wine-outline" slot="start"></ion-icon>
+                Book Table
+              </ion-button>
+
+              <ion-button fill="outline" size="small" class="pink-outline" (click)="bookGuestList(club)">
+                <ion-icon name="people-outline" slot="start"></ion-icon>
+                Add Guest List
+              </ion-button>
+            </div>
+
+          </ion-card-content>
+
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- ⚠️ No Data -->
+  <ion-item *ngIf="!loading && clubs.length === 0" lines="none">
+    <ion-label>No clubs found</ion-label>
+  </ion-item>
 </ion-content>

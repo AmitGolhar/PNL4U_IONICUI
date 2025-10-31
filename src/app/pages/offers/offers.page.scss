@@ -1,0 +1,40 @@
+.offer-card, .promo-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  margin-bottom: 14px;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 0, 180, 0.3);
+}
+
+ion-card-title {
+  font-size: 18px;
+  color: #fff;
+}
+
+.offer-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.promo-section {
+  margin-top: 10px;
+}
+
+.input-item {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+}
+
+ion-input {
+  color: #fff;
+  font-size: 15px;
+}
+
+ion-button {
+  --background: linear-gradient(90deg, #ff00b3, #8e2de2);
+  border-radius: 10px;
+  font-weight: 600;
+}

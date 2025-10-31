@@ -1,42 +1,22 @@
 /*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+  🌌 PNL4U FUTUREVERSE GLOBAL THEME
+  A hypermodern, color-shifting, neon-glass aesthetic for Ionic apps.
+  Inspired by nightlife, cyberpunk, and Apple Vision design.
+*/
 
-/* Core CSS required for Ionic components to work properly */
+/* Core CSS imports */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/flex-utils.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
-/* ✅ GLOBAL SAFE PADDING & PAGE LAYOUT FIX */
-/* 🧱 Layout Padding Fixes */
+
+/* === LAYOUT FIX === */
 ion-router-outlet {
   display: block;
   height: 100%;
@@ -47,85 +27,385 @@ ion-router-outlet {
            var(--ion-safe-area-left, 16px);
 }
 
-/* ✅ Content padding to prevent hidden bottom content */
 ion-content {
   --padding-start: 16px;
   --padding-end: 16px;
   --padding-top: 12px;
-  --padding-bottom: 80px; /* matches tab bar height */
+  --padding-bottom: 80px;
 }
 
-/* ✅ Fixed & styled tab bar */
+/* === COLORS: The “Futureverse” Palette === */
+:root {
+  --primary: #8e2de2;
+  --secondary: #4a00e0;
+  --accent: #ff007f;
+  --holo: linear-gradient(135deg, #8e2de2, #4a00e0, #00f0ff, #ff00b3);
+  --surface: rgba(30, 30, 45, 0.4);
+  --text-light: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --ion-color-primary: var(--primary);
+  --ion-color-primary-contrast: #ffffff;
+}
+
+/* === BACKGROUND === */
+body,
+ion-content {
+  background: radial-gradient(circle at 20% 20%, #0b001a, #110a2f, #1d003f);
+  color: var(--text-light);
+  font-family: "Poppins", "Inter", sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 90deg,
+    #ff00c8,
+    #6c63ff,
+    #00f0ff,
+    #ff007f,
+    #ff00c8
+  );
+  animation: rotateGradient 12s linear infinite;
+  z-index: -1;
+  opacity: 0.25;
+  filter: blur(180px);
+}
+
+@keyframes rotateGradient {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* === TOOLBARS / HEADERS === */
+ion-header,
+ion-toolbar {
+  --background: rgba(20, 15, 35, 0.4);
+  --color: var(--text-light);
+  backdrop-filter: blur(20px);
+  border: none;
+  box-shadow: 0 0 25px rgba(255, 0, 150, 0.25);
+}
+
+ion-title {
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.6px;
+  color: var(--text-light);
+  text-shadow: 0 0 8px #b966ff;
+}
+
+/* === CARDS / CONTAINERS === */
+ion-card,
+.login-card,
+ion-modal {
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(255, 0, 153, 0.25);
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* === BUTTONS === */
+ion-button,
+.btn-primary {
+  --background: linear-gradient(90deg, #ff007f, #8e2de2, #4a00e0);
+  --border-radius: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: capitalize;
+  box-shadow: 0 0 20px rgba(255, 0, 153, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+ion-button:hover {
+  box-shadow: 0 0 28px 6px rgba(255, 0, 153, 0.6);
+  transform: translateY(-2px);
+}
+
+ion-button:active {
+  transform: scale(0.97);
+}
+
+/* Outline Buttons */
+ion-button[fill="outline"] {
+  border: 1.5px solid #ff00b3;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+ion-button[fill="outline"]:hover {
+  box-shadow: 0 0 15px rgba(255, 0, 153, 0.6);
+  border-color: #ffcc00;
+}
+
+/* === INPUTS === */
+ion-item.input-item {
+  --background: transparent !important;
+  border: 1.5px solid rgba(255, 0, 180, 0.8);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+
+ion-item.input-item.ion-focused {
+  border-color: #00f0ff;
+  box-shadow: 0 0 14px 3px rgba(0, 240, 255, 0.5);
+}
+
+ion-input {
+  color: var(--text-light);
+  font-size: 15px;
+  --placeholder-color: rgba(255, 182, 217, 0.8);
+}
+
+ion-input::part(native) {
+  caret-color: #00f0ff;
+}
+
+/* === ICONS === */
+ion-icon {
+  color: #ff00b3;
+  transition: 0.3s ease-in-out;
+}
+
+ion-icon:hover {
+  color: #00f0ff;
+  transform: scale(1.15);
+}
+
+/* === TABS (with Holographic Glow) === */
 ion-tab-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 10;
-
-  --background: rgba(10, 10, 20, 0.9);
-  --border: none;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 -2px 10px rgba(255, 0, 153, 0.25);
-
-  /* Default inactive tab color */
-  --color: #888;
-  --color-selected: #ff0099;
+  background: rgba(20, 10, 40, 0.8);
+  border: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 -4px 20px rgba(255, 0, 180, 0.3);
+  --color: #999;
+  --color-selected: #ff00b3;
 }
 
-/* 🎨 Default inactive tab look */
 ion-tab-button {
-  --color: #888;
   transition: all 0.3s ease;
+  position: relative;
 }
 
-/* 💖 Active tab (routerLinkActive="tab-active") */
 ion-tab-button.tab-active {
-  --color: #ff0099;
-  color: #ff0099 !important;
-  text-shadow: 0 0 8px #ff0099;
-  border-top: 3px solid #ff0099;
-  background: linear-gradient(180deg, rgba(255, 0, 153, 0.1), transparent);
+  --color: #ff00b3;
+  color: #ff00b3 !important;
+  filter: drop-shadow(0 0 8px #ff00b3);
 }
 
-/* 🎧 Default icon state */
-ion-tab-button ion-icon {
-  color: #888;
-  transition: all 0.3s ease-in-out;
-}
-
-/* 💎 Active icon: bright pink glow */
 ion-tab-button.tab-active ion-icon {
-  color: #ff0099 !important;
-  filter: drop-shadow(0 0 8px #ff0099);
-  transform: scale(1.15);
-  transition: all 0.3s ease-in-out;
+  color: #ff00b3;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px #ff00b3);
 }
 
-/* 💕 Active label color */
 ion-tab-button.tab-active ion-label {
-  color: #ff0099 !important;
-  text-shadow: 0 0 8px #ff0099;
+  color: #fff;
 }
 
-/* 🪩 Neon pulse animation */
-@keyframes neonPulse {
+@keyframes holoPulse {
   0%, 100% {
-    text-shadow: 0 0 8px #ff0099;
-    filter: drop-shadow(0 0 8px #ff0099);
+    filter: drop-shadow(0 0 8px #ff00b3);
   }
   50% {
-    text-shadow: 0 0 16px #ff33bb;
-    filter: drop-shadow(0 0 12px #ff33bb);
+    filter: drop-shadow(0 0 16px #00f0ff);
   }
 }
 
 ion-tab-button.tab-active ion-icon,
 ion-tab-button.tab-active ion-label {
-  animation: neonPulse 2s infinite ease-in-out;
+  animation: holoPulse 2s infinite ease-in-out;
 }
 
-/* 🖱️ Optional: hover glow for desktop preview */
+/* === CHECKBOXES === */
+ion-checkbox {
+  --border-color: #ff00b3;
+  --background-checked: #8e2de2;
+  --checkmark-color: #00f0ff;
+  --border-radius: 6px;
+  transition: 0.3s;
+}
+
+/* === TOASTS & ALERTS === */
+ion-toast {
+  --background: rgba(20, 10, 40, 0.9);
+  --color: #fff;
+  --border-radius: 12px;
+  --box-shadow: 0 0 20px rgba(255, 0, 153, 0.5);
+}
+
+ion-alert {
+  --background: rgba(30, 20, 50, 0.9);
+  --color: #fff;
+  backdrop-filter: blur(15px);
+  --border-radius: 20px;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8e2de2, #ff00b3);
+  border-radius: 6px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 420px) {
+  ion-title {
+    font-size: 18px;
+  }
+}
+/* === BUTTONS === */
+/* === BUTTONS === */
+ion-button,
+.btn-primary {
+  --background: linear-gradient(90deg, #ff007f, #8e2de2, #4a00e0);
+  --border-radius: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: capitalize;
+  box-shadow: 0 0 20px rgba(255, 0, 153, 0.5);
+  transition: all 0.3s ease-in-out;
+  border: none !important; /* ensures clean edges */
+}
+
+/* remove Ionic’s built-in outline and color borders */
+ion-button::part(native),
+ion-button::part(button) {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* === OUTLINE BUTTONS (only clean white neon border) === */
+ion-button[fill="outline"] {
+  --background: rgba(255, 255, 255, 0.08) !important;
+  --border-color: transparent !important;
+  --color: #ffffff !important;
+  border: 1.5px solid #ff00b3 !important; /* ✅ keep only this */
+  border-radius: 12px !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease-in-out;
+}
+
+
+
+/* hover and active states */
+ion-button[fill="outline"]:hover {
+  border-color: #ff00b3 !important;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: translateY(-2px);
+}
+
+ion-button[fill="outline"]:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* ⚡ Villahubs Tab Bar Styling */
+ion-tab-bar {
+  --background: rgba(20, 20, 20, 0.85); /* semi-transparent black for glossy effect */
+  backdrop-filter: blur(12px) saturate(180%);
+  border-top: 1px solid rgba(255, 102, 204, 0.25); /* subtle pink highlight line */
+  box-shadow: 0 -2px 20px rgba(255, 102, 204, 0.15);
+  height: 64px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+/* 🟣 Tab Buttons */
+ion-tab-button {
+  --color: #bbb;
+  --color-selected: #ff66cc;
+  --ripple-color: #ff66cc;
+  background: transparent;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
 ion-tab-button:hover {
-  color: #ff0099;
+  background: rgba(255, 102, 204, 0.08);
+}
+
+ion-tab-button.tab-selected {
+  background: rgba(255, 102, 204, 0.15);
+  box-shadow: 0 0 15px rgba(255, 102, 204, 0.4);
+}
+
+/* 🧭 Tab Icons */
+ion-tab-button ion-icon {
+  font-size: 22px;
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+ion-tab-button.tab-selected ion-icon {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 6px rgba(255, 102, 204, 0.8));
+}
+
+/* 🏷 Tab Labels */
+ion-tab-button ion-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #ddd;
+}
+
+ion-tab-button.tab-selected ion-label {
+  color: var(--villahubs-accent, #ff66cc);
+}
+
+/* 💫 Glossy Shine Animation (Optional) */
+ion-tab-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 20%,
+    rgba(255, 255, 255, 0.05) 60%
+  );
+  opacity: 0.6;
+  animation: glossyMove 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes glossyMove {
+  0% {
+    transform: translateX(-30%);
+  }
+  100% {
+    transform: translateX(30%);
+  }
 }

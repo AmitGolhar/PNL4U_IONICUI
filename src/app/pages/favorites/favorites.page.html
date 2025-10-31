@@ -1,13 +1,49 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>favorites</ion-title>
+    <ion-title>Favourites & Wishlist</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">favorites</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <!-- Tabs -->
+  <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+    <ion-segment-button value="favourites"><ion-label>❤️ Favourites</ion-label></ion-segment-button>
+    <ion-segment-button value="wishlist"><ion-label>⭐ Wishlist</ion-label></ion-segment-button>
+  </ion-segment>
+
+  <!-- Club Cards -->
+  <div class="club-list">
+    <ion-card *ngFor="let club of getFilteredList()" class="club-card">
+      <img [src]="club.image" alt="{{ club.name }}" class="club-img" />
+      <ion-card-header>
+        <ion-card-title>{{ club.name }}</ion-card-title>
+        <ion-card-subtitle>{{ club.location }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="club-info">
+          <span class="rating">⭐ {{ club.rating }}</span>
+          <span class="followers">{{ club.followers | number }} followers</span>
+        </div>
+
+        <div class="actions">
+          <ion-button
+            fill="clear"
+            (click)="toggleFavourite(club.id)"
+            [class.active]="club.isFavourite"
+          >
+            <ion-icon [name]="club.isFavourite ? 'heart' : 'heart-outline'"></ion-icon>
+          </ion-button>
+
+          <ion-button
+            fill="clear"
+            (click)="toggleWishlist(club.id)"
+            [class.active]="club.isWishlisted"
+          >
+            <ion-icon [name]="club.isWishlisted ? 'star' : 'star-outline'"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

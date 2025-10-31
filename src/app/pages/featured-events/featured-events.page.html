@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>featured-events</ion-title>
+    <ion-title>Feature Spotlight</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">featured-events</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="spotlight-container">
+    <h2 class="page-title">✨ Platform Highlights</h2>
+
+    <div class="features-grid">
+      <ion-card
+        *ngFor="let f of features"
+        class="feature-card"
+        (click)="toggleExpand(f)"
+        [class.expanded]="f.expanded"
+      >
+        <div class="card-header">
+          <ion-icon [name]="f.icon" class="feature-icon"></ion-icon>
+          <div class="title">{{ f.title }}</div>
+        </div>
+
+        <div class="desc">
+          <p>{{ f.description }}</p>
+        </div>
+
+        <!-- Optional preview -->
+        <div *ngIf="f.image || f.videoUrl" class="preview">
+          <img *ngIf="f.image" [src]="f.image" alt="{{ f.title }}" />
+          <video
+            *ngIf="f.videoUrl"
+            [src]="f.videoUrl"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+        </div>
+
+        <div class="expand-hint">
+          <ion-icon
+            [name]="f.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+          ></ion-icon>
+        </div>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

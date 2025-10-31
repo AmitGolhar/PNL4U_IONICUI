@@ -1,0 +1,63 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Chat & Support</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding gradient-bg">
+
+  <!-- Role Selector -->
+  <div class="role-selector">
+    <ion-segment [(ngModel)]="currentRole" color="secondary">
+      <ion-segment-button value="USER">User</ion-segment-button>
+      <ion-segment-button value="CLUBADMIN">Club Admin</ion-segment-button>
+      <ion-segment-button value="APPADMIN">App Admin</ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Venue Chat -->
+  <div *ngIf="currentRole !== 'APPADMIN'" class="chat-section">
+    <h3>Venue Chat (Venue ID: {{ venueId }})</h3>
+    <div class="chat-box">
+      <div
+        *ngFor="let msg of chatRoom?.messages"
+        class="chat-message"
+        [ngClass]="{ sent: msg.role === currentRole, received: msg.role !== currentRole }"
+      >
+        <div class="bubble">
+          <div class="sender">{{ msg.role }}</div>
+          <div class="text">{{ msg.message }}</div>
+          <div class="time">{{ msg.timestamp | date: 'shortTime' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <ion-input placeholder="Type message..." [(ngModel)]="newMessage"></ion-input>
+      <ion-button fill="solid" (click)="sendMessage()">Send</ion-button>
+    </div>
+  </div>
+
+  <!-- Support Tickets (User Only) -->
+  <div *ngIf="currentRole === 'USER'" class="support-section">
+    <h3>Submit Support Ticket</h3>
+    <ion-item class="input-item">
+      <ion-input placeholder="Subject" [(ngModel)]="newTicket.subject"></ion-input>
+    </ion-item>
+    <ion-item class="input-item">
+      <ion-textarea placeholder="Describe your issue..." rows="3" [(ngModel)]="newTicket.message"></ion-textarea>
+    </ion-item>
+    <ion-button expand="block" (click)="submitTicket()">Submit Ticket</ion-button>
+
+    <h3>My Tickets</h3>
+    <ion-card *ngFor="let t of supportTickets">
+      <ion-card-header>
+        <ion-card-title>{{ t.subject }}</ion-card-title>
+        <ion-card-subtitle>{{ t.status }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ t.message }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

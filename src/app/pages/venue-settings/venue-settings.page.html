@@ -1,13 +1,85 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>venue-settings</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Venue Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">venue-settings</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+
+  <div class="venue-settings-container">
+
+    <h2 class="section-title">Update Venue Information</h2>
+
+    <ion-item class="input-item">
+      <ion-input placeholder="Venue Name" [(ngModel)]="venue.name"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input placeholder="Address" [(ngModel)]="venue.address"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input placeholder="City" [(ngModel)]="venue.city"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input type="number" placeholder="Capacity" [(ngModel)]="venue.capacity"></ion-input>
+    </ion-item>
+
+    <div class="time-row">
+      <ion-item class="input-item">
+        <ion-label>Opening</ion-label>
+        <ion-input type="time" [(ngModel)]="venue.openingTime"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-label>Closing</ion-label>
+        <ion-input type="time" [(ngModel)]="venue.closingTime"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-item class="input-item">
+      <ion-input placeholder="Contact Number" [(ngModel)]="venue.contactNumber"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input type="email" placeholder="Email" [(ngModel)]="venue.email"></ion-input>
+    </ion-item>
+
+    <!-- Amenities -->
+    <div class="amenities-section">
+      <h3>Amenities</h3>
+      <div class="amenity-input">
+        <ion-input placeholder="Add new amenity" [(ngModel)]="newAmenity"></ion-input>
+        <ion-button size="small" (click)="addAmenity()">Add</ion-button>
+      </div>
+
+      <div class="amenity-list">
+        <ion-chip *ngFor="let item of venue.amenities; let i = index">
+          {{ item }}
+          <ion-icon name="close" (click)="removeAmenity(i)"></ion-icon>
+        </ion-chip>
+      </div>
+    </div>
+
+    <!-- Image upload -->
+    <div class="image-upload">
+      <h3>Venue Cover Image</h3>
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #imageInput />
+      <div class="upload-box" (click)="imageInput.click()">
+        <ng-container *ngIf="!imagePreview; else preview">
+          <p>📸 Click to upload image</p>
+        </ng-container>
+        <ng-template #preview>
+          <img [src]="imagePreview" alt="Preview" />
+        </ng-template>
+      </div>
+    </div>
+
+    <ion-button expand="block" (click)="saveSettings()">Save Settings</ion-button>
+  </div>
+
 </ion-content>

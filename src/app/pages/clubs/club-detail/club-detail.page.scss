@@ -1,0 +1,185 @@
+ion-content {
+  --background: #0d0d0d;
+  color: #fff;
+}
+
+.spinner-center {
+  display: block;
+  margin: 40vh auto;
+}
+
+.club-banner {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.club-header {
+  text-align: center;
+  padding: 12px;
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  p {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+}
+
+.rating-section {
+  text-align: center;
+  font-size: 1rem;
+  color: #ffd700;
+  .trend {
+    margin-left: 8px;
+    color: #ff7b00;
+  }
+}
+
+.desc {
+  padding: 0 16px;
+  color: #ccc;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.tags {
+  text-align: center;
+  margin-top: 8px;
+  color: #ffccf5;
+  font-size: 0.85rem;
+}
+
+.crowd-bar {
+  margin: 14px 16px;
+  p {
+    font-size: 0.85rem;
+    color: #ffd54f;
+  }
+  ion-progress-bar {
+    height: 6px;
+    border-radius: 8px;
+  }
+}
+
+.happy-hours {
+  padding: 8px 16px;
+  h4 {
+    color: #ff69b4;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  ion-item {
+    --background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    margin-bottom: 4px;
+  }
+  ion-label {
+    color: #fff;
+  }
+}
+
+.contact-info {
+  text-align: center;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  a {
+    color: #ffb6c1;
+    text-decoration: none;
+  }
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 6px;
+  a {
+    color: #ffb6c1;
+    text-decoration: none;
+    font-weight: 500;
+  }
+}
+
+/* 🎫 Glossy small buttons */
+.club-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px 0;
+  background: transparent;
+
+  ion-button.pink-outline {
+    --border-color: transparent;
+    --color: #fff;
+    --background: transparent;
+    --border-radius: 8px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    height: 30px;
+    min-height: 28px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      padding: 1px;
+      background: linear-gradient(135deg, #ff007f, #ffd700);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      z-index: -1;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(255, 20, 147, 0.5);
+      background: rgba(255, 20, 147, 0.1);
+    }
+  }
+}
+ 
+/* ===============================
+   🎯 Compact Glossy Back Button
+================================ */
+ion-back-button {
+  --color: #fff;
+  --icon-font-size: 16px; /* smaller icon */
+  font-size: 0.75rem; /* smaller text */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-left: 6px;
+
+  /* remove background to stay clean */
+  --background: transparent;
+  --background-activated: transparent;
+  --background-focused: transparent;
+
+  /* make the hit area smaller */
+  height: 28px;
+  min-width: 60px;
+
+  /* glossy subtle hover animation */
+  transition: all 0.25s ease;
+  border-radius: 8px;
+  padding: 2px 6px;
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(255,20,147,0.15), rgba(255,218,0,0.1));
+    box-shadow: 0 0 6px rgba(255,20,147,0.3);
+    transform: scale(1.05);
+  }
+
+  ion-icon {
+    font-size: 16px;
+    margin-right: 3px;
+  }
+}

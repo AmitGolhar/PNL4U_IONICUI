@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AdminDashboardPage } from './admin-dashboard.page';
+import { ClubRequestsComponent } from './club-requests/club-requests.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminDashboardPage
-  }
+  },
 ];
 
 @NgModule({

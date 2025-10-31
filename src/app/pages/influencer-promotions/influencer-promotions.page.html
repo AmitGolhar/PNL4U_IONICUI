@@ -1,13 +1,144 @@
-<ion-header [translucent]="true">
+<ion-header translucent>
   <ion-toolbar>
-    <ion-title>influencer-promotions</ion-title>
+    <ion-buttons slot="start"><ion-menu-button></ion-menu-button></ion-buttons>
+    <ion-title>Influencer Promotions</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">influencer-promotions</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding gradient-bg">
+  <div class="influencer-promos">
+
+    <!-- profile -->
+    <div class="profile-row">
+      <img [src]="influencer.avatar" class="avatar" alt="avatar" />
+      <div class="meta">
+        <h3>{{ influencer.name }}</h3>
+        <small>{{ influencer.handle }} • {{ influencer.followers | number }} followers</small>
+      </div>
+    </div>
+
+    <!-- tabs -->
+    <ion-segment [(ngModel)]="activeTab" class="auth-tabs">
+      <ion-segment-button value="promotions"><ion-label>Promotions</ion-label></ion-segment-button>
+      <ion-segment-button value="offers"><ion-label>Offers</ion-label></ion-segment-button>
+      <ion-segment-button value="applications"><ion-label>Applications</ion-label></ion-segment-button>
+    </ion-segment>
+
+    <!-- Promotions -->
+    <div *ngIf="activeTab === 'promotions'">
+      <ion-card *ngFor="let p of promotions" class="promo-card">
+        <div class="promo-banner" *ngIf="p.image" [style.backgroundImage]="'url(' + p.image + ')'"></div>
+        <ion-card-content>
+          <h4>{{ p.title }}</h4>
+          <p class="muted">{{ p.description }}</p>
+          <div class="meta-row">
+            <small>Club: {{ p.club }}</small>
+            <small>Valid Till: {{ p.validTill | date:'shortDate' }}</small>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Offers -->
+    <div *ngIf="activeTab === 'offers'">
+      <div class="offers-grid">
+        <ion-card *ngFor="let o of offers" class="offer-card">
+          <div class="offer-banner" *ngIf="o.banner" [style.backgroundImage]="'url(' + o.banner + ')'"></div>
+          <ion-card-header>
+            <ion-card-title>{{ o.title }}</ion-card-title>
+            <ion-card-subtitle>{{ o.club }} • {{ formatCurrency(o.payoutAmount) }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="muted">{{ o.description }}</p>
+            <div class="card-actions">
+              <ion-button size="small" fill="clear" (click)="openOfferDetail(o)">View</ion-button>
+
+              <ion-button
+                size="small"
+                color="primary"
+                [disabled]="isApplied(o) || o.status !== 'OPEN'"
+                (click)="applyToOffer(o)"
+              >
+                {{ isApplied(o) ? 'Applied' : (o.status === 'OPEN' ? 'Apply' : 'Closed') }}
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- Applications -->
+    <div *ngIf="activeTab === 'applications'">
+      <ion-card *ngFor="let a of applications" class="application-card">
+        <ion-card-header>
+          <ion-card-title>
+            {{ getOfferById(a.offerId)?.title || ('Offer #' + a.offerId) }}
+          </ion-card-title>
+          <ion-card-subtitle>
+            {{ getOfferById(a.offerId)?.club || '—' }} • {{ a.status }}
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="muted">Applied: {{ a.appliedAt | date:'short' }}</p>
+
+          <div *ngIf="a.submissionUrl" class="submission-preview">
+            <img [src]="a.submissionUrl" alt="submission" />
+          </div>
+
+          <div class="card-actions">
+            <ion-button size="small" fill="clear" (click)="openOfferDetailById(a.offerId)">View Offer</ion-button>
+
+            <ion-button size="small" color="danger" fill="clear" (click)="withdrawApplication(a)" *ngIf="a.status === 'PENDING'">
+              Withdraw
+            </ion-button>
+
+            <ion-button size="small" color="success" fill="clear" (click)="openOfferDetailById(a.offerId)" *ngIf="a.status === 'PENDING'">
+              Submit Content
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <div *ngIf="applications.length === 0" class="empty">No applications yet.</div>
+    </div>
+
+    <!-- Offer Modal -->
+    <ion-modal [isOpen]="showOfferModal" (didDismiss)="closeOfferModal()">
+      <ng-template>
+        <div *ngIf="modalOffer" class="modal-shell">
+          <h3>{{ modalOffer.title }}</h3>
+
+          <div class="modal-banner" *ngIf="modalOffer.banner" [style.backgroundImage]="'url(' + modalOffer.banner + ')'"></div>
+
+          <p class="muted">{{ modalOffer.description }}</p>
+
+          <div class="meta-row">
+            <small>Club: {{ modalOffer.club }}</small>
+            <small>Payout: {{ formatCurrency(modalOffer.payoutAmount) }}</small>
+            <small>Ends: {{ modalOffer.endDate | date:'shortDate' }}</small>
+          </div>
+
+          <hr />
+
+          <div class="upload-section">
+            <label class="file-btn">
+              <ion-button fill="outline" (click)="fileInput.click()">Upload Sample</ion-button>
+              <input #fileInput type="file" accept="image/*,video/*" hidden (change)="onFileSelected($any($event))" />
+            </label>
+
+            <div *ngIf="uploadPreview" class="upload-preview">
+              <img [src]="uploadPreview" alt="preview" />
+            </div>
+
+            <div class="modal-actions">
+            <ion-button expand="block" (click)="submitForModalOffer()">Submit</ion-button>
+            <ion-button expand="block" fill="clear" (click)="closeOfferModal()">Cancel</ion-button>
+          </div>
+
+          </div>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+  </div>
 </ion-content>

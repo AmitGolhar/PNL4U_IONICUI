@@ -1,0 +1,154 @@
+.manage-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #fff;
+  padding-bottom: 140px;
+  max-width: 950px;
+  margin: auto;
+}
+
+.floor-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.floor {
+  position: relative;
+  width: 90%;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.table-dot {
+  position: absolute;
+  width: 60px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #00ff9d, #007f4f);
+  color: #000;
+  font-weight: 700;
+  text-align: center;
+  line-height: 40px;
+  transition: all 0.3s;
+}
+
+.table-dot.booked {
+  background: linear-gradient(135deg, #ff007f, #660033);
+  color: #fff;
+}
+
+.legend {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 10px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h2 { color: #ffb6d9; }
+}
+
+.table-card, .guest-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(255, 0, 153, 0.25);
+  color: #fff;
+}
+
+.status.available { color: #00ff9d; }
+.status.booked { color: #ff6b6b; }
+.status.pending { color: #ffcc00; }
+.status.approved { color: #00ff9d; }
+.status.rejected { color: #ff4d4d; }
+
+.property-section ion-card {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 20px rgba(255, 0, 153, 0.2);
+}
+
+.create-modal {
+  background: rgba(15, 15, 25, 0.95);
+  border-radius: 20px;
+  padding: 20px;
+  color: #fff;
+}
+
+.input-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.modal-actions ion-button {
+  margin-top: 8px;
+}
+/* === AUTH / PAGE TABS === */
+.auth-tabs {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 6px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 10px rgba(255, 0, 180, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+ion-segment-button {
+  --background: transparent;
+  --background-checked: rgba(255, 0, 153, 0.25);
+  --indicator-color: transparent;
+  --color: rgba(255, 255, 255, 0.7);
+  --color-checked: #ffffff;
+  --border-radius: 10px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-weight: 600;
+  text-transform: capitalize;
+  border: 1.5px solid transparent;
+  transition: all 0.35s ease;
+  position: relative;
+}
+
+/* Hover glow */
+ion-segment-button:hover {
+  border-color: rgba(255, 0, 153, 0.3);
+  box-shadow: 0 0 10px rgba(255, 0, 153, 0.2);
+}
+
+/* Active state: glowing pink border */
+ion-segment-button.segment-button-checked {
+  background: linear-gradient(135deg, rgba(255, 0, 180, 0.35), rgba(140, 0, 255, 0.25));
+  border: 1.5px solid #ff4da6;
+  box-shadow: 0 0 14px rgba(255, 0, 180, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.15);
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 0, 180, 0.7);
+}
+
+/* Ion labels within tabs */
+ion-segment-button ion-label {
+  font-size: 15px;
+  letter-spacing: 0.3px;
+}
+
+/* Optional subtle glowing animation for active tab */
+@keyframes activeGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 0, 153, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(255, 0, 204, 0.7);
+  }
+}
+
+ion-segment-button.segment-button-checked {
+  animation: activeGlow 2s infinite ease-in-out;
+}

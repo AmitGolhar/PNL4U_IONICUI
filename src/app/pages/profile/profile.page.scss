@@ -1,10 +1,258 @@
+.inline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #141427, #1b1b36);
+  padding: 12px 18px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-left h2 {
+  color: #fff;
+  font-size: 1.3rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.header-icon {
+  font-size: 1.8rem;
+  color: #ffcc00;
+}
+
+.header-actions ion-button {
+  font-weight: 500;
+  --background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.profile-bg {
+  --background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+}
+
 .profile-card {
   text-align: center;
-  .profile-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin: 20px auto 10px auto;
-    display: block;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.05);
+}
+
+.profile-photo-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.profile-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffcc00;
+}
+
+.upload-overlay {
+  position: absolute;
+  bottom: 10px;
+}
+
+.loading-text {
+  text-align: center;
+  margin-top: 40%;
+  color: #bbb;
+}
+
+
+.profile-bg {
+  --background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+}
+
+.edit-mode-container {
+  padding: 16px;
+  animation: fadeIn 0.4s ease;
+}
+
+.profile-field {
+  --background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  padding: 8px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+
+  ion-label {
+    color: #b3b3ff;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
+
+  ion-input,
+  ion-textarea,
+  ion-select {
+    color: #fff !important;
+    font-weight: 500;
+    --placeholder-color: #aaaaaa;
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 15px rgba(255, 200, 0, 0.5);
+    --background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+ 
+
+.save-btn {
+  margin-top: 20px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #00ffa3, #00d4ff);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 255, 180, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.save-btn:hover {
+  transform: scale(1.04);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.profile-bg {
+  --background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+}
+
+/* ✏️ Edit Mode Container */
+.edit-mode-container {
+  padding: 16px;
+  animation: fadeIn 0.4s ease;
+}
+
+/* 🧊 Profile Input Fields */
+.profile-field {
+  --background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  margin-bottom: 14px;
+  padding: 8px;
+  backdrop-filter: blur(12px);
+  transition: 0.25s ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  border: none !important;
+
+  ion-label {
+    color: #b3b3ff;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  ion-input,
+  ion-textarea,
+  ion-select {
+    color: #fff !important;
+    font-weight: 500;
+    --placeholder-color: #aaa;
+    --highlight-color-focused: transparent !important;
+    --highlight-color-valid: transparent !important;
+    --highlight-color-invalid: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 12px rgba(0, 255, 200, 0.4);
+    --background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+ 
+
+/* 🖤 Darken the popup itself */
+ion-popover.datetime-popover,
+ion-modal.datetime-modal {
+  --background: rgba(20, 20, 35, 0.98);
+  --ion-text-color: #ffffff;
+  --ion-color-step-850: #1a1a2a;
+}
+
+ 
+
+/* 💾 Save Button */
+.save-btn {
+  margin-top: 20px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #00ffa3, #00d4ff);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 255, 180, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.save-btn:hover {
+  transform: scale(1.04);
+}
+
+/* 🔮 Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ion-datetime {
+  /* Background */
+  --background: var(--ion-color-dark, #222);
+  --background-rgb: 34, 34, 34;
+
+  /* Text color */
+  --color: var(--ion-color-light, #fff);
+
+  /* Wheel (month/year selector) text color */
+  --wheel-item-color: var(--ion-color-light, #fff);
+  --wheel-item-background: var(--ion-color-dark, #222);
+
+  /* Active (selected) month/year */
+  --wheel-highlight-color: var(--ion-color-primary, #3880ff);
+  --wheel-highlight-background: var(--ion-color-light, #fff);
+}
+ion-datetime::part(wheel-item) {
+  color: pink !important;      /* text color */
+  background: black !important; /* background color */
+}
+ion-picker {
+  --background: #ffffff; /* White background */
+  --color: #000000;      /* Black text (or set to transparent if you want no color) */
+}
+
+ion-picker::part(column) {
+  --background: #ffffff!important;  
+}
+
+ion-picker::part(option) {
+  color: #000000 !important;  
 }

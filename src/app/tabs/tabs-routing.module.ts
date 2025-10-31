@@ -38,8 +38,7 @@ const routes: Routes = [
         { path: 'promoter-dashboard', loadChildren: () => import('../pages/promoter-dashboard/promoter-dashboard.module').then(m => m.PromoterDashboardPageModule) },
         { path: 'influencer-dashboard', loadChildren: () => import('../pages/influencer-dashboard/influencer-dashboard.module').then(m => m.InfluencerDashboardPageModule) },
         { path: 'jobs', loadChildren: () => import('../pages/jobs/jobs.module').then(m => m.JobsPageModule) },
-        { path: 'job-applications', loadChildren: () => import('../pages/job-applications/job-applications.module').then(m => m.JobApplicationsPageModule) },
-        {
+         {
           path: 'wallet',
           loadChildren: () => import('../pages/wallet/wallet.module').then( m => m.WalletPageModule)
         },
@@ -127,6 +126,16 @@ const routes: Routes = [
           path: 'admin-tools',
           loadChildren: () => import('../pages/admin-tools/admin-tools.module').then( m => m.AdminToolsPageModule)
         },
+        {
+            path: 'chat-support',
+            loadChildren: () => import('../pages/chat-support/chat-support.module').then( m => m.ChatSupportPageModule)
+          },
+          {
+          path: 'club-request',
+          loadChildren: () => import('../pages/club-request/club-request-module').then(m => m.ClubRequestModule)
+        },
+       
+
       
       // Default redirect
   { path: '', redirectTo: 'home', pathMatch: 'full' },

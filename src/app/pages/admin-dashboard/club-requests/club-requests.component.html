@@ -1,0 +1,57 @@
+ 
+<div class="club-requests-container ion-padding">
+
+  <h2 class="section-title">Club Requests Management</h2>
+
+  <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadRequests()">
+    <ion-segment-button value="all">All</ion-segment-button>
+    <ion-segment-button value="pending">Pending</ion-segment-button>
+    <ion-segment-button value="approved">Approved</ion-segment-button>
+    <ion-segment-button value="rejected">Rejected</ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="loading" class="loading-text">Loading requests...</div>
+ 
+  <ion-list *ngIf="!loading && requests.length > 0" class="request-list">
+    <ion-card *ngFor="let req of requests" class="request-card" [class.pending]="req.status==='PENDING'">
+      <ion-card-header>
+        <ion-card-title>{{ req.clubName }}</ion-card-title>
+        <ion-card-subtitle>
+          Owner: {{ req.ownerName }} • {{ req.city }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="info">
+          <p><strong>Email:</strong> {{ req.email }}</p>
+          <p><strong>Phone:</strong> {{ req.phoneNumber }}</p>
+          <p><strong>Type:</strong> {{ req.clubType }}</p>
+          <p><strong>Package:</strong> {{ req.preferredPackage }}</p>
+          <p><strong>Status:</strong>
+            <span [class]="req.status.toLowerCase()">{{ req.status }}</span>
+          </p>
+          <p><strong>Submitted:</strong> {{ req.submittedDate | date:'medium' }}</p>
+        </div>
+
+        <div *ngIf="req.photo" class="photo-section">
+          <img [src]="'data:image/jpeg;base64,' + req.photo" alt="Club Photo" />
+        </div>
+
+        <div class="btn-group" *ngIf="req.status === 'PENDING'">
+          <ion-button color="success" size="small" (click)="approve(req)">Approve</ion-button>
+          <ion-button color="danger" size="small" (click)="reject(req)">Reject</ion-button>
+        </div>
+
+        <div *ngIf="req.reviewedBy" class="review-info">
+          <p>Reviewed By: <strong>{{ req.reviewedBy }}</strong></p>
+          <p *ngIf="req.reviewRemarks">Remarks: {{ req.reviewRemarks }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <div *ngIf="!loading && requests.length === 0" class="no-data">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>No requests found for this category.</p>
+  </div>
+</div>
