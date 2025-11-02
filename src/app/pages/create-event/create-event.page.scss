@@ -1,0 +1,328 @@
+.create-event-bg {
+  --background: linear-gradient(135deg, #0a001a, #1a0033);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+ion-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.2);
+  color: #fff;
+}
+
+/* 🗓 Fix Calendar DateTime popup */
+ion-datetime {
+  --background: #1a0033;
+  --ion-text-color: #fff;
+  --color: #fff;
+  --wheel-highlight-background: rgba(255, 105, 180, 0.3);
+  --wheel-highlight-color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 6px;
+}
+ion-datetime::part(wheel-item) {
+  color: #fff !important;
+  background: transparent !important;
+}
+ion-modal.datetime-modal,
+ion-popover.datetime-popover {
+  --background: #1a0033;
+  --ion-text-color: #fff;
+}
+
+/* 🟢 Toggle styling fix */
+ion-toggle {
+  --track-background: rgba(255, 255, 255, 0.2);
+  --track-background-checked: linear-gradient(90deg, #00ffcc, #00bfff);
+  --handle-background: #fff;
+  --handle-border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 2px;
+  margin-top: 6px;
+}
+
+/* ✨ Input fields and labels */
+ion-item {
+  --background: transparent;
+  --color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 6px;
+}
+ion-label {
+  color: #ffb6c1 !important;
+  font-weight: 500;
+}
+ion-input,
+ion-textarea,
+ion-select {
+  color: #fff !important;
+  font-weight: 500;
+}
+ion-select::part(text),
+ion-datetime::part(text) {
+  color: #fff;
+}
+
+/* 🎟 Ticket section */
+.ticket-box {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+/* 🖤 Make select dropdown (popover/alert) background black */
+ion-select::part(text) {
+  color: #fff !important;
+}
+
+/* Popover background (when interface='popover') */
+ion-popover {
+  --background: #000 !important;
+  --ion-text-color: #fff !important;
+  --ion-color-step-100: #111 !important;
+  --ion-color-step-850: #000 !important;
+  --box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* The alert style select (when interface='alert') */
+ion-alert {
+  --background: #000 !important;
+  --ion-text-color: #fff !important;
+  --ion-color-step-100: #111 !important;
+  --ion-color-step-850: #000 !important;
+}
+
+/* Dropdown options text */
+.alert-radio-label.sc-ion-alert-md,
+.alert-checkbox-label.sc-ion-alert-md {
+  color: #fff !important;
+}
+
+/* Highlight selected item in dropdown */
+.alert-radio-inner.sc-ion-alert-md {
+  background: linear-gradient(90deg, #00ffcc, #00bfff) !important;
+}
+ion-content {
+  overflow-y: auto !important;
+}
+
+form {
+  padding-bottom: 100px;
+}
+
+ion-button {
+  display: block;
+  margin-top: 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #00ffcc, #00bfff);
+  color: #000 !important;
+  position: relative;
+  z-index: 99;
+}
+
+ion-spinner {
+  --color: #000;
+}
+.create-event-bg {
+  background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+
+  ion-item {
+    --background: transparent;
+    --color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  ion-select, ion-input, ion-textarea {
+    color: #fff;
+  }
+
+  ion-toggle {
+    border: 1px solid #fff;
+    border-radius: 20px;
+    padding: 2px;
+  }
+
+  ion-button {
+    margin-top: 15px;
+  }
+}
+ion-select[formControlName="bannerType"] {
+  text-transform: capitalize;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 6px;
+  color: #fff;
+}
+
+ion-select::part(placeholder) {
+  color: #aaa;
+}
+
+ion-item.banner-item {
+  --highlight-height: 0;
+  --border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.create-event-bg {
+  background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+
+  ion-item {
+    --background: transparent;
+    --color: #fff;
+    --border-color: transparent; /* removes underline/border */
+    --highlight-color-focused: #ffd700; /* subtle gold highlight when focused */
+    border: none;
+    box-shadow: none;
+    margin-bottom: 10px;
+  }
+
+  ion-input, ion-select, ion-textarea {
+    --background: transparent;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+  }
+
+  ion-select::part(icon) {
+    color: #fff;
+  }
+
+  ion-label {
+    color: #aaa;
+    font-weight: 500;
+  }
+
+  ion-toggle {
+    border: 1px solid #fff;
+    border-radius: 20px;
+    padding: 3px;
+    --handle-background: #fff;
+  }
+
+  ion-button {
+    margin-top: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+  }
+
+  ion-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  }
+
+  ion-card-title {
+    color: #ffd700; /* gold accent for headings */
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1rem;
+  }
+}
+.create-event-bg {
+  background: radial-gradient(circle at bottom right, #0d0120, #060312, #0a0a0f);
+  color: #fff;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+
+  /* 🔲 Glossy ion-item styling */
+  ion-item {
+    --background: rgba(255, 255, 255, 0.05);
+    --color: #fff;
+    --border-color: transparent;
+    --highlight-color-focused: #ffd700;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    padding: 4px 6px;
+
+    /* ✨ glossy light reflection effect */
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.02)
+    );
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* 🪩 Hover / Focus glow */
+  ion-item:hover,
+  ion-item:focus-within {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* 🧠 Inputs & text inside items */
+  ion-input,
+  ion-select,
+  ion-textarea {
+    --background: transparent;
+    color: #fff;
+    border: none;
+    box-shadow: none;
+  }
+
+  ion-label {
+    color: #aaa;
+    font-weight: 500;
+  }
+
+  /* 💡 Toggle switch styling */
+  ion-toggle {
+    border: 1px solid #fff;
+    border-radius: 20px;
+    padding: 3px;
+    --handle-background: #fff;
+    --background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* 🪄 Cards & titles */
+  ion-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    padding: 6px;
+  }
+
+  ion-card-title {
+    color: #ffd700;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1rem;
+  }
+
+  /* ✅ Buttons */
+  ion-button {
+    margin-top: 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+  }
+}
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+  }
+}
+
+ion-item:focus-within {
+  animation: glowPulse 1.5s infinite alternate;
+}

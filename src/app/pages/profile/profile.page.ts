@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController, AlertController } from '@ionic/angular';
 import { UserProfileService } from 'src/app/services/user-profile.service';
-
+ import { IonModal } from '@ionic/angular';
+ 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -10,12 +11,18 @@ import { UserProfileService } from 'src/app/services/user-profile.service';
 })
 export class ProfilePage implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('galleryInput') galleryInput!: ElementRef<HTMLInputElement>;
+@ViewChild('slides', { static: false }) slides!: any;
+  @ViewChild('imageModal') imageModal!: IonModal;
 
-  user: any = {};
+user: any = {};
   loading = true;
   editMode = false;
   editableUser: any = {};
   selectedImageFile: File | null = null;
+  selectedGalleryFiles: any[] = [];
+  isModalOpen = false;
+  galleryPreviewImages: string[] = [];
 
   constructor(
     private profileService: UserProfileService,
@@ -23,6 +30,20 @@ export class ProfilePage implements OnInit {
     private alertCtrl: AlertController,
     private router: Router
   ) {}
+
+    // ✅ Trigger modal preview
+  openPreview(img: string) {
+    this.galleryPreviewImages = this.user.galleryImagesBase64 || [];
+    const index = this.galleryPreviewImages.indexOf(img);
+    this.isModalOpen = true;
+    setTimeout(() => {
+      if (index >= 0) this.slides.slideTo(index);
+    }, 200);
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
 
   ngOnInit() {
     this.loadProfile();
@@ -38,7 +59,10 @@ export class ProfilePage implements OnInit {
       },
       error: async (err) => {
         this.loading = false;
-        const msg = err.status === 401 ? 'Unauthorized. Please login again.' : 'Failed to load profile.';
+        const msg =
+          err.status === 401
+            ? 'Unauthorized. Please login again.'
+            : 'Failed to load profile.';
         this.showToast(msg, 'danger');
         if (err.status === 401) this.router.navigate(['/login']);
       },
@@ -53,28 +77,56 @@ export class ProfilePage implements OnInit {
     this.fileInput.nativeElement.click();
   }
 
-  // ✅ Preview and store selected file
+  triggerGalleryUpload() {
+    this.galleryInput.nativeElement.click();
+  }
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
       this.selectedImageFile = file;
-
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.editableUser.profileImageUrl = e.target.result; // preview Base64
+        this.editableUser.profileImageBase64 = e.target.result; // preview Base64
       };
       reader.readAsDataURL(file);
     }
   }
 
+  onGallerySelected(event: any) {
+    const files = Array.from(event.target.files);
+    this.selectedGalleryFiles = files;
+    this.editableUser.galleryImages = []; // ✅ matches backend field name
+
+    files.forEach((file: any) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.editableUser.galleryImages.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+ removeGalleryImage(img: string) {
+  this.editableUser.galleryImagesBase64 =
+    this.editableUser.galleryImagesBase64.filter((i: string) => i !== img);
+}
+
+closePopover(event: any) {
+  const popover = document.querySelector('ion-popover');
+  if (popover) (popover as any).dismiss();
+}
+
+
+ 
+
   saveProfile() {
     const updatedUser = { ...this.editableUser };
 
-    // ✅ Convert YYYY-MM-DD → ISO-8601 UTC
     if (updatedUser.dateOfBirth) {
       const date = new Date(updatedUser.dateOfBirth);
       if (!isNaN(date.getTime())) {
-        updatedUser.dateOfBirth = date.toISOString(); // "2025-10-30T00:00:00.000Z"
+        updatedUser.dateOfBirth = date.toISOString();
       }
     }
 
@@ -125,7 +177,11 @@ export class ProfilePage implements OnInit {
   }
 
   async showToast(message: string, color: string) {
-    const toast = await this.toastCtrl.create({ message, duration: 2000, color });
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
+    });
     toast.present();
   }
 }

@@ -1,0 +1,51 @@
+<ion-header translucent="true">
+  <ion-toolbar color="dark">
+    <ion-title>Discover</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding discovery-bg">
+  <div *ngIf="profiles.length > 0 && currentIndex < profiles.length" class="deck-wrapper">
+    <!-- top card (only currentIndex card is interactive) -->
+    <div
+      #topCard
+      class="profile-card top"
+      [style.backgroundImage]="'url(' + (profiles[currentIndex]?.profileImageBase64 || '') + ')'"
+      *ngIf="profiles[currentIndex]"
+    >
+      <div class="profile-overlay">
+        <h2>{{ profiles[currentIndex].displayName }}</h2>
+        <p>{{ profiles[currentIndex].bio || 'No bio added' }}</p>
+        <small>{{ profiles[currentIndex].city }}, {{ profiles[currentIndex].country }}</small>
+      </div>
+    </div>
+
+    <!-- show next card faintly below as stack preview (optional) -->
+    <div
+      class="profile-card stack"
+      *ngIf="profiles[currentIndex + 1]"
+      [style.backgroundImage]="'url(' + (profiles[currentIndex + 1]?.profileImageBase64 || '') + ')'"
+    >
+      <div class="profile-overlay">
+        <h2>{{ profiles[currentIndex + 1].displayName }}</h2>
+      </div>
+    </div>
+
+    <div class="swipe-buttons">
+      <ion-button shape="round" color="danger" (click)="onSkipButton()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" color="success" (click)="onLikeButton()">
+        <ion-icon name="heart-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <div *ngIf="profiles.length === 0" class="no-profiles">
+    <ion-text color="light">No profiles available right now.</ion-text>
+  </div>
+
+  <div *ngIf="currentIndex >= profiles.length && profiles.length > 0" class="no-profiles">
+    <ion-text color="light">✨ You've reached the end of the feed.</ion-text>
+  </div>
+</ion-content>

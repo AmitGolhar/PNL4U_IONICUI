@@ -1,0 +1,240 @@
+<ion-header translucent>
+  <ion-toolbar color="dark">
+    <ion-title>Create Event</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding create-event-bg">
+  <form [formGroup]="eventForm" (ngSubmit)="submitEvent()">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Event Details</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <!-- Basic Info -->
+     
+
+        <ion-item>
+          <ion-label position="stacked">Event Name</ion-label>
+          <ion-input formControlName="eventName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Banner Type</ion-label>
+          <ion-select formControlName="bannerType" interface="popover">
+            <ion-select-option value="NORMAL">Normal</ion-select-option>
+            <ion-select-option value="FEATURED">Featured</ion-select-option>
+            <ion-select-option value="TRENDING">Trending</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Category</ion-label>
+          <ion-select formControlName="category" interface="popover">
+            <ion-select-option>Party</ion-select-option>
+            <ion-select-option>Live DJ</ion-select-option>
+            <ion-select-option>Ladies Night</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Sub Category</ion-label>
+          <ion-select formControlName="subCategory" interface="popover">
+            <ion-select-option>Bollywood</ion-select-option>
+            <ion-select-option>Techno</ion-select-option>
+            <ion-select-option>House</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Genre</ion-label>
+          <ion-select formControlName="genre" interface="popover">
+            <ion-select-option>EDM</ion-select-option>
+            <ion-select-option>Hip-Hop</ion-select-option>
+            <ion-select-option>Bollywood Mix</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Tags</ion-label>
+          <ion-input placeholder="e.g. dance, weekend, dj" formControlName="tags"></ion-input>
+        </ion-item>
+
+        <!-- Location -->
+        <ion-item>
+          <ion-label position="stacked">City</ion-label>
+          <ion-input formControlName="locationCity"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Venue Name</ion-label>
+          <ion-input formControlName="venueName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Latitude</ion-label>
+          <ion-input type="number" formControlName="latitude"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Longitude</ion-label>
+          <ion-input type="number" formControlName="longitude"></ion-input>
+        </ion-item>
+
+        <!-- Dates -->
+        <ion-item>
+          <ion-label position="stacked">Start Date</ion-label>
+          <ion-datetime presentation="date" formControlName="startDate"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">End Date</ion-label>
+          <ion-datetime presentation="date" formControlName="endDate"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Start Time</ion-label>
+          <ion-input type="time" formControlName="startTime"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Duration</ion-label>
+          <ion-input placeholder="e.g. 4 hours" formControlName="duration"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Artist</ion-label>
+          <ion-input formControlName="artistName"></ion-input>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label position="stacked">Event Type</ion-label>
+          <ion-select formControlName="eventType" interface="popover">
+            <ion-select-option>PAID</ion-select-option>
+            <ion-select-option>FREE</ion-select-option>
+            <ion-select-option>INVITE</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea formControlName="description" autoGrow="true"></ion-textarea>
+        </ion-item>
+
+        <!-- Toggles -->
+        <ion-item>
+          <ion-label>Free Entry</ion-label>
+          <ion-toggle formControlName="isFreeEntry"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Weekend Event</ion-label>
+          <ion-toggle formControlName="isWeekend"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Offers Available</ion-label>
+          <ion-toggle formControlName="hasOffers"></ion-toggle>
+        </ion-item>
+
+        <ion-item *ngIf="eventForm.get('hasOffers')?.value">
+          <ion-label position="stacked">Offers Details</ion-label>
+          <ion-input formControlName="offers"></ion-input>
+        </ion-item>
+
+        <!-- Entry & Policy -->
+        <ion-item>
+          <ion-label position="stacked">Crowd Type</ion-label>
+          <ion-select formControlName="crowdType" interface="popover">
+            <ion-select-option>Luxury</ion-select-option>
+            <ion-select-option>Students</ion-select-option>
+            <ion-select-option>Corporate</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Entry Policy</ion-label>
+          <ion-input placeholder="e.g. Couples Only, 21+" formControlName="entryPolicy"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Dress Code</ion-label>
+          <ion-input placeholder="e.g. Smart Casual" formControlName="dressCode"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Refund Policy</ion-label>
+          <ion-input placeholder="e.g. Non-refundable once booked" formControlName="refundPolicy"></ion-input>
+        </ion-item>
+
+        <!-- Friendly Options -->
+        <ion-item>
+          <ion-label position="stacked">Kids Friendly</ion-label>
+          <ion-select formControlName="kidsFriendly" interface="popover">
+            <ion-select-option>No</ion-select-option>
+            <ion-select-option>Yes</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Pets Friendly</ion-label>
+          <ion-select formControlName="petsFriendly" interface="popover">
+            <ion-select-option>No</ion-select-option>
+            <ion-select-option>Yes</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Indoor / Outdoor</ion-label>
+          <ion-select formControlName="indoorOrOutdoor" interface="popover">
+            <ion-select-option>Indoor</ion-select-option>
+            <ion-select-option>Outdoor</ion-select-option>
+            <ion-select-option>Both</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- 🎟 Ticket Section -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Tickets</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div formArrayName="tickets">
+          <div *ngFor="let t of tickets.controls; let i = index" [formGroupName]="i" class="ticket-box">
+            <ion-item>
+              <ion-label position="stacked">Ticket Name</ion-label>
+              <ion-input formControlName="name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Price (₹)</ion-label>
+              <ion-input type="number" formControlName="price"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Quantity</ion-label>
+              <ion-input type="number" formControlName="quantity"></ion-input>
+            </ion-item>
+            <ion-button color="danger" fill="clear" (click)="removeTicket(i)">Remove</ion-button>
+          </div>
+        </div>
+        <ion-button expand="block" color="warning" (click)="addTicket()">
+          <ion-icon name="add-circle" slot="start"></ion-icon>
+          Add Ticket
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" type="submit" [disabled]="submitting" color="success">
+      <ion-spinner *ngIf="submitting" slot="start"></ion-spinner>
+      Create Event
+    </ion-button>
+
+  </form>
+</ion-content>

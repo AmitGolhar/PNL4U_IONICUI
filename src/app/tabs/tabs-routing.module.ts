@@ -133,9 +133,15 @@ const routes: Routes = [
           {
           path: 'club-request',
           loadChildren: () => import('../pages/club-request/club-request-module').then(m => m.ClubRequestModule)
-        },
-       
-
+         },
+        {
+           path: 'discovery',
+           loadChildren: () => import('../pages/discovery/discovery.module').then( m => m.DiscoveryPageModule)
+         },
+          {
+              path: 'create-event',
+              loadChildren: () => import('../pages/create-event/create-event.module').then( m => m.CreateEventPageModule)
+            },
       
       // Default redirect
   { path: '', redirectTo: 'home', pathMatch: 'full' },

@@ -10,6 +10,8 @@ const routes: Routes = [
 
   // Wildcard redirect (optional, prevents 404)
   { path: '**', redirectTo: 'home' },
+ 
+  
   
 ];
 

@@ -1,21 +1,88 @@
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-title>Events</ion-title>
+    <ion-title>Discover Events</ion-title>
+  </ion-toolbar>
+
+  <!-- 🎯 Filter Chips -->
+  <ion-toolbar class="filter-toolbar">
+    <ion-chip
+      [color]="selectedCategory === cat ? 'primary' : 'medium'"
+      *ngFor="let cat of categories"
+      (click)="toggleCategory(cat)"
+    >
+      {{ cat }}
+    </ion-chip>
+
+    <ion-chip
+      [color]="selectedCity === city ? 'primary' : 'medium'"
+      *ngFor="let city of cities"
+      (click)="toggleCity(city)"
+    >
+      {{ city }}
+    </ion-chip>
+
+    <ion-chip
+      [color]="isWeekend ? 'success' : 'medium'"
+      (click)="toggleWeekend()"
+    >
+      Weekend
+    </ion-chip>
+
+    <ion-chip
+      [color]="hasOffers ? 'warning' : 'medium'"
+      (click)="toggleOffers()"
+    >
+      🔥 Offers
+    </ion-chip>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-searchbar placeholder="Search events"></ion-searchbar>
+<ion-content class="ion-padding event-list-bg">
 
-  <ion-card *ngFor="let e of events">
-    <img [src]="e.img" alt="Event image" />
-    <ion-card-header>
-      <ion-card-title>{{ e.title }}</ion-card-title>
-      <ion-card-subtitle>{{ e.club }} • {{ e.date }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-chip color="secondary">{{ e.price }}</ion-chip>
-      <ion-button fill="outline" color="primary" size="small">Book Now</ion-button>
-    </ion-card-content>
-  </ion-card>
+  <!-- 🔄 Spinner while loading -->
+  <ion-spinner *ngIf="loading && page === 0" class="center-spinner"></ion-spinner>
+
+  <!-- 🧾 Event Cards -->
+  <ion-list *ngIf="events.length > 0">
+    <ion-card *ngFor="let e of events" class="event-card">
+      <img *ngIf="e.imagesBase64?.length" [src]="e.imagesBase64[0]" alt="Flyer" class="event-img" />
+
+      <ion-card-header>
+        <ion-card-title>{{ e.eventName }}</ion-card-title>
+        <ion-card-subtitle>
+          {{ e.venueName }} • {{ e.locationCity }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="event-meta">
+          <p class="event-time">
+            <ion-icon name="calendar-outline"></ion-icon>
+            {{ e.startDate | date: 'EEE, MMM d' }} • {{ e.startTime || 'TBA' }}
+          </p>
+          <p class="event-artist" *ngIf="e.artistName">
+            <ion-icon name="musical-notes-outline"></ion-icon>
+            {{ e.artistName }}
+          </p>
+        </div>
+
+        <div class="chips">
+          <ion-chip color="tertiary" *ngIf="e.category">{{ e.category }}</ion-chip>
+          <ion-chip color="medium" *ngIf="e.genre">{{ e.genre }}</ion-chip>
+          <ion-chip color="success" *ngIf="e.eventType">{{ e.eventType }}</ion-chip>
+          <ion-chip color="warning" *ngIf="e.hasOffers">🔥 Offers</ion-chip>
+        </div>
+
+        <p class="event-description">{{ e.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- 🔄 Infinite Scroll -->
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)" threshold="100px" *ngIf="hasMore">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more events..."
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

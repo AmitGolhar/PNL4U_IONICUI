@@ -4,43 +4,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding profile-bg">
+<ion-content class="profile-bg ion-padding">
+
   <!-- 🧭 Inline Header -->
   <div class="inline-header">
     <div class="header-left">
       <ion-icon name="person-circle-outline" class="header-icon"></ion-icon>
-      <h2>My Profile</h2>
+      <h2>{{ editMode ? 'Edit Profile' : 'My Profile' }}</h2>
     </div>
     <div class="header-actions">
       <ion-button *ngIf="!editMode" fill="clear" color="warning" (click)="toggleEdit()">
-        <ion-icon name="create-outline" slot="start"></ion-icon>
-        <span>Edit</span>
+        <ion-icon name="create-outline" slot="start"></ion-icon>Edit
       </ion-button>
       <ion-button *ngIf="editMode" fill="clear" color="success" (click)="saveProfile()">
-        <ion-icon name="save-outline" slot="start"></ion-icon>
-        <span>Save</span>
+        <ion-icon name="save-outline" slot="start"></ion-icon>Save
       </ion-button>
     </div>
   </div>
 
+  <!-- Loading -->
   <div *ngIf="loading" class="loading-text">Loading profile...</div>
 
   <div *ngIf="!loading">
     <!-- 🧑 Profile Card -->
     <ion-card class="profile-card">
       <div class="profile-photo-container">
-       
-         <img class="profile-img"
-            [src]="editableUser.profileImage 
-              ? 'data:image/jpeg;base64,' + editableUser.profileImage 
-              : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'"
-            (error)="onImageError($event)"
-            alt="User"
-          />
+        <img class="profile-img"
+          [src]="editableUser.profileImageBase64 || 'data:image/jpeg;base64,' + user.profileImageBase64 || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'"
+          alt="User" />
         <div *ngIf="editMode" class="upload-overlay">
           <ion-button color="warning" fill="solid" size="small" (click)="triggerFileUpload()">
-            <ion-icon name="camera-outline" slot="start"></ion-icon>
-            Change
+            <ion-icon name="camera-outline" slot="start"></ion-icon>Change
           </ion-button>
           <input type="file" hidden #fileInput accept="image/*" (change)="onFileSelected($event)" />
         </div>
@@ -53,74 +47,352 @@
 
       <!-- 🔹 View Mode -->
       <ion-card-content *ngIf="!editMode">
-        <p><strong>Gender:</strong> {{ user.gender || 'Not specified' }}</p>
+        <h3 class="section-title">About</h3>
+        <p><strong>Gender:</strong> {{ user.gender || 'N/A' }}</p>
+        <p><strong>Interested In:</strong> {{ user.interestedIn || 'N/A' }}</p>
+        <p *ngIf="showOrientationOnProfile"><strong>Sexual Orientation:</strong> {{ user.sexualOrientation || 'N/A' }}
+        </p>
         <p><strong>Date of Birth:</strong> {{ user.dateOfBirth | date: 'mediumDate' }}</p>
         <p><strong>Location:</strong> {{ user.city }}, {{ user.state }}, {{ user.country }}</p>
-        <p><strong>Interests:</strong> {{ user.interests || 'N/A' }}</p>
+
+        <h3 class="section-title">Lifestyle</h3>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Drinking:</strong> {{ user.drinkingHabits || 'N/A' }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Smoking:</strong> {{ user.smokingHabits || 'N/A' }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Workout:</strong> {{ user.workoutHabits || 'N/A' }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Star Sign:</strong> {{ user.starSign || 'N/A' }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Height:</strong> {{ user.height || 'N/A' }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Education:</strong> {{ user.education || 'N/A' }}</p>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <p><strong>Job:</strong> {{ user.jobTitle || 'N/A' }}</p>
+            </ion-col>
+            <ion-col size="6">
+              <p><strong>Company:</strong> {{ user.company || 'N/A' }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <h3 class="section-title">Personal</h3>
+        <p><strong>Music Taste:</strong> {{ user.musicTaste || 'N/A' }}</p>
+        <p><strong>Pet Preference:</strong> {{ user.petPreference || 'N/A' }}</p>
+        <p><strong>Languages:</strong> {{ user.languageSpoken || 'N/A' }}</p>
+
+        <h3 class="section-title">Socials</h3>
+        <ion-list>
+          <ion-item *ngIf="user.instagramHandle">
+            <ion-icon name="logo-instagram" slot="start" color="danger"></ion-icon>
+            <ion-label>{{ user.instagramHandle }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="user.spotifyLink">
+            <ion-icon name="musical-notes-outline" slot="start" color="success"></ion-icon>
+            <ion-label>{{ user.spotifyLink }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="user.snapchatId">
+            <ion-icon name="logo-snapchat" slot="start" color="warning"></ion-icon>
+            <ion-label>{{ user.snapchatId }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="user.tiktokHandle">
+            <ion-icon name="logo-tiktok" slot="start" color="medium"></ion-icon>
+            <ion-label>{{ user.tiktokHandle }}</ion-label>
+          </ion-item>
+        </ion-list>
+
+        <h3 class="section-title">Gallery</h3>
+
+        <div class="gallery-grid" *ngIf="user.galleryImagesBase64?.length">
+          <div class="gallery-thumb" *ngFor="let img of user.galleryImagesBase64; let i = index"
+            (click)="openPreview(img)">
+            <img [src]="img" alt="Gallery Image {{ i + 1 }}" />
+            <div class="overlay">
+              <ion-icon name="expand-outline"></ion-icon>
+            </div>
+          </div>
+        </div>
       </ion-card-content>
 
-   <!-- ✏️ Edit Mode -->
-    <ion-card-content *ngIf="editMode" class="edit-mode-container">
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">Display Name</ion-label>
-        <ion-input placeholder="Enter your name" [(ngModel)]="editableUser.displayName"></ion-input>
-      </ion-item>
+      <!-- ✏️ Edit Mode -->
+      <ion-card-content *ngIf="editMode" class="edit-mode-container">
+        <ion-grid>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">Bio</ion-label>
-        <ion-textarea autoGrow="true" placeholder="Tell something about yourself" [(ngModel)]="editableUser.bio"></ion-textarea>
-      </ion-item>
+          <!-- 👤 Basic Info -->
+          <h3 class="section-title">Basic Info</h3>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Display Name</ion-label>
+                <ion-input [(ngModel)]="editableUser.displayName"></ion-input>
+              </ion-item>
+            </ion-col>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">Gender</ion-label>
-        <ion-select placeholder="Select Gender" [(ngModel)]="editableUser.gender" interface="popover">
-          <ion-select-option value="Male">Male</ion-select-option>
-          <ion-select-option value="Female">Female</ion-select-option>
-          <ion-select-option value="Other">Other</ion-select-option>
-          <ion-select-option value="Prefer not to say">Prefer not to say</ion-select-option>
-        </ion-select>
-      </ion-item>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Gender</ion-label>
+                <ion-select [(ngModel)]="editableUser.gender" interface="popover">
+                  <ion-select-option>Male</ion-select-option>
+                  <ion-select-option>Female</ion-select-option>
+                  <ion-select-option>Other</ion-select-option>
+                  <ion-select-option>Prefer not to say</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">Date of Birth</ion-label>
-        <ion-datetime
-          displayFormat="DD MMM YYYY"
-          placeholder="Select your birth date"
-          [(ngModel)]="editableUser.dateOfBirth"
-        ></ion-datetime>
-      </ion-item>
+          <ion-item lines="none">
+            <ion-label position="stacked">Bio</ion-label>
+            <ion-textarea autoGrow="true" [(ngModel)]="editableUser.bio"></ion-textarea>
+          </ion-item>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">City</ion-label>
-        <ion-input placeholder="Enter your city" [(ngModel)]="editableUser.city"></ion-input>
-      </ion-item>
+          <ion-item lines="none" class="dob-field">
+            <ion-label position="stacked">Date of Birth</ion-label>
+            <ion-datetime-button datetime="dobPicker"></ion-datetime-button>
+            <ion-popover [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime id="dobPicker" presentation="date" prefer-wheel="true" show-default-buttons="true"
+                  [(ngModel)]="editableUser.dateOfBirth" (ionChange)="closePopover($event)"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">State</ion-label>
-        <ion-input placeholder="Enter your state" [(ngModel)]="editableUser.state"></ion-input>
-      </ion-item>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">City</ion-label>
+                <ion-input [(ngModel)]="editableUser.city"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Country</ion-label>
+                <ion-input [(ngModel)]="editableUser.country"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">Country</ion-label>
-        <ion-input placeholder="Enter your country" [(ngModel)]="editableUser.country"></ion-input>
-      </ion-item>
+          <!-- 💖 Preferences -->
+          <h3 class="section-title">Preferences</h3>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Interested In</ion-label>
+                <ion-select [(ngModel)]="editableUser.interestedIn" interface="popover">
+                  <ion-select-option>Men</ion-select-option>
+                  <ion-select-option>Women</ion-select-option>
+                  <ion-select-option>Everyone</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
 
-      <ion-item lines="none" class="profile-field">
-        <ion-label position="stacked">Interests</ion-label>
-        <ion-input placeholder="e.g. Music, Dance, Nightlife" [(ngModel)]="editableUser.interests"></ion-input>
-      </ion-item>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Relationship Goal</ion-label>
+                <ion-select [(ngModel)]="editableUser.relationshipGoal" interface="popover">
+                  <ion-select-option>Relationship</ion-select-option>
+                  <ion-select-option>Something Casual</ion-select-option>
+                  <ion-select-option>New Friends</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
 
-      <ion-button expand="block" color="success" class="save-btn" (click)="saveProfile()">
-        💾 Save Changes
-      </ion-button>
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="none">
+                <ion-label position="stacked">Sexual Orientation</ion-label>
+                <ion-select [(ngModel)]="editableUser.sexualOrientation" interface="popover"
+                  placeholder="Select orientation">
+                  <ion-select-option value="Straight">Straight</ion-select-option>
+                  <ion-select-option value="Gay">Gay</ion-select-option>
+                  <ion-select-option value="Lesbian">Lesbian</ion-select-option>
+                  <ion-select-option value="Bisexual">Bisexual</ion-select-option>
+                  <ion-select-option value="Asexual">Asexual</ion-select-option>
+                  <ion-select-option value="Pansexual">Pansexual</ion-select-option>
+                  <ion-select-option value="Queer">Queer</ion-select-option>
+                  <ion-select-option value="Prefer not to say">Prefer not to say</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
 
-    </ion-card-content>
+          
+          </ion-row>
+
+    <ion-row>
+  <ion-col size="6">
+              <ion-item class="profile-field glossy">
+                <ion-label position="stacked">Show Orientation Publicly</ion-label>
+                <div class="toggle-col">
+                  <ion-toggle class="toggle-border" [(ngModel)]="editableUser.showOrientationOnProfile"></ion-toggle>
+                </div>
+              </ion-item>
+
+            </ion-col>
+    </ion-row>
+          <!-- 🎯 Lifestyle -->
+          <h3 class="section-title">Lifestyle</h3>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Drinking</ion-label>
+                <ion-select [(ngModel)]="editableUser.drinkingHabits" interface="popover">
+                  <ion-select-option>Never</ion-select-option>
+                  <ion-select-option>Socially</ion-select-option>
+                  <ion-select-option>Often</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Smoking</ion-label>
+                <ion-select [(ngModel)]="editableUser.smokingHabits" interface="popover">
+                  <ion-select-option>Non-Smoker</ion-select-option>
+                  <ion-select-option>Occasionally</ion-select-option>
+                  <ion-select-option>Regularly</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Workout</ion-label>
+                <ion-select [(ngModel)]="editableUser.workoutHabits" interface="popover">
+                  <ion-select-option>Never</ion-select-option>
+                  <ion-select-option>Sometimes</ion-select-option>
+                  <ion-select-option>Active</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-label position="stacked">Star Sign</ion-label>
+                <ion-select [(ngModel)]="editableUser.starSign" interface="popover">
+                  <ion-select-option>Aries</ion-select-option>
+                  <ion-select-option>Taurus</ion-select-option>
+                  <ion-select-option>Gemini</ion-select-option>
+                  <ion-select-option>Cancer</ion-select-option>
+                  <ion-select-option>Leo</ion-select-option>
+                  <ion-select-option>Virgo</ion-select-option>
+                  <ion-select-option>Libra</ion-select-option>
+                  <ion-select-option>Scorpio</ion-select-option>
+                  <ion-select-option>Sagittarius</ion-select-option>
+                  <ion-select-option>Capricorn</ion-select-option>
+                  <ion-select-option>Aquarius</ion-select-option>
+                  <ion-select-option>Pisces</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Height</ion-label>
+            <ion-input [(ngModel)]="editableUser.height"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Education</ion-label>
+            <ion-input [(ngModel)]="editableUser.education"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Job Title</ion-label>
+            <ion-input [(ngModel)]="editableUser.jobTitle"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Company</ion-label>
+            <ion-input [(ngModel)]="editableUser.company"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Music Taste</ion-label>
+            <ion-input [(ngModel)]="editableUser.musicTaste"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Pet Preference</ion-label>
+            <ion-select [(ngModel)]="editableUser.petPreference" interface="popover">
+              <ion-select-option>Dog Lover</ion-select-option>
+              <ion-select-option>Cat Person</ion-select-option>
+              <ion-select-option>Both</ion-select-option>
+              <ion-select-option>None</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="stacked">Languages Spoken</ion-label>
+            <ion-input placeholder="English, Hindi" [(ngModel)]="editableUser.languageSpoken"></ion-input>
+          </ion-item>
+
+          <!-- 🌐 Socials -->
+          <h3 class="section-title">Socials</h3>
+          <ion-item lines="none"><ion-label position="stacked">Instagram</ion-label><ion-input
+              [(ngModel)]="editableUser.instagramHandle"></ion-input></ion-item>
+          <ion-item lines="none"><ion-label position="stacked">Spotify</ion-label><ion-input
+              [(ngModel)]="editableUser.spotifyLink"></ion-input></ion-item>
+          <ion-item lines="none"><ion-label position="stacked">Snapchat</ion-label><ion-input
+              [(ngModel)]="editableUser.snapchatId"></ion-input></ion-item>
+          <ion-item lines="none"><ion-label position="stacked">TikTok</ion-label><ion-input
+              [(ngModel)]="editableUser.tiktokHandle"></ion-input></ion-item>
+
+          <!-- 💬 Interests -->
+          <h3 class="section-title">Interests</h3>
+          <ion-item lines="none">
+            <ion-label position="stacked">Interests</ion-label>
+            <ion-input placeholder="e.g. EDM, Travel, Nightlife" [(ngModel)]="editableUser.interests"></ion-input>
+          </ion-item>
+
+          <!-- 📸 Gallery Preview & Upload -->
+          <div class="gallery-section" *ngIf="editableUser.galleryImagesBase64?.length">
+            <h3 class="section-title">Gallery Preview</h3>
+            <div class="gallery-grid">
+              <div class="gallery-item" *ngFor="let img of editableUser.galleryImagesBase64">
+                <img [src]="img" alt="Preview" />
+                <ion-icon name="close-circle" class="remove-icon" color="danger"
+                  (click)="removeGalleryImage(img)"></ion-icon>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery-actions">
+            <ion-button expand="block" class="add-gallery-btn" (click)="triggerGalleryUpload()">
+              <ion-icon name="images-outline" slot="start"></ion-icon>Add Gallery
+            </ion-button>
+            <input type="file" hidden multiple #galleryInput accept="image/*" (change)="onGallerySelected($event)" />
+
+            <ion-button expand="block" class="save-btn" (click)="saveProfile()">
+              💾 Save Changes
+            </ion-button>
+          </div>
+
+        </ion-grid>
+      </ion-card-content>
 
     </ion-card>
 
     <!-- ⚙️ Profile Options -->
-    <ion-list>
+    <ion-list class="options-list">
       <ion-item button routerLink="/wallet">
         <ion-icon name="wallet-outline" slot="start"></ion-icon>
         <ion-label>Wallet & Rewards</ion-label>
@@ -129,18 +401,6 @@
         <ion-icon name="calendar-outline" slot="start"></ion-icon>
         <ion-label>My Bookings</ion-label>
       </ion-item>
-      <ion-item button routerLink="/notifications">
-        <ion-icon name="notifications-outline" slot="start"></ion-icon>
-        <ion-label>Notifications</ion-label>
-      </ion-item>
-      <ion-item button routerLink="/settings">
-        <ion-icon name="settings-outline" slot="start"></ion-icon>
-        <ion-label>Settings</ion-label>
-      </ion-item>
-      <ion-item button  (click)="deleteProfile()">
-        <ion-icon name="trash-outline" slot="start"></ion-icon>
-        <ion-label>Delete Profile</ion-label>
-      </ion-item>
       <ion-item button (click)="logout()">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         <ion-label>Logout</ion-label>
@@ -148,3 +408,23 @@
     </ion-list>
   </div>
 </ion-content>
+
+<!-- 🖼️ Fullscreen Gallery Modal -->
+<ion-modal #imageModal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+  <ng-template>
+    <ion-content class="image-preview-modal">
+      <ion-slides pager="true" [options]="{ zoom: true }" #slides>
+        <ion-slide *ngFor="let img of galleryPreviewImages">
+          <div class="swiper-zoom-container">
+            <img [src]="img" alt="Gallery Image" />
+          </div>
+        </ion-slide>
+      </ion-slides>
+      <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button color="dark" (click)="closeModal()">
+          <ion-icon name="close"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+  </ng-template>
+</ion-modal>

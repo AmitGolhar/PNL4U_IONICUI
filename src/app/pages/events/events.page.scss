@@ -15,3 +15,107 @@ ion-card-title {
   font-weight: 600;
   font-size: 1.1rem;
 }
+ 
+
+ 
+ion-chip {
+  color:white
+}
+.event-list-bg {
+  background: radial-gradient(circle at bottom right, #0d0120, #080312, #0a0a0f);
+  color: #fff;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.event-img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 1rem 1rem 0 0;
+  filter: brightness(0.9);
+}
+
+ion-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+ion-card-subtitle {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.event-meta {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.event-time, .event-artist {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 4px 0;
+}
+
+
+.event-description {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.chips ion-chip {
+  margin-right: 4px;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.event-details {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #aaa;
+
+  p {
+    margin: 2px 0;
+  }
+}
+
+.center-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.filter-toolbar {
+  background: rgba(20, 20, 30, 0.8);
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  ion-chip {
+    margin-right: 6px;
+    border-radius: 1rem;
+    font-weight: 500;
+  }
+}
+ion-content {
+  overflow-y: auto !important;
+}

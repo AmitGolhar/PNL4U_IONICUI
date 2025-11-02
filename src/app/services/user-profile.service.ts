@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -43,5 +43,29 @@ export class UserProfileService {
   /** ❌ Delete my profile */
   deleteMyProfile(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/me`, { headers: this.getHeaders() });
+  }
+  // 🌍 Public: Get all public profiles for discovery feed (Tinder-style)
+ // 🌍 Public: Get all public profiles (optionally filter by city)
+  getAllPublicProfiles(city?: string): Observable<any[]> {
+    let params = new HttpParams();
+    if (city) {
+      params = params.set('city', city);
+    }
+    return this.http.get<any[]>(`${this.baseUrl}/public`, { params });
+  }
+
+/*   getAllPublicProfiles(filters: { city?: string; gender?: string; interestedIn?: string }): Observable<any[]> {
+  let params = new HttpParams();
+  Object.keys(filters).forEach(key => {
+    const val = filters[key as keyof typeof filters];
+    if (val) params = params.set(key, val);
+  });
+  return this.http.get<any[]>(`${this.baseUrl}/public`, { params });
+} */
+
+
+  // 🌍 Get specific profile by ID
+  getProfileById(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${userId}`);
   }
 }

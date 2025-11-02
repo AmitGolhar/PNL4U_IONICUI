@@ -34,7 +34,9 @@ export class TabsPage  {
   { icon: 'star-outline', label: 'My Passes / Bookings', route: '/bookings', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
   { icon: 'person-outline', label: 'Profile', route: '/profile', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
   { icon: 'business-outline', label: 'Add Club Request', route: '/tabs/club-request', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
+  { icon: 'calendar-outline', label: 'Create Event', route: '/tabs/create-event', roles: ['USER','CLUBADMIN','APPADMIN'] },
 
+  
  
   { icon: 'cash-outline', label: 'Wallet & Rewards', route: '/tabs/wallet', roles: ['USER','CLUBADMIN','APPADMIN'] },
   { icon: 'notifications-outline', label: 'Notifications', route: '/tabs/notifications', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
