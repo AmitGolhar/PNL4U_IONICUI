@@ -1,0 +1,237 @@
+.booking-content {
+  --background: linear-gradient(135deg, #0b0b1d, #161636);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+
+  /* 🧭 Header */
+  ion-toolbar {
+    --background: rgba(15, 15, 35, 0.95);
+    color: #fff;
+    ion-title {
+      color: #fff;
+      font-weight: 600;
+    }
+    ion-button {
+      --color: #fff; /* ❌ close icon color white */
+    }
+  }
+
+  /* 🎟 Event Name & Venue */
+  h2 {
+    color: #00ffe0;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .venue {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+
+  /* 🪩 Card Design */
+  ion-card {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 255, 128, 0.1);
+  }
+
+  ion-card-title {
+    color: #00ffe0;
+    font-weight: 600;
+  }
+
+  /* 🌈 Glossy Segment Buttons (Girl / Couple) */
+  ion-segment {
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  ion-segment-button {
+    --background: transparent;
+    --color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  ion-segment-button.segment-button-checked[value="GIRL"]::part(native) {
+    background: linear-gradient(145deg, #ff69b4, #ff33cc);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(255, 80, 200, 0.6);
+  }
+
+  ion-segment-button.segment-button-checked[value="COUPLE"]::part(native) {
+    background: linear-gradient(145deg, #ffcc33, #ff9933);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(255, 174, 0, 0.6);
+  }
+
+  /* 💡 Info Message Box */
+  .info-box {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    color: #e0e0ff;
+  }
+
+  /* 🪑 TABLE BOOKING SECTION — Redesigned */
+  .table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+
+    ion-item {
+      --background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      color: #fff;
+      font-weight: 500;
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.05);
+    }
+
+    ion-label {
+      color: #00ffe0;
+      font-weight: 600;
+    }
+
+    ion-select,
+    ion-input {
+      color: #000; /* black text for input/select */
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-weight: 500;
+    }
+
+    ion-select::part(placeholder),
+    ion-input::part(placeholder) {
+      color: #555;
+    }
+
+    .info-box {
+      background: rgba(255, 255, 255, 0.08);
+      text-align: center;
+      color: #cfcfff;
+      font-size: 0.9rem;
+    }
+  }
+
+  /* 💚 CTA Buttons */
+  ion-button {
+    margin-top: 18px;
+    font-weight: 600;
+    --border-radius: 12px;
+    text-transform: uppercase;
+  }
+
+  ion-button[color="success"] {
+    --background: linear-gradient(145deg, #00ff99, #00cc66);
+    --color: #000;
+    font-weight: 700;
+  }
+
+  ion-button:active {
+    filter: brightness(1.2);
+    transform: scale(0.97);
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* 🩶 Toast Styling */
+  ion-toast {
+    --background: rgba(20, 20, 20, 0.95);
+    --color: #fff;
+    font-weight: 500;
+  }
+}
+
+/* ===========================
+   🌌 Fancy Table Type Select
+=========================== */
+.select-item {
+  --background: transparent;
+  margin-top: 10px;
+  margin-bottom: 14px;
+
+  ion-label {
+    color: #ffcc33;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+  }
+
+  ion-select {
+    --placeholder-color: #cfcfcf;
+    --placeholder-opacity: 1;
+    --color: #ffffff;
+    --background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --min-height: 48px;
+    --border-radius: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 255, 204, 0.08);
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(6px);
+
+    &:focus,
+    &:hover {
+      border-color: #ffcc33;
+      background: linear-gradient(135deg, #ffcc33, #ff9933);
+      color: #000;
+      box-shadow: 0 0 15px rgba(255, 204, 51, 0.5);
+      transform: scale(1.01);
+    }
+  }
+}
+
+/* ===========================
+   🟡 Option Styling in Popup
+=========================== */
+ion-select-option {
+  background: #0b0b1d !important;
+  color: #fff !important;
+  font-weight: 500;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 4px 0;
+  transition: background 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffcc33;
+  }
+
+  &[value='REGULAR'] {
+    background: linear-gradient(145deg, #2e3a5a, #1a1a2e);
+  }
+
+  &[value='VIP'] {
+    background: linear-gradient(145deg, #ffcc33, #ff9933);
+    color: #000 !important;
+    font-weight: 600;
+    box-shadow: 0 0 8px rgba(255, 204, 51, 0.6);
+  }
+}
+
+/* 🩵 For light mode / edge contrast */
+ion-select::part(icon) {
+  color: #ffcc33;
+  font-size: 1.2rem;
+}

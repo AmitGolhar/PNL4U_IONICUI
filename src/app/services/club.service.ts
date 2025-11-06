@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export interface HappyHourDTO {
   dayOfWeek: string;
@@ -42,11 +43,10 @@ export interface ClubResponseDTO {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClubService {
-
-  private apiUrl = 'http://localhost:8080/api/clubs/public/list'; 
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -57,13 +57,35 @@ export class ClubService {
     bannerType?: string;
     sortBy?: string;
     sortOrder?: string;
-  }): Observable<ClubResponseDTO[]> {
+    page?: number;
+    size?: number;
+  }): Observable<{
+    clubs: ClubResponseDTO[];
+    currentPage: number;
+    totalItems: number;
+    totalPages: number;
+  }> {
     let params = new HttpParams();
+
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
-        if (value) params = params.set(key, value);
+        if (value !== undefined && value !== null && value !== '') {
+          params = params.set(key, value.toString());
+        }
       });
     }
-    return this.http.get<ClubResponseDTO[]>(this.apiUrl, { params });
+
+    return this.http.get<{
+      clubs: ClubResponseDTO[];
+      currentPage: number;
+      totalItems: number;
+      totalPages: number;
+    }>(`${this.baseUrl}/clubs/public/list`, { params });
   }
+
+  getClubById(clubId: number): Observable<ClubResponseDTO> {
+    return this.http.get<ClubResponseDTO>(`${this.baseUrl}/clubs/${clubId}`);
+  }
+
+ 
 }

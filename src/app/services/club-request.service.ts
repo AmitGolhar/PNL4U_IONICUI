@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 export interface ClubRequest {
@@ -31,40 +32,40 @@ export interface ClubRequest {
 })
 export class ClubRequestService {
 
-  private baseUrl = 'http://localhost:8080/api/clubs';
+        private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   submitClubRequest(formData: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/request/submit`, formData);
+    return this.http.post(`${this.baseUrl}/clubs/request/submit`, formData);
   }
 
   getAll(): Observable<ClubRequest[]> {
-    return this.http.get<ClubRequest[]>(`${this.baseUrl}/requests/all`);
+    return this.http.get<ClubRequest[]>(`${this.baseUrl}/clubs/requests/all`);
   }
 
   getPending(): Observable<ClubRequest[]> {
-    return this.http.get<ClubRequest[]>(`${this.baseUrl}/requests/pending`);
+    return this.http.get<ClubRequest[]>(`${this.baseUrl}/clubs/requests/pending`);
   }
 
   getApproved(): Observable<ClubRequest[]> {
-    return this.http.get<ClubRequest[]>(`${this.baseUrl}/requests/approved`);
+    return this.http.get<ClubRequest[]>(`${this.baseUrl}/clubs/requests/approved`);
   }
 
   getRejected(): Observable<ClubRequest[]> {
-    return this.http.get<ClubRequest[]>(`${this.baseUrl}/requests/rejected`);
+    return this.http.get<ClubRequest[]>(`${this.baseUrl}/clubs/requests/rejected`);
   }
 
   approve(id: number, adminName: string, remarks?: string): Observable<ClubRequest> {
     return this.http.put<ClubRequest>(
-      `${this.baseUrl}/requests/${id}/approve?adminName=${adminName}&remarks=${remarks}`,
+      `${this.baseUrl}/clubs/requests/${id}/approve?adminName=${adminName}&remarks=${remarks}`,
       {}
     );
   }
 
   reject(id: number, adminName: string, remarks?: string): Observable<ClubRequest> {
     return this.http.put<ClubRequest>(
-      `${this.baseUrl}/requests/${id}/reject?adminName=${adminName}&remarks=${remarks}`,
+      `${this.baseUrl}/clubs/requests/${id}/reject?adminName=${adminName}&remarks=${remarks}`,
       {}
     );
   }

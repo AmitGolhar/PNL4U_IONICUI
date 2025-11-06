@@ -17,8 +17,11 @@
       <div class="banner-info">
         <h2>{{ featured.title }}</h2>
         <p>{{ featured.location }}</p>
-        <ion-button fill="solid" color="tertiary">
-          Book Table / Join Guest List
+        <ion-button fill="solid" color="tertiary" (click)="openBookingModal(e, 'GUESTLIST')">
+         Join Guest List
+        </ion-button>
+        <ion-button fill="solid" color="tertiary" (click)="openBookingModal(e, 'TABLE')">
+          Book Table 
         </ion-button>
         <p>Starts in: {{ featured.countdown | date: 'HH:mm:ss' }}</p>
       </div>
@@ -51,8 +54,11 @@
           <p>{{ event.location }} • {{ event.price }} • {{ event.popularity }} attending</p>
           <p class="dummy-text">{{ event.desc }}</p>
         </ion-label>
-        <ion-button size="small" fill="solid" color="tertiary">
-          Book
+        <ion-button size="small" fill="solid" color="tertiary" (click)="openBookingModal(e, 'GUESTLIST')">
+          GuestList
+        </ion-button>
+         <ion-button size="small" fill="solid" color="tertiary" (click)="openBookingModal(e, 'TABLE')">
+          Book Table
         </ion-button>
       </ion-item>
     </ion-list>
@@ -71,8 +77,11 @@
           <p>{{ event.location }} • {{ event.distance }} km • {{ event.vibe }}</p>
           <p class="dummy-text">{{ event.desc }}</p>
         </ion-label>
-        <ion-button size="small" fill="solid" color="tertiary">
-          Book
+        <ion-button size="small" fill="solid" color="tertiary"  (click)="openBookingModal(e, 'GUESTLIST')">
+          Book Table
+        </ion-button>
+         <ion-button size="small" fill="solid" color="tertiary"  (click)="openBookingModal(e, 'TABLE')">
+          GuestList
         </ion-button>
       </ion-item>
     </ion-list>
@@ -107,7 +116,7 @@
         <h2>{{ guestEvent.title }}</h2>
         <p>{{ guestEvent.location }} • {{ guestEvent.availableSpots }} spots left</p>
       </ion-label>
-      <ion-button fill="solid" color="tertiary">Join Guest List</ion-button>
+      <ion-button fill="solid" color="tertiary"  (click)="openBookingModal(e, 'GUESTLIST')">Join Guest List</ion-button>
     </ion-item>
   </ion-list>
 
@@ -119,7 +128,7 @@
         <h2>{{ ticket.title }}</h2>
         <p>{{ ticket.price }} • {{ ticket.status }}</p>
       </ion-label>
-      <ion-button fill="solid" color="tertiary">Buy Ticket</ion-button>
+      <ion-button fill="solid" color="tertiary" (click)="openBookingModal(e, 'TABLE')">Buy Ticket</ion-button>
     </ion-item>
   </ion-list>
 
@@ -189,6 +198,7 @@
   </ion-button>
 </div>
 
- 
+   <div class="content-bottom-spacer"></div>
+
 
 </ion-content>

@@ -1,4 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { BookingModalComponent } from '../components/booking-modal/booking-modal.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -112,7 +114,7 @@ slideOpts = {
     'Emergency contacts available at the venue.'
   ];
 
-  constructor() {}
+  constructor(private modalCtrl: ModalController) {}
 
 
    ngAfterViewInit() {
@@ -126,5 +128,14 @@ slideOpts = {
       });
     }, 4000);
   }
+
+async openBookingModal(event:any, type: 'GUESTLIST' | 'TABLE') {
+  const modal = await this.modalCtrl.create({
+    component: BookingModalComponent,
+    componentProps: { event, bookingType: type },
+    cssClass: 'booking-modal'
+  });
+  await modal.present();
+}
 
 }

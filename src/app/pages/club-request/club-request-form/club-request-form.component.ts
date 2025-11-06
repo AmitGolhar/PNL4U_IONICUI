@@ -7,10 +7,9 @@ import { PackagesModalComponent } from '../packages-modal/packages-modal.compone
 @Component({
   selector: 'app-club-request-form',
   templateUrl: './club-request-form.component.html',
-  styleUrls: ['./club-request-form.component.scss']
+  styleUrls: ['./club-request-form.component.scss'],
 })
 export class ClubRequestFormComponent {
-
   clubForm: FormGroup;
   selectedFile: File | null = null;
   packageTypes = [
@@ -18,45 +17,109 @@ export class ClubRequestFormComponent {
     'TIERED_PRICING',
     'BUNDLE_PLAN',
     'PROMOTIONAL_PACKAGE',
-    'ALL_INCLUSIVE'
+    'ALL_INCLUSIVE',
   ];
-/** 🌆 Major Maharashtra + Top Indian Cities */
-cities = [
-  // Maharashtra
-  'Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane', 'Aurangabad', 'Kolhapur', 'Solapur',
-  'Amravati', 'Sangli', 'Satara', 'Ahmednagar', 'Ratnagiri', 'Latur', 'Chandrapur',
-  'Nanded', 'Wardha', 'Beed', 'Jalgaon', 'Parbhani',
+  /** 🌆 Major Maharashtra + Top Indian Cities */
+  cities = [
+    // Maharashtra
+    'Mumbai',
+    'Pune',
+    'Nagpur',
+    'Nashik',
+    'Thane',
+    'Aurangabad',
+    'Kolhapur',
+    'Solapur',
+    'Amravati',
+    'Sangli',
+    'Satara',
+    'Ahmednagar',
+    'Ratnagiri',
+    'Latur',
+    'Chandrapur',
+    'Nanded',
+    'Wardha',
+    'Beed',
+    'Jalgaon',
+    'Parbhani',
 
-  // Metro & Tier-1 Indian Cities
-  'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata', 'Jaipur', 'Ahmedabad',
-  'Indore', 'Goa', 'Surat', 'Vadodara', 'Lucknow', 'Bhopal', 'Chandigarh', 'Noida',
-  'Gurugram', 'Vishakhapatnam', 'Coimbatore', 'Patna', 'Ranchi', 'Dehradun',
-  'Trivandrum', 'Kochi', 'Guwahati', 'Mysuru', 'Udaipur', 'Shimla', 'Manali', 'Agra'
-];
+    // Metro & Tier-1 Indian Cities
+    'Delhi',
+    'Bengaluru',
+    'Hyderabad',
+    'Chennai',
+    'Kolkata',
+    'Jaipur',
+    'Ahmedabad',
+    'Indore',
+    'Goa',
+    'Surat',
+    'Vadodara',
+    'Lucknow',
+    'Bhopal',
+    'Chandigarh',
+    'Noida',
+    'Gurugram',
+    'Vishakhapatnam',
+    'Coimbatore',
+    'Patna',
+    'Ranchi',
+    'Dehradun',
+    'Trivandrum',
+    'Kochi',
+    'Guwahati',
+    'Mysuru',
+    'Udaipur',
+    'Shimla',
+    'Manali',
+    'Agra',
+  ];
 
-/** 🎧 Club & Venue Types */
-clubTypes = [
-  // Core Nightlife Venues
-  'Lounge', 'Bar', 'Pub', 'Nightclub', 'Rooftop Lounge', 'Beach Club', 'Open-Air Club',
-  'Poolside Lounge', 'Microbrewery', 'Brewpub',
+  /** 🎧 Club & Venue Types */
+  clubTypes = [
+    // Core Nightlife Venues
+    'Lounge',
+    'Bar',
+    'Pub',
+    'Nightclub',
+    'Rooftop Lounge',
+    'Beach Club',
+    'Open-Air Club',
+    'Poolside Lounge',
+    'Microbrewery',
+    'Brewpub',
 
-  // Restaurant & Dining
-  'Restaurant & Bar', 'Fine Dining Lounge', 'Casual Diner', 'Gastro Pub',
+    // Restaurant & Dining
+    'Restaurant & Bar',
+    'Fine Dining Lounge',
+    'Casual Diner',
+    'Gastro Pub',
 
-  // Experience & Theme Venues
-  'Sports Bar', 'Music Cafe', 'Live Music Venue', 'Karaoke Bar', 'Dance Club',
-  'Cocktail Lounge', 'Speakeasy Bar', 'Luxury Nightclub', 'Members Only Club',
+    // Experience & Theme Venues
+    'Sports Bar',
+    'Music Cafe',
+    'Live Music Venue',
+    'Karaoke Bar',
+    'Dance Club',
+    'Cocktail Lounge',
+    'Speakeasy Bar',
+    'Luxury Nightclub',
+    'Members Only Club',
 
-  // Outdoor & Destination
-  'Resort Club', 'Hilltop Lounge', 'Sky Lounge', 'Private Party Venue', 'Afterparty Spot'
-];
+    // Outdoor & Destination
+    'Resort Club',
+    'Hilltop Lounge',
+    'Sky Lounge',
+    'Private Party Venue',
+    'Afterparty Spot',
+  ];
+  previewUrl: any | ArrayBuffer | null = null;
 
   constructor(
     private fb: FormBuilder,
     private clubRequestService: ClubRequestService,
     private toastCtrl: ToastController,
-      private modalCtrl: ModalController
-
+    private modalCtrl: ModalController
   ) {
     this.clubForm = this.fb.group({
       clubName: ['', Validators.required],
@@ -65,17 +128,29 @@ clubTypes = [
       phoneNumber: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
-      clubType: [[], Validators.required],  
+      clubType: [[], Validators.required],
       description: ['', Validators.required],
       instagramHandle: [''],
       website: [''],
       wantWebsite: ['Yes', Validators.required],
-      preferredPackage: ['FREEMIUM', Validators.required]
+      preferredPackage: ['FREEMIUM', Validators.required],
     });
   }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.previewUrl = e.target?.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 
   async onSubmit() {
@@ -85,7 +160,7 @@ clubTypes = [
     }
 
     const formData = new FormData();
-      Object.keys(this.clubForm.value).forEach((key) => {
+    Object.keys(this.clubForm.value).forEach((key) => {
       if (key === 'clubType') {
         formData.append(key, this.clubForm.value[key].join(', '));
       } else {
@@ -97,14 +172,16 @@ clubTypes = [
 
     this.clubRequestService.submitClubRequest(formData).subscribe({
       next: async () => {
-        await this.showToast('Your club request has been submitted successfully!');
+        await this.showToast(
+          'Your club request has been submitted successfully!'
+        );
         this.clubForm.reset();
         this.selectedFile = null;
       },
       error: async (err) => {
         console.error(err);
         await this.showToast(err.error.text);
-      }
+      },
     });
   }
 
@@ -113,17 +190,16 @@ clubTypes = [
       message,
       duration: 2500,
       position: 'bottom',
-      color: 'primary'
+      color: 'primary',
     });
     toast.present();
   }
 
   async openPackagesModal() {
-  const modal = await this.modalCtrl.create({
-    component: PackagesModalComponent,
-    cssClass: 'packages-modal'
-  });
-  await modal.present();
-}
-
+    const modal = await this.modalCtrl.create({
+      component: PackagesModalComponent,
+      cssClass: 'packages-modal',
+    });
+    await modal.present();
+  }
 }

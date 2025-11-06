@@ -26,6 +26,7 @@
           placeholder="Email / Username / Phone"
           [(ngModel)]="loginData.loginId"
           name="loginId"
+          autocomplete="off"
         ></ion-input>
       </ion-item>
 
@@ -36,6 +37,7 @@
           placeholder="Password"
           [(ngModel)]="loginData.password"
           name="loginPassword"
+          autocomplete="new-password"
         ></ion-input>
       </ion-item>
 
@@ -51,6 +53,7 @@
           placeholder="Username"
           [(ngModel)]="signupData.username"
           name="signupUsername"
+          autocomplete="off"
         ></ion-input>
       </ion-item>
 
@@ -61,6 +64,7 @@
           placeholder="Email address"
           [(ngModel)]="signupData.email"
           name="signupEmail"
+          autocomplete="off"
         ></ion-input>
       </ion-item>
 
@@ -71,20 +75,24 @@
           placeholder="Phone number"
           [(ngModel)]="signupData.phone"
           name="signupPhone"
+          autocomplete="off"
         ></ion-input>
       </ion-item>
 
       <ion-item lines="none" class="input-item">
-        <ion-input
+        <ion-input autofill
           type="password"
           required
           placeholder="Password"
           [(ngModel)]="signupData.password"
           name="signupPassword"
+          autocomplete="new-password"
         ></ion-input>
       </ion-item>
 
       <ion-button expand="block" class="btn-primary" type="submit">Sign Up</ion-button>
     </form>
   </div>
+    <div class="content-bottom-spacer"></div>
+
 </ion-content>

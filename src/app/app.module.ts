@@ -9,8 +9,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
  
 import { SharedModule } from './shared/shared.module';
-import { AuthInterceptor } from './guards/auth.interceptor';
- 
+import { JwtInterceptor } from './guards/auth.interceptor';
+ import { QRCodeModule } from 'angularx-qrcode';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,16 +23,17 @@ import { AuthInterceptor } from './guards/auth.interceptor';
      AppRoutingModule,
     HttpClientModule,
     SharedModule,
+
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
-    
+    QRCodeModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: JwtInterceptor,
       multi: true
     }
   ],

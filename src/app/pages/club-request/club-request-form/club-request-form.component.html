@@ -145,6 +145,10 @@
         <label for="photoUpload">Choose File</label>
       </ion-item>
 
+       <!-- Image Preview -->
+      <div *ngIf="previewUrl" class="preview-container">
+        <img [src]="previewUrl" alt="Preview" class="preview-image" />
+      </div>
     </ion-list>
 
     <ion-button expand="block" type="submit" color="success" class="submit-btn" [disabled]="clubForm.invalid">

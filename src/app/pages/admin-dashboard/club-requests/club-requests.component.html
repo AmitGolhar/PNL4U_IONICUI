@@ -1,19 +1,21 @@
- 
-<div class="club-requests-container ion-padding">
+<div class="club-requests-container ion-padding admin-bg">
 
   <h2 class="section-title">Club Requests Management</h2>
 
-  <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadRequests()">
+  <!-- 🌈 Glossy Filter Tabs -->
+  <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadRequests()" class="glossy-segment">
     <ion-segment-button value="all">All</ion-segment-button>
     <ion-segment-button value="pending">Pending</ion-segment-button>
     <ion-segment-button value="approved">Approved</ion-segment-button>
     <ion-segment-button value="rejected">Rejected</ion-segment-button>
   </ion-segment>
 
+  <!-- 🔹 Loading -->
   <div *ngIf="loading" class="loading-text">Loading requests...</div>
- 
-  <ion-list *ngIf="!loading && requests.length > 0" class="request-list">
-    <ion-card *ngFor="let req of requests" class="request-card" [class.pending]="req.status==='PENDING'">
+
+  <!-- 🔹 Scrollable List -->
+  <ion-list *ngIf="!loading && requests.length > 0" class="request-list scrollable-list">
+    <ion-card *ngFor="let req of requests" class="request-card" [class.pending]="req.status === 'PENDING'">
       <ion-card-header>
         <ion-card-title>{{ req.clubName }}</ion-card-title>
         <ion-card-subtitle>
@@ -50,8 +52,10 @@
     </ion-card>
   </ion-list>
 
+  <!-- 🔹 No Data -->
   <div *ngIf="!loading && requests.length === 0" class="no-data">
     <ion-icon name="alert-circle-outline"></ion-icon>
     <p>No requests found for this category.</p>
   </div>
+
 </div>

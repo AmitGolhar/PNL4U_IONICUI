@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileService {
-  private baseUrl = 'http://localhost:8080/api/profiles';
+     private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -32,17 +33,17 @@ export class UserProfileService {
 
   /** 🧠 Get current user profile */
   getMyProfile(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/me`, { headers: this.getHeaders() });
+    return this.http.get(`${this.baseUrl}/profiles/me`, { headers: this.getHeaders() });
   }
 
   /** ✏️ Create or update profile */
   saveProfile(profile: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, profile, { headers: this.getHeaders() });
+    return this.http.post(`${this.baseUrl}/profiles`, profile, { headers: this.getHeaders() });
   }
 
   /** ❌ Delete my profile */
   deleteMyProfile(): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/me`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.baseUrl}/profiles/me`, { headers: this.getHeaders() });
   }
   // 🌍 Public: Get all public profiles for discovery feed (Tinder-style)
  // 🌍 Public: Get all public profiles (optionally filter by city)
@@ -51,7 +52,7 @@ export class UserProfileService {
     if (city) {
       params = params.set('city', city);
     }
-    return this.http.get<any[]>(`${this.baseUrl}/public`, { params });
+    return this.http.get<any[]>(`${this.baseUrl}/profiles/public`, { params });
   }
 
 /*   getAllPublicProfiles(filters: { city?: string; gender?: string; interestedIn?: string }): Observable<any[]> {
@@ -66,6 +67,6 @@ export class UserProfileService {
 
   // 🌍 Get specific profile by ID
   getProfileById(userId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${userId}`);
+    return this.http.get<any>(`${this.baseUrl}/profiles/${userId}`);
   }
 }

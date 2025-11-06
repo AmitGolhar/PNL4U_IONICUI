@@ -44,6 +44,7 @@ export class LoginPage {
         localStorage.setItem('username', res.username);
         localStorage.setItem('roles', JSON.stringify(res.roles));
         localStorage.setItem('userId', res.userId);
+       this.authService.saveTokens(res.token, res.refreshToken);
 
         this.showToast('Login successful!', 'success');
         setTimeout(() => this.router.navigate(['/tabs/home']), 1000);

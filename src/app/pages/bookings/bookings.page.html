@@ -1,32 +1,68 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>My Bookings</ion-title>
+  <ion-toolbar class="glassy-toolbar">
+    <ion-title>✨ My Bookings</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding my-bookings-content" scroll-y="true">
 
-  <ion-list>
-    <ion-item *ngFor="let b of bookings" class="booking-item">
-      
-      <ion-thumbnail slot="start" class="booking-thumbnail">
-        <img [src]="b.image" />
-      </ion-thumbnail>
+  <div *ngIf="loading" class="loading-text">
+    <ion-spinner name="crescent" color="light"></ion-spinner>
+    <p>Loading your bookings...</p>
+  </div>
 
-      <ion-label class="booking-label">
-        <h2 class="booking-title">{{ b.event }}</h2>
-        <p class="booking-club">{{ b.club }} • {{ b.date }}</p>
-        <div class="booking-meta">
-          <ion-chip color="medium" size="small">{{ b.type }}</ion-chip>
-          <ion-text color="success" class="booking-status">{{ b.status }}</ion-text>
+  <!-- Booking List -->
+  <ion-list *ngIf="!loading && bookings.length > 0" class="booking-list">
+    <ion-card *ngFor="let b of bookings; let last = last" class="booking-card" [class.last]="last">
+
+      <div class="card-glow"></div>
+
+      <ion-card-header>
+        <ion-card-title>{{ b.bookingType }}</ion-card-title>
+        <ion-card-subtitle>
+          #{{ b.bookingId }} • {{ b.createdAt | date:'medium' }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="info-qr-inline">
+          <!-- Left: Booking Info -->
+          <div class="info">
+            <p><strong>Status:</strong> 
+              <span [class]="b.bookingStatus?.toLowerCase()">{{ b.bookingStatus }}</span>
+            </p>
+            <p *ngIf="b.bookingType == 'TABLE'"><strong>Payment:</strong> {{ b.paymentStatus }}</p>
+            <p><strong>Total:</strong> ₹{{ b.totalAmount || 0 }}</p>
+            <p><strong>Date:</strong> {{ b.eventDate | date:'mediumDate' }}</p>
+            <p *ngIf="b.eventTime"><strong>Time:</strong> {{ b.eventTime }}</p>
+          </div>
+
+          <!-- Right: Small QR -->
+          <div *ngIf="b.qrCode" class="qr-inline">
+            <div class="qr-glass small-qr">
+              <qrcode [qrdata]="b.qrCode" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+            </div>
+          </div>
         </div>
-      </ion-label>
 
-      <ion-button fill="clear" slot="end" class="qr-button">
-        <ion-icon name="qr-code-outline" size="large"></ion-icon>
-      </ion-button>
-
-    </ion-item>
+        <!-- Items below -->
+        <div class="items" *ngIf="b.items?.length">
+          <h3>🪩 Items</h3>
+          <ul>
+            <li *ngFor="let item of b.items">
+              {{ item.itemName }} × {{ item.quantity }}
+            </li>
+          </ul>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
+
+  <div *ngIf="!loading && bookings.length === 0" class="no-data">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>No bookings found.</p>
+  </div>
+
+  <div class="bottom-spacer"></div>
 
 </ion-content>

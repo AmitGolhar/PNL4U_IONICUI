@@ -1,107 +1,192 @@
 <ion-header translucent>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/club" text="Back"></ion-back-button>
+      <!-- 👇 Go back to the club detail page -->
+      <ion-back-button [defaultHref]="'/tabs/clubs/club/' + club?.clubId" text="Back"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ club?.clubName || 'Club Details' }}</ion-title>
+    <ion-title>{{  'Event Details' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
 
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- Loader -->
   <ion-spinner *ngIf="loading" name="crescent" class="spinner-center"></ion-spinner>
 
+  <!-- Content -->
   <ng-container *ngIf="!loading && club">
 
-    <ion-toolbar color="dark">
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="/tabs/clubs" text="Back"></ion-back-button>
-      </ion-buttons>
-      <ion-title>{{ club?.clubName || 'Club Details' }}</ion-title>
-    </ion-toolbar>
-    <!-- 🖼️ Banner carousel -->
-    <ion-slides pager="true">
+    <!-- 🖼️ Image Carousel -->
+    <ion-slides pager="true" *ngIf="club.imagesBase64?.length">
       <ion-slide *ngFor="let img of club.imagesBase64">
         <img [src]="img" alt="club image" class="club-banner" />
       </ion-slide>
     </ion-slides>
 
-    <!-- 📖 Basic info -->
-    <div class="club-header">
-      <h2>{{ club.clubName }}
-        <ion-icon *ngIf="club.verified" name="checkmark-circle" color="success"></ion-icon>
-      </h2>
-      <p>{{ club.city }} • {{ club.category }}</p>
-    </div>
+    <!-- 🏷️ Club Name and Category -->
+    <h2 class="club-title">
+      {{ club.clubName }}
+      <ion-icon *ngIf="club.verified" name="checkmark-circle" color="success"></ion-icon>
+    </h2>
+    <p class="sub-info">🏙️ {{ club.city }}</p>
+    <p class="sub-info">{{ club.category }}</p>
 
-    <!-- ⭐ Ratings and Crowd -->
-    <div class="rating-section">
-      ⭐ <strong>{{ club.rating || 0 }}/5</strong>
-      <span class="trend" *ngIf="club.trendingScore">🔥 {{ club.trendingScore | number:'1.0-0' }} pts</span>
-    </div>
-
-    <!-- 🧭 Description -->
+    <!-- 📖 Description -->
     <p class="desc">{{ club.description }}</p>
 
-    <!-- 🎶 Tags -->
-    <div class="tags">
-      <div *ngIf="club.genre?.length" class="tag-group">
-        <strong>Genres:</strong> {{ club.genre.join(', ') }}
-      </div>
-      <div *ngIf="club.crowdType?.length" class="tag-group">
-        <strong>Crowd:</strong> {{ club.crowdType.join(', ') }}
-      </div>
+    <!-- ⭐ Rating & Trending -->
+    <div class="rating-section">
+      <span>⭐ {{ club.rating || 0 }}/5</span>
+      <span *ngIf="club.trendingScore" class="trend">🔥 {{ club.trendingScore | number:'1.0-0' }} pts</span>
     </div>
 
-    <!-- 🔥 Live crowd -->
-    <div *ngIf="club.liveCrowdLevel" class="crowd-bar">
-      <p>Live Crowd: {{ club.liveCrowdLevel }}%</p>
-      <ion-progress-bar [value]="club.liveCrowdLevel / 100" color="warning"></ion-progress-bar>
+    <hr />
+
+
+    <!-- 📋 All Club Details -->
+    <div class="details-list">
+
+      <p *ngIf="club.address">
+        <strong>📍 Address:</strong> {{ club.address }}
+      </p>
+
+      <p *ngIf="club.contactNumber">
+        <strong>📞 Contact:</strong> {{ club.contactNumber }}
+      </p>
+
+      <p *ngIf="club.city">
+        <strong>🏙️ City:</strong> {{ club.city }}
+      </p>
+
+      <p *ngIf="club.genre?.length">
+        <strong>🎵 Genre:</strong> {{ club.genre.join(', ') }}
+      </p>
+      <p *ngIf="club.crowdType?.length">
+        <strong>🏷️ Crowd Type:</strong> {{ club.crowdType.join(', ') }}
+      </p>
+      <p *ngIf="club.bannerType?.length">
+        <strong>🏷️ Banner Type:</strong> {{ club.bannerType.join(', ') }}
+      </p>
+
+      <p *ngIf="club.popularityScore && club.popularityScore > 0">
+        <strong>📊 Popularity Score:</strong> {{ club.popularityScore }}
+      </p>
+
+      <p *ngIf="club.liveCrowdLevel && club.liveCrowdLevel > 0">
+        <strong>🔥 Live Crowd Level:</strong> {{ club.liveCrowdLevel }}%
+      </p>
+
+      <p *ngIf="club.hasHappyHours">
+        <strong>🍹 Has Happy Hours:</strong> Yes
+      </p>
+
+      <p *ngIf="club.mapLocationUrl">
+        <strong>📍 Map Location:</strong>
+        <a [href]="club.mapLocationUrl" target="_blank">View on Map</a>
+      </p>
     </div>
 
-    <!-- 🍹 Happy Hours -->
+
+    <!-- 🍸 Happy Hours -->
     <div *ngIf="club.happyHours?.length" class="happy-hours">
-      <h4>🍹 Happy Hours</h4>
+      <h4>🍸 Happy Hours</h4>
       <ion-list>
         <ion-item *ngFor="let h of club.happyHours">
           <ion-label>
             <strong>{{ h.dayOfWeek }}</strong><br />
             {{ h.startTime }} – {{ h.endTime }}<br />
-            <small>{{ h.offerDetails }}</small>
+            <small *ngIf="h.offerDetails">{{ h.offerDetails }}</small>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
 
-    <!-- 📞 Contact -->
-    <div class="contact-info">
-      <p>📞 {{ club.contactNumber }}</p>
-      <p>📍 {{ club.address }}</p>
-      <a *ngIf="club.mapLocationUrl" [href]="club.mapLocationUrl" target="_blank">
-        🌐 View on Map
-      </a>
-    </div>
 
-    <!-- 🌐 Social Links -->
-    <div class="social-links">
-      <a *ngIf="club.websiteLink" [href]="club.websiteLink" target="_blank">🌐 Website</a>
-      <a *ngIf="club.instagramHandle" [href]="'https://instagram.com/' + club.instagramHandle.replace('@','')"
-        target="_blank">
-        📸 Instagram
-      </a>
-    </div>
+    <hr />
 
-    <!-- 🎫 Actions -->
-    <div class="club-actions">
-      <ion-button fill="outline" size="small" class="pink-outline" (click)="bookTable()">
-        <ion-icon name="wine-outline" slot="start"></ion-icon>
-        Book Table
-      </ion-button>
 
-      <ion-button fill="outline" size="small" class="pink-outline" (click)="bookGuestList()">
-        <ion-icon name="people-outline" slot="start"></ion-icon>
-        Guest List
-      </ion-button>
-    </div>
   </ng-container>
+
+
+  <!-- 🗓 Upcoming Events Section -->
+  <div *ngIf="!loadingEvents && events.length > 0" class="ion-margin-top">
+    <h3 class="section-title">🎉 Upcoming Events</h3>
+
+    <!-- 🔄 Event Slider -->
+    <ion-slides [options]="{ slidesPerView: 1.15, spaceBetween: 16, freeMode: true, centeredSlides: false }"
+      class="event-slider">
+      <ion-slide *ngFor="let e of events" class="event-slide">
+        <div class="event-slide-card">
+
+          <!-- 🖼 Event Image -->
+          <div class="event-banner" *ngIf="e.imagesBase64?.length">
+            <img [src]="e.imagesBase64[0]" alt="{{ e.eventName }}" />
+          </div>
+
+          <!-- 🧾 Event Info -->
+          <div class="event-info">
+
+            <h2 class="event-title">{{ e.eventName }}</h2>
+
+            <p class="event-date">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ formatDateTime(e.startDate) }} → {{ formatDateTime(e.endDate) }}
+            </p>
+
+            <p *ngIf="e.venueName" class="venue">📍 {{ e.venueName }}</p>
+            <p *ngIf="e.locationCity" class="city">🏙️ {{ e.locationCity }}</p>
+
+            <p *ngIf="e.artistName" class="artist">🎤 {{ e.artistName }}</p>
+            <p *ngIf="e.genre" class="genre">🎶 {{ e.genre }}</p>
+
+            <p *ngIf="e.crowdType" class="crowd">👥 {{ e.crowdType }}</p>
+            <p *ngIf="e.entryPolicy" class="policy">🚪 Entry: {{ e.entryPolicy }}</p>
+            <p *ngIf="e.dressCode" class="policy">👔 Dress: {{ e.dressCode }}</p>
+
+            <p *ngIf="e.offers" class="offer">💥 {{ e.offers }}</p>
+
+            <p *ngIf="e.description" class="desc">"{{ e.description }}"</p>
+
+            <!-- 🏷 Event Meta -->
+            <div class="event-meta">
+              <ion-badge *ngIf="e.isFreeEntry" color="success">Free Entry</ion-badge>
+              <ion-badge *ngIf="e.hasOffers" color="tertiary">Offers</ion-badge>
+              <ion-badge *ngIf="e.isWeekend" color="warning">Weekend</ion-badge>
+            </div>
+
+          <ion-button
+          expand="block"
+          fill="outline"
+          color="secondary"
+          [routerLink]="['/tabs/event-detail', e.eventId]"
+        >
+          <ion-icon name="eye-outline" slot="start"></ion-icon>
+          Details & Booking
+        </ion-button>
+
+
+
+
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+
+
+
+  <!-- 🔄 Loading Spinner -->
+  <ion-spinner *ngIf="loadingEvents" name="crescent" class="spinner-center"></ion-spinner>
+
+  <!-- ⚠️ No Events Found -->
+  <div *ngIf="!loadingEvents && events.length === 0" class="ion-text-center ion-padding">
+    <ion-icon name="calendar-outline" size="large" color="medium"></ion-icon>
+    <p>No upcoming events for this club</p>
+  </div>
+
+
+  <div class="content-bottom-spacer"></div>
+
 </ion-content>

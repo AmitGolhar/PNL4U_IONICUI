@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { BookingModalComponent } from 'src/app/components/booking-modal/booking-modal.component';
 import { EventService } from 'src/app/services/event.service';
 
 @Component({
@@ -23,54 +25,11 @@ export class EventsPage implements OnInit {
 
   categories = ['Party',  'Ladies Night','Live Music','Comedy','Music','Food and Drink','Live DJ',];
   cities = ['Mumbai', 'Pune', 'Delhi', 'Bangalore'];
-    // Sample categories data (This can be dynamically fetched from an API)
- 
-
- 
- /*  events = [
-    { 
-      id: 1, title: 'Wine Tasting Evening', club: 'The Wine Lounge', date: '2025-12-01', price: '₹1500', categoryId: 1, 
-      img: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&auto=format&fit=crop&q=60'
-    },
-    { 
-      id: 2, title: 'Stand-up Comedy Night', club: 'Comedy Club', date: '2025-12-05', price: '₹500', categoryId: 2, 
-      img: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&auto=format&fit=crop&q=60'
-    },
-    { 
-      id: 3, title: 'Jazz Music Night', club: 'Live Music Venue', date: '2025-12-10', price: '₹800', categoryId: 3, 
-      img: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&auto=format&fit=crop&q=60'
-    },
-    { 
-      id: 4, title: 'Rock Concert', club: 'ABC Arena', date: '2025-12-15', price: '₹1200', categoryId: 4, 
-      img: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&auto=format&fit=crop&q=60'
-    },
-    { 
-      id: 5, title: 'Cultural Festival', club: 'Festival Grounds', date: '2025-12-20', price: '₹1000', categoryId: 5, 
-      img: 'https://images.unsplash.com/photo-1506748686211-f02acfd8b209'
-    },
-    { 
-      id: 6, title: 'Indie Music Fest', club: 'Music Park', date: '2025-12-25', price: '₹1500', categoryId: 6, 
-      img: 'https://images.unsplash.com/photo-1505685298690-118444d1669d'
-    },
-    { 
-      id: 7, title: 'DJ Night at Club', club: 'Nightlife Zone', date: '2025-12-27', price: '₹700', categoryId: 7, 
-      img: 'https://images.unsplash.com/photo-1603344777942-5c4b0b8c825b'
-    },
-    { 
-      id: 8, title: 'Backpacking Through Europe', club: 'Travel Adventures', date: '2025-12-30', price: '₹3000', categoryId: 8, 
-      img: 'https://images.unsplash.com/photo-1522101473514-3d1396a2499e'
-    },
-    { 
-      id: 9, title: 'Creative Writing Workshop', club: 'Creative Arts Studio', date: '2025-12-02', price: '₹1200', categoryId: 9, 
-      img: 'https://images.unsplash.com/photo-1582150267770-b2b49140993a'
-    },
-  ];
- */
-  // Store the filtered events based on category selection
+  
   filteredEvents = this.events;
   searchTerm: any;
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService,private modalCtrl: ModalController) {}
 
   ngOnInit() {
     this.loadEvents();
@@ -148,7 +107,15 @@ export class EventsPage implements OnInit {
     this.loadEvents();
   }
  
-
-
-  
+async openBookingModal(event:any, type: 'GUESTLIST' | 'TABLE') {
+   console.log(event)
+  const modal = await this.modalCtrl.create({
+    component: BookingModalComponent,
+    componentProps: { event, bookingType: type },
+    cssClass: 'booking-modal'
+  });
+  await modal.present();
+}
+ 
+ 
 }

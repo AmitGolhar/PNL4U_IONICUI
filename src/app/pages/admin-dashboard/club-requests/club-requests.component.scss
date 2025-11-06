@@ -3,138 +3,163 @@
   color: #fff;
 }
 
-ion-segment {
-  margin: 16px 0;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-}
-
-.request-list {
-  margin-top: 10px;
-}
-
-.request-card {
-  border-radius: 14px;
-  margin-bottom: 14px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-  box-shadow: 0 4px 10px rgba(0, 255, 128, 0.1);
-}
-
-.request-card.pending {
-  border-left: 4px solid #ffcc00;
-}
-
-ion-card-title {
-  font-weight: bold;
-  color: #00ffe0;
-}
-
-.info p {
-  margin: 4px 0;
-  font-size: 0.9rem;
-}
-
-.status {
-  text-transform: uppercase;
-}
-
-.status.pending {
-  color: #ffcc00;
-}
-
-.status.approved {
-  color: #00ff88;
-}
-
-.status.rejected {
-  color: #ff4444;
-}
-
-.photo-section img {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 10px;
-}
-
-.btn-group {
+.club-requests-container {
   display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
+  flex-direction: column;
+  height: 100%;
 
-.review-info {
-  margin-top: 10px;
-  font-size: 0.85rem;
-  color: #a0a0ff;
-}
+  .section-title {
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #00ffe0;
+    text-align: center;
+  }
 
-.no-data {
-  text-align: center;
-  margin-top: 50px;
-  color: #bbb;
-}
+  /* 🌈 Glossy Segment Tabs */
+  .glossy-segment {
+    --background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 6px;
+    margin: 12px 0;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05),
+                inset 0 0 8px rgba(255, 255, 255, 0.1);
+  }
 
-.loading-text {
-  text-align: center;
-  margin-top: 30px;
-  color: #aaa;
-}
-/* 🌈 Glossy Segmented Control Style */
-.glossy-segment {
-  --background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 6px;
-  margin: 12px 0;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05),
-              inset 0 0 8px rgba(255, 255, 255, 0.1);
-}
+  ion-segment-button {
+    --background: transparent;
+    --color: #cfcfcf;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+  }
 
-/* 🟣 Each segment button */
-ion-segment-button {
-  --background: transparent;
-  --color: #cfcfcf;
-  --indicator-color: transparent;
-  font-weight: 600;
-  text-transform: uppercase;
-  transition: all 0.3s ease-in-out;
-  border-radius: 10px;
-  position: relative;
-}
+  ion-segment-button::part(native) {
+    border-radius: 10px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+  }
 
-/* ✨ Glossy hover + active glow */
-ion-segment-button::part(native) {
-  border-radius: 10px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
-}
+  ion-segment-button.segment-button-checked::part(native) {
+    background: linear-gradient(145deg, #ffcf33, #ff9933);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(255, 174, 0, 0.5),
+                inset 0 0 6px rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
 
-/* 🔥 Selected button effect */
-ion-segment-button.segment-button-checked::part(native) {
-  background: linear-gradient(145deg, #ffcf33, #ff9933);
-  color: #000;
-  font-weight: 700;
-  box-shadow: 0 0 15px rgba(255, 174, 0, 0.5),
-              inset 0 0 6px rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
+  /* 🔥 Status-specific color effects */
+  ion-segment-button[value="pending"].segment-button-checked::part(native) {
+    background: linear-gradient(145deg, #ffbb00, #ff8800);
+  }
 
-/* 🌟 Hover (desktop/web effect) */
-ion-segment-button:hover::part(native) {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  color: #fff;
-}
+  ion-segment-button[value="approved"].segment-button-checked::part(native) {
+    background: linear-gradient(145deg, #00ff99, #00cc66);
+  }
 
-/* 🩵 Different colors per status (optional) */
-ion-segment-button[value="pending"].segment-button-checked::part(native) {
-  background: linear-gradient(145deg, #ffbb00, #ff8800);
-}
+  ion-segment-button[value="rejected"].segment-button-checked::part(native) {
+    background: linear-gradient(145deg, #ff3366, #ff0033);
+  }
 
-ion-segment-button[value="approved"].segment-button-checked::part(native) {
-  background: linear-gradient(145deg, #00ff99, #00cc66);
-}
+  /* 🔹 Scrollable List */
+  .scrollable-list {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    padding-right: 6px;
+  }
 
-ion-segment-button[value="rejected"].segment-button-checked::part(native) {
-  background: linear-gradient(145deg, #ff3366, #ff0033);
+  /* 🔹 Cards */
+  .request-card {
+    border-radius: 14px;
+    margin-bottom: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 255, 128, 0.1);
+
+    &.pending {
+      border-left: 4px solid #ffcc00;
+    }
+
+    ion-card-title {
+      font-weight: bold;
+      color: #00ffe0;
+    }
+
+    ion-card-subtitle {
+      color: #ccc;
+    }
+
+    .info p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+      color: #f0f0f0;
+
+      strong {
+        color: #ffd369;
+      }
+
+      .pending {
+        color: #ffd369;
+      }
+
+      .approved {
+        color: #00ff99;
+      }
+
+      .rejected {
+        color: #ff5555;
+      }
+    }
+
+    .photo-section img {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+
+      ion-button[color="success"] {
+        --background: #00cc66;
+        color: #fff;
+      }
+
+      ion-button[color="danger"] {
+        --background: #ff3333;
+        color: #fff;
+      }
+    }
+
+    .review-info {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #a0a0ff;
+    }
+  }
+
+  /* 🔹 No Data / Loading */
+  .no-data {
+    text-align: center;
+    margin-top: 50px;
+    color: #bbb;
+
+    ion-icon {
+      font-size: 40px;
+      color: #ffcc00;
+      margin-bottom: 10px;
+    }
+  }
+
+  .loading-text {
+    text-align: center;
+    margin-top: 30px;
+    color: #aaa;
+  }
 }

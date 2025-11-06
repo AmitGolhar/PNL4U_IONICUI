@@ -1,35 +1,47 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent
+  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
+import { Observable, throwError, switchMap, catchError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+ 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class JwtInterceptor implements HttpInterceptor {
+  constructor(private tokenService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Skip all authentication endpoints
-    if (req.url.includes('/api/auth/')) {
-      return next.handle(req);
-    }
+    const token = this.tokenService.getAccessToken();
 
-    // Get the access token from localStorage
-    const token = localStorage.getItem('token');
-
-    // If token exists, attach it
+    let clonedReq = req;
     if (token) {
-      const cloned = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
+      clonedReq = req.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
       });
-      return next.handle(cloned);
     }
 
-    // Otherwise, continue without token
-    return next.handle(req);
+    return next.handle(clonedReq).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401 && this.tokenService.getRefreshToken()) {
+          // Try refresh
+          return this.tokenService.refreshToken().pipe(
+            switchMap(() => {
+              const newToken = this.tokenService.getAccessToken();
+              const retryReq = req.clone({
+                setHeaders: { Authorization: `Bearer ${newToken}` }
+              });
+              return next.handle(retryReq);
+            }),
+            catchError(refreshErr => {
+              // Refresh failed → logout
+              this.tokenService.clearTokens();
+              window.location.href = '/login';
+              return throwError(() => refreshErr);
+            })
+          );
+        }
+
+        return throwError(() => err);
+      })
+    );
   }
 }

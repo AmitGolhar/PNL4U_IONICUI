@@ -326,3 +326,24 @@ ion-item.banner-item {
 ion-item:focus-within {
   animation: glowPulse 1.5s infinite alternate;
 }
+
+.flyer-preview {
+  margin-top: 12px;
+
+  ion-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+
+  ion-card-content {
+    padding: 6px 0;
+  }
+}

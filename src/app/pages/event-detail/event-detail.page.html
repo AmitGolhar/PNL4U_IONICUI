@@ -1,77 +1,88 @@
 <ion-header translucent>
-  <ion-toolbar>
-    <ion-title>Event Details</ion-title>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/events" text="Back"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ event?.eventName || 'Event Details' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding gradient-bg">
-  <div class="event-details-container" *ngIf="event">
-    <!-- Header Banner -->
-    <div class="banner">
-     
-      <div class="overlay"></div>
-      <div class="banner-text">
-        <h2>{{ event.title }}</h2>
-        <p>{{ event.venue }}</p>
-      </div>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- Loader -->
+  <ion-spinner *ngIf="loading" name="crescent" class="spinner-center"></ion-spinner>
+
+  <!-- Main Content -->
+  <ng-container *ngIf="!loading && event">
+
+    <!-- 🖼 Image Carousel -->
+    <ion-slides pager="true" *ngIf="event.imagesBase64?.length" class="event-banner-slider">
+      <ion-slide *ngFor="let img of event.imagesBase64">
+        <img [src]="img" alt="event image" class="event-banner" />
+      </ion-slide>
+    </ion-slides>
+
+    <!-- 🎟 Basic Info -->
+    <h2 class="event-title">
+      {{ event.eventName }}
+      <ion-icon *ngIf="event.verified" name="checkmark-circle" color="success"></ion-icon>
+    </h2>
+
+    <p *ngIf="event.artistName" class="event-artist">🎤 {{ event.artistName }}</p>
+
+    <p class="event-date">
+      <ion-icon name="calendar-outline"></ion-icon>
+      {{ formatDateTime(event.startDate) }} → {{ formatDateTime(event.endDate) }}
+    </p>
+
+    <p *ngIf="event.venueName" class="event-venue">📍 {{ event.venueName }}</p>
+    <p *ngIf="event.locationCity" class="event-city">🏙️ {{ event.locationCity }}</p>
+
+    <hr />
+
+    <!-- 💃 Details Section -->
+    <div class="details-list">
+      <p *ngIf="event.category"><strong>🎭 Category:</strong> {{ event.category }}</p>
+      <p *ngIf="event.subCategory"><strong>🎫 Sub-category:</strong> {{ event.subCategory }}</p>
+      <p *ngIf="event.genre"><strong>🎶 Genre:</strong> {{ event.genre }}</p>
+      <p *ngIf="event.crowdType"><strong>👥 Crowd Type:</strong> {{ event.crowdType }}</p>
+      <p *ngIf="event.entryPolicy"><strong>🚪 Entry Policy:</strong> {{ event.entryPolicy }}</p>
+      <p *ngIf="event.dressCode"><strong>👔 Dress Code:</strong> {{ event.dressCode }}</p>
+      <p *ngIf="event.refundPolicy"><strong>💸 Refund Policy:</strong> {{ event.refundPolicy }}</p>
+      <p *ngIf="event.eventType"><strong>🎟 Event Type:</strong> {{ event.eventType }}</p>
+      <p *ngIf="event.offers"><strong>💥 Offers:</strong> {{ event.offers }}</p>
     </div>
 
-    <!-- Event Meta -->
+    <!-- 📝 Description -->
+    <p *ngIf="event.description" class="desc">"{{ event.description }}"</p>
+
+    <!-- ⭐ Meta Badges -->
     <div class="event-meta">
-      <div class="meta-item">
-        <ion-icon name="calendar-outline"></ion-icon>
-        <span>{{ event.date | date: 'fullDate' }}</span>
-      </div>
-      <div class="meta-item">
-        <ion-icon name="time-outline"></ion-icon>
-        <span>{{ event.time }}</span>
-      </div>
-      <div class="meta-item">
-        <ion-icon name="cash-outline"></ion-icon>
-        <span>₹{{ event.entryFee | number }}</span>
-      </div>
+      <ion-badge *ngIf="event.isFreeEntry" color="success">Free Entry</ion-badge>
+      <ion-badge *ngIf="event.hasOffers" color="tertiary">Offers</ion-badge>
+      <ion-badge *ngIf="event.isWeekend" color="warning">Weekend</ion-badge>
     </div>
 
-    <!-- Description -->
-    <div class="section">
-      <h3>About the Event</h3>
-      <p>{{ event.description }}</p>
+    <!-- 🗓 Additional Info -->
+    <div class="event-extra" *ngIf="event.rating || event.trendingScore">
+      <p *ngIf="event.rating">⭐ Rating: {{ event.rating }}/5</p>
+      <p *ngIf="event.trendingScore">🔥 Trending Score: {{ event.trendingScore }}</p>
     </div>
 
-    <!-- Booking Stats -->
-    <div class="section stats-section">
-      <h3>Event Stats</h3>
-      <div class="stats-row">
-        <div class="stat-card">
-          <ion-icon name="people-outline"></ion-icon>
-          <div class="value">{{ event.attendees }}</div>
-          <div class="label">Attendees</div>
-        </div>
-        <div class="stat-card">
-          <ion-icon name="wine-outline"></ion-icon>
-          <div class="value">{{ event.bookedTables }}/{{ event.totalTables }}</div>
-          <div class="label">Tables Booked</div>
-        </div>
-        <div class="stat-card">
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
-          <div class="value">{{ getAvailability() }}</div>
-          <div class="label">Availability</div>
-        </div>
-      </div>
+    <!-- 🎫 Actions -->
+    <div class="event-actions">
+      <ion-button expand="block" fill="outline" color="secondary">
+        <ion-icon name="ticket-outline" slot="start"></ion-icon>
+        Book Tickets
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="tertiary">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        Add to Calendar
+      </ion-button>
     </div>
 
-    <!-- Amenities -->
-    <div class="section">
-      <h3>Amenities</h3>
-      <div class="amenities">
-        <ion-chip *ngFor="let a of event.amenities">{{ a }}</ion-chip>
-      </div>
-    </div>
+    <div class="content-bottom-spacer"></div>
 
-    <!-- Organizer -->
-    <div class="section">
-      <h3>Organizer</h3>
-      <p>{{ event.organizer }}</p>
-    </div>
-  </div>
+  </ng-container>
+
 </ion-content>

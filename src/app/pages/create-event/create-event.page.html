@@ -197,6 +197,29 @@
           </ion-select>
         </ion-item>
 
+              <!-- ✅ File Upload + Preview -->
+      <ion-item>
+        <ion-label position="stacked">Flyer Image</ion-label>
+        <input type="file" (change)="onFlyerSelected($event)" accept="image/*" />
+      </ion-item>
+
+      <!-- ✅ Preview Block -->
+      <div class="flyer-preview" *ngIf="flyerPreview">
+        <ion-card>
+          <img [src]="flyerPreview" alt="Flyer Preview" />
+          <ion-card-content class="ion-text-center">
+            <ion-text color="medium">Preview</ion-text>
+          </ion-card-content>
+          <div *ngIf="flyerPreview" class="ion-text-center">
+          <ion-button color="danger" fill="clear" size="small" (click)="removeFlyer()">
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            Remove Flyer
+          </ion-button>
+        </div>
+
+        </ion-card>
+      </div>
+
       </ion-card-content>
     </ion-card>
 

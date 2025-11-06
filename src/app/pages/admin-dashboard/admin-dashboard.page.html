@@ -27,26 +27,25 @@
       </div>
     </div>
 
-        <!-- 🧾 Club Requests Management Section -->
-   
-            <app-club-requests ></app-club-requests>
-   
+    <app-event-requests></app-event-requests>
+
+
+    <!-- 🧾 Club Requests Management Section -->
+
+    <app-club-requests></app-club-requests>
+
 
     <!-- Quick Actions -->
     <h3 class="section-title">Quick Actions</h3>
     <div class="quick-actions">
-      <ion-button
-        *ngFor="let action of quickActions"
-        expand="block"
-        fill="outline"
-        [ngStyle]="{'--border-color': action.color, '--color': action.color}"
-        (click)="openAction(action)">
+      <ion-button *ngFor="let action of quickActions" expand="block" fill="outline"
+        [ngStyle]="{'--border-color': action.color, '--color': action.color}" (click)="openAction(action)">
         <ion-icon [name]="action.icon" slot="start"></ion-icon>
         {{ action.label }}
       </ion-button>
     </div>
 
-   
+
 
     <!-- Revenue Analytics (placeholder) -->
     <h3 class="section-title">Weekly Revenue Overview</h3>
@@ -78,9 +77,9 @@
         </ion-card-content>
       </ion-card>
     </div>
- 
-   
-   
+
+
+
     <!-- System Logs -->
     <h3 class="section-title">System Logs</h3>
     <ion-card *ngFor="let log of systemLogs" class="log-card" [ngClass]="log.type.toLowerCase()">

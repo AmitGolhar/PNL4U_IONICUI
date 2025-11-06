@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>{{ bookingType === 'TABLE' ? 'Book a Table' : 'Join Guest List' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding booking-content">
+
+  <h2>{{ event?.eventName }}</h2>
+  <p class="venue">{{ event?.venueName }} • {{ event?.locationCity }}</p>
+
+  <!-- Guest List Booking -->
+  <ion-card *ngIf="bookingType === 'GUESTLIST'">
+    <ion-card-header>
+      <ion-card-title>Choose Guest Type</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-segment [(ngModel)]="guestCategory">
+        <ion-segment-button value="GIRL">
+          <ion-label>Girl</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="COUPLE">
+          <ion-label>Couple</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div class="info-box" *ngIf="guestCategory === 'GIRL'">
+        🎀 Entry for one female guest (you).
+      </div>
+
+      <div class="info-box" *ngIf="guestCategory === 'COUPLE'">
+        💑 Entry for you and one guest.
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Table Booking -->
+  <ion-card *ngIf="bookingType === 'TABLE'">
+    <ion-card-header>
+      <ion-card-title>Table Booking Details</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+     <ion-item lines="none" class="select-item">
+    <ion-label position="stacked">Table Type</ion-label>
+    <ion-select [(ngModel)]="tableType" placeholder="Select type">
+      <ion-select-option value="REGULAR">Regular</ion-select-option>
+      <ion-select-option value="VIP">VIP</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+      <ion-item>
+        <ion-label position="stacked">Number of People</ion-label>
+        <ion-input
+          type="number"
+          min="1"
+          placeholder="Enter count"
+          [(ngModel)]="tablePeopleCount"
+        ></ion-input>
+      </ion-item>
+
+      <div class="info-box" *ngIf="tableType">
+        {{ tableType === 'VIP' ? '🍾 Premium area with dedicated service' : '🪑 Standard table in main area' }}
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Submit -->
+  <ion-button expand="block" color="success" (click)="confirmBooking()" [disabled]="submitting">
+    {{ bookingType === 'TABLE' ? 'Confirm Table Booking' : 'Join Guest List' }}
+  </ion-button>
+
+</ion-content>

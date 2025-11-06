@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { EventResponseDTO, EventService } from 'src/app/services/event.service';
 
 interface EventDetail {
   id: number;
@@ -23,39 +24,43 @@ interface EventDetail {
   templateUrl: './event-detail.page.html',
   styleUrls: ['./event-detail.page.scss'],
 })
-export class EventDetailPage implements OnInit {
-  event: EventDetail | null = null;
+export class EventDetailPage  implements OnInit {
+  eventId!: number;
+  event?: EventResponseDTO;
+  loading = true;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private eventService: EventService
+  ) {}
 
   ngOnInit() {
-    const eventId = this.route.snapshot.paramMap.get('id');
-    this.loadEventDetails(eventId ? +eventId : 1);
+    this.eventId = Number(this.route.snapshot.paramMap.get('eventId'));
+    this.loadEvent();
   }
 
-  loadEventDetails(id: number) {
-    // Mock event details (you can replace this with API call)
-    this.event = {
-      id,
-      title: 'PNL4U Neon Nights',
-      date: '2025-11-02',
-      time: '21:00',
-      venue: 'Skyline Lounge, Mumbai',
-      description:
-        'Experience an electrifying night at PNL4U — where beats, lights, and luxury meet. Enjoy top DJs, exclusive cocktails, and a vibrant crowd.',
-      image: 'assets/images/event-banner.jpg',
-      entryFee: 2500,
-      attendees: 180,
-      bookedTables: 22,
-      totalTables: 30,
-      amenities: ['VIP Lounge', 'Dance Floor', 'Cocktail Bar', 'Live DJ', 'Valet Parking'],
-      organizer: 'PNL4U Club Admin',
-    };
+  loadEvent() {
+    this.loading = true;
+    this.eventService.getEventById(this.eventId).subscribe({
+      next: (data) => {
+        this.event = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading event details', err);
+        this.loading = false;
+      },
+    });
   }
 
-  getAvailability() {
-    if (!this.event) return '';
-    const available = this.event.totalTables - this.event.bookedTables;
-    return available > 0 ? `${available} Tables Available` : 'Fully Booked';
+  formatDateTime(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
   }
 }

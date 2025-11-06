@@ -4,7 +4,9 @@
   </ion-toolbar>
 
   <!-- 🎯 Filter Chips -->
-  <ion-toolbar class="filter-toolbar">
+<!-- 🎯 Filter Chips -->
+<ion-toolbar class="filter-toolbar">
+  <div class="filter-scroll">
     <ion-chip
       [color]="selectedCategory === cat ? 'primary' : 'medium'"
       *ngFor="let cat of categories"
@@ -34,7 +36,9 @@
     >
       🔥 Offers
     </ion-chip>
-  </ion-toolbar>
+  </div>
+</ion-toolbar>
+
 </ion-header>
 
 <ion-content class="ion-padding event-list-bg">
@@ -45,36 +49,75 @@
   <!-- 🧾 Event Cards -->
   <ion-list *ngIf="events.length > 0">
     <ion-card *ngFor="let e of events" class="event-card">
-      <img *ngIf="e.imagesBase64?.length" [src]="e.imagesBase64[0]" alt="Flyer" class="event-img" />
+
+      <!-- 🖼 Event Flyer -->
+      <img *ngIf="e.imagesBase64?.length" [src]="e.imagesBase64[0]" alt="Event Flyer" class="event-img" />
 
       <ion-card-header>
         <ion-card-title>{{ e.eventName }}</ion-card-title>
-        <ion-card-subtitle>
-          {{ e.venueName }} • {{ e.locationCity }}
-        </ion-card-subtitle>
+        <ion-card-subtitle>{{ e.venueName }} • {{ e.locationCity }}</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
+
+        <!-- 📅 Event Meta Info -->
         <div class="event-meta">
-          <p class="event-time">
+          <p>
             <ion-icon name="calendar-outline"></ion-icon>
-            {{ e.startDate | date: 'EEE, MMM d' }} • {{ e.startTime || 'TBA' }}
+            {{ e.startDate | date: 'EEE, MMM d' }} • {{ e.startTime || 'IST' }}
           </p>
-          <p class="event-artist" *ngIf="e.artistName">
+          <p *ngIf="e.artistName">
             <ion-icon name="musical-notes-outline"></ion-icon>
             {{ e.artistName }}
           </p>
+          <p *ngIf="e.duration">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ e.duration }}
+          </p>
         </div>
 
+        <!-- 🔖 Chips / Tags -->
         <div class="chips">
-          <ion-chip color="tertiary" *ngIf="e.category">{{ e.category }}</ion-chip>
+          <ion-chip color="primary" *ngIf="e.category">{{ e.category }}</ion-chip>
+          <ion-chip color="tertiary" *ngIf="e.subCategory">{{ e.subCategory }}</ion-chip>
           <ion-chip color="medium" *ngIf="e.genre">{{ e.genre }}</ion-chip>
           <ion-chip color="success" *ngIf="e.eventType">{{ e.eventType }}</ion-chip>
-          <ion-chip color="warning" *ngIf="e.hasOffers">🔥 Offers</ion-chip>
+          <ion-chip color="warning" *ngIf="e.offers">🔥 Offers {{e.offers}}</ion-chip>
+          <ion-chip color="secondary" *ngIf="e.isWeekend">Weekend Vibes</ion-chip>
         </div>
 
-        <p class="event-description">{{ e.description }}</p>
+        <!-- 💬 Description -->
+        <p class="event-description">
+          {{ e.description }}
+        </p>
+
+        <!-- 🎟 Tickets Info -->
+        <div *ngIf="e.tickets?.length" class="tickets">
+          <h4>Tickets</h4>
+          <ion-item lines="none" *ngFor="let t of e.tickets">
+            <ion-label>
+              <strong>{{ t.name }}</strong>
+              <p>₹{{ t.price }} • Qty: {{ t.quantity }}</p>
+            </ion-label>
+          </ion-item>
+        </div>
+
+      <!-- 🎟 Action Buttons -->
+      <div class="action-section" *ngIf="e.approvalStatus === 'APPROVED'">
+        <!-- ✅ Free Entry Event -->
+        <ion-button *ngIf="e.isFreeEntry" color="success" expand="block" fill="solid" (click)="openBookingModal(e, 'GUESTLIST')">
+          🎟️ Guest List (Free Entry)
+        </ion-button>
+
+        <!-- 💰 Paid Event -->
+        <ion-button  color="warning" expand="block" fill="solid" (click)="openBookingModal(e, 'TABLE')">
+          🪑 Book Table
+        </ion-button>
+      </div>
+
+
       </ion-card-content>
+   
     </ion-card>
   </ion-list>
 
@@ -85,4 +128,5 @@
       loadingText="Loading more events..."
     ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+  <div class="content-bottom-spacer"></div>
 </ion-content>

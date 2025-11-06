@@ -409,3 +409,147 @@ ion-tab-bar::before {
     transform: translateX(30%);
   }
 }
+/* === FUTUREVERSE ALERT (Villahubs Neon Theme) === */
+ion-alert .alert-wrapper,
+ion-alert .ion-overlay-wrapper.sc-ion-alert-ios {
+  background: radial-gradient(circle at top left, #1a0b2f, #100726, #0a051b);
+  border-radius: 18px !important;
+  box-shadow: 0 0 35px rgba(255, 0, 179, 0.4), 0 0 70px rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px) saturate(180%);
+  color: var(--text-light);
+  padding: 4px;
+  animation: alertPopIn 0.3s ease-out;
+}
+
+@keyframes alertPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Alert Title / Message === */
+ion-alert .alert-title {
+  color: #ff66cc !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 6px rgba(255, 0, 255, 0.4);
+}
+
+ion-alert .alert-message {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 6px;
+  padding: 0 4px;
+}
+
+/* === Buttons === */
+ion-alert .alert-button-group {
+  display: flex;
+  justify-content: space-evenly;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 8px;
+}
+
+ion-alert .alert-button {
+  background: linear-gradient(90deg, #ff007f, #8e2de2, #4a00e0);
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 18px;
+  box-shadow: 0 0 12px rgba(255, 0, 153, 0.4);
+  margin: 6px;
+  transition: all 0.25s ease-in-out;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+ion-alert .alert-button:hover {
+  box-shadow: 0 0 20px rgba(255, 0, 179, 0.7);
+  transform: translateY(-2px);
+}
+
+/* Cancel button (Outline Style) */
+ion-alert .alert-button-role-cancel {
+  background: transparent !important;
+  border: 1.5px solid #ff00b3 !important;
+  color: #ffccff !important;
+  box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+}
+
+ion-alert .alert-button-role-cancel:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+  color: #fff !important;
+}
+
+/* === Holographic Border Effect === */
+ion-alert .alert-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1px;
+  background: var(--holo);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: holoBorder 6s linear infinite;
+}
+
+@keyframes holoBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* === INPUTS — FUTUREVERSE BORDERLESS STYLE === */
+
+
+
+
+
+/* ===============================
+   🌈 UNIVERSAL GLOSSY NIGHTLIFE BUTTON THEME
+================================ */
+:root {
+  /* 🎨 Core Nightlife Colors */
+  --nl-glow-primary: #ff1493; /* hot pink neon */
+  --nl-glow-secondary: #00ffff; /* cyan accent */
+  --nl-glow-bg: rgba(255, 255, 255, 0.08);
+  --nl-glow-border: rgba(255, 255, 255, 0.15);
+
+  /* ✨ Glow Shadow + Animation */
+  --nl-glow-box: 0 0 10px rgba(255, 20, 147, 0.5), 0 0 20px rgba(0, 255, 255, 0.25);
+  --nl-glow-pulse: pulseGlow 2.5s infinite ease-in-out alternate;
+}
+
+/* 🔮 Neon Pulse Keyframes */
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 6px rgba(255, 20, 147, 0.5), 0 0 12px rgba(0, 255, 255, 0.25);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 20, 147, 0.8), 0 0 25px rgba(0, 255, 255, 0.35);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 6px rgba(255, 20, 147, 0.5), 0 0 12px rgba(0, 255, 255, 0.25);
+    transform: scale(1);
+  }
+}

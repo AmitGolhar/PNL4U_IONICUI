@@ -9,6 +9,7 @@ import { AdminDashboardPageRoutingModule } from './admin-dashboard-routing.modul
 import { AdminDashboardPage } from './admin-dashboard.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ClubRequestsComponent } from './club-requests/club-requests.component';
+import { EventRequestsComponent } from './event-requests/event-requests.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { ClubRequestsComponent } from './club-requests/club-requests.component';
     AdminDashboardPageRoutingModule,
     SharedModule
   ],
-  declarations: [AdminDashboardPage,ClubRequestsComponent],
+  declarations: [AdminDashboardPage,ClubRequestsComponent,EventRequestsComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
