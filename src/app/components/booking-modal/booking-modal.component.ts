@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { ModalController, ToastController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './booking-modal.component.html',
   styleUrls: ['./booking-modal.component.scss']
 })
-export class BookingModalComponent implements OnInit {
+export class BookingModalComponent implements OnInit , AfterViewInit{
   @Input() event: any; //  
   @Input() bookingType: 'GUESTLIST' | 'TABLE' | 'TICKET' = 'GUESTLIST';
  
@@ -19,6 +19,9 @@ export class BookingModalComponent implements OnInit {
 
   submitting = false;
   eventDetails:any;
+  username:any;
+  userId!:string;
+
   constructor(
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
@@ -26,12 +29,18 @@ export class BookingModalComponent implements OnInit {
   ) {
     
   }
+  ngAfterViewInit(): void {
+
+      this.eventDetails = this.event; // ✅ store directly
+      this.username = localStorage.getItem('username') || '';
+      this.userId = localStorage.getItem('userId')|| '';;
+      }
 
    ngOnInit() {
      this.eventDetails = [];
-    console.log('📅 Event received in modal:', this.event);
-     this.eventDetails = this.event; // ✅ store directly
-
+      this.eventDetails = this.event; // ✅ store directly
+      this.username = localStorage.getItem('username') || '';
+      this.userId = localStorage.getItem('userId')|| '';;
   }
 
   close() {
@@ -60,37 +69,40 @@ export class BookingModalComponent implements OnInit {
         return;
       }
     }
-console.log(this.eventDetails)
+ 
     this.submitting = true;
+      this.username = localStorage.getItem('username') || '';
 
-    const req = {
-      userId: 1, // replace with logged-in user
-      eventId: this.eventDetails.eventId,
-      clubId: this.eventDetails.clubId,
-      bookingType: this.bookingType,
-      totalAmount: 0,
-      promoterId: null,
-      eventDate:this.eventDetails.startDate,
-      eventTime:this.eventDetails.startTime,
-      items: this.bookingType === 'GUESTLIST'
-        ? [
-            {
-              itemName:
-                this.guestCategory === 'COUPLE'
-                  ? 'COUPLE: User + Guest'
-                  : 'GIRL: Single Entry',
-              quantity: this.guestCategory === 'COUPLE' ? 2 : 1,
-              price: 0
-            }
-          ]
-        : [
-            {
-              itemName: `${this.tableType} Table (${this.tablePeopleCount} People)`,
-              quantity: 1,
-              price: 0
-            }
-          ]
-    };
+  const req = {
+    username:this.username,
+  userId: this.userId,
+  eventId: this.eventDetails?.eventId,
+  clubId: this.eventDetails?.clubId,
+  bookingType: this.bookingType,
+  totalAmount: 0,
+  promoterId: null,
+  eventDate: this.eventDetails?.startDate,
+  eventTime: this.eventDetails?.startTime,
+  items: this.bookingType === 'GUESTLIST'
+    ? [
+        {
+          itemName:
+            this.guestCategory === 'COUPLE'
+              ? `COUPLE: ${this.username}  `
+              : `GIRL: ${this.username} Single Entry 💃`,
+          quantity: this.guestCategory === 'COUPLE' ? 1 : 0 ,
+          price: 0
+        }
+      ]
+    : [
+        {
+          itemName: `${this.tableType} Table (${this.tablePeopleCount} People)`,
+          quantity: 1,
+          price: 0
+        }
+      ]
+};
+
 
     this.http.post(`${this.baseUrl}/bookings`, req).subscribe({
       next: async () => {

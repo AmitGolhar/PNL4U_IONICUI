@@ -38,6 +38,7 @@
     "google-libphonenumber": "^3.2.43",
     "intl-tel-input": "^25.12.1",
     "ionicons": "^7.0.0",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "mixpanel-browser": "^2.71.0",
     "ng2-charts": "^4.1.1",

@@ -15,11 +15,12 @@ export class LoginPage {
   // ✅ Backend matches
   loginData = { loginId: '', password: '' };
   signupData = {
+    fullName:'',
     username: '',
     email: '',
     phone: '',
     password: '',
-    role: new Set<string>(['USER'])
+    role: new Set<string>(['ROLE_USER'])
   };
 
   constructor(
@@ -59,13 +60,14 @@ export class LoginPage {
   async onSignup(event: Event) {
     event.preventDefault();
 
-    const { username, email, phone, password } = this.signupData;
-    if (!username || !email || !phone || !password) {
+    const { fullName, username, email, phone, password } = this.signupData;
+    if (!fullName  || !username || !email || !phone || !password) {
       this.showToast('All fields are required.', 'warning');
       return;
     }
 
     const payload = {
+      fullName,
       username,
       email,
       phone,
@@ -75,12 +77,17 @@ export class LoginPage {
 
     this.authService.signup(payload).subscribe({
       next: async () => {
-        this.showToast('Account created successfully!', 'success');
+        this.showToast('User registered successfully!', 'success');
         this.selectedTab = 'login';
       },
-      error: async (err) => {
-        this.showToast(err.error?.message , 'danger');
-      },
+     error: async (err) => {
+      const msg =
+        err.error?.message ||
+        (typeof err.error === 'string' ? err.error : 'Signup failed. Try again.');
+
+      this.showToast(msg, 'danger');
+    }
+
     });
   }
 

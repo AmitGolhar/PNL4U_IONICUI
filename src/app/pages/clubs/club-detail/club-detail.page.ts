@@ -79,7 +79,8 @@ export class ClubDetailsPage implements OnInit {
   openEventDetails(eventId: number) {
   console.log('Navigating to event details:', eventId);
   // Navigate when event detail page exists
-  this.router.navigate(['tabs/event-detail/events', eventId]);
+  this.router.navigate(['tabs/event-detail', eventId]);
 }
+ 
 
 }

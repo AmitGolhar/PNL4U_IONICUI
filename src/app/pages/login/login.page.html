@@ -46,6 +46,16 @@
 
     <!-- SIGN-UP FORM -->
     <form *ngIf="selectedTab === 'signup'" class="login-card" (submit)="onSignup($event)">
+       <ion-item lines="none" class="input-item">
+        <ion-input
+          type="text"
+          required
+          placeholder="Full Name"
+          [(ngModel)]="signupData.fullName"
+          name="fullName"
+          autocomplete="off"
+        ></ion-input>
+      </ion-item>
       <ion-item lines="none" class="input-item">
         <ion-input
           type="text"

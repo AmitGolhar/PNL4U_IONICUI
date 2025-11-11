@@ -8,6 +8,8 @@
 </ion-header>
 
 <ion-content class="ion-padding gradient-bg">
+
+
   <div class="club-dashboard-container">
 
     <!-- Welcome -->
@@ -30,17 +32,73 @@
     <!-- Quick Actions -->
     <h3 class="section-title">Quick Actions</h3>
     <div class="quick-actions">
-      <ion-button
-        *ngFor="let action of quickActions"
-        expand="block"
-        fill="outline"
-        [ngStyle]="{'--border-color': action.color, '--color': action.color}"
-        (click)="openAction(action)"
-      >
+      <ion-button *ngFor="let action of quickActions" expand="block" fill="outline"
+        [ngStyle]="{'--border-color': action.color, '--color': action.color}" (click)="openAction(action)">
         <ion-icon [name]="action.icon" slot="start"></ion-icon>
         {{ action.label }}
       </ion-button>
     </div>
+
+<!-- Upcoming Bookings -->
+<h3 class="section-title">Upcoming Bookings</h3>
+
+<!-- ✅ Date Filter (simple calendar style) -->
+<div class="filter-bar">
+  <ion-item color="light" lines="full">
+    <ion-label>Date</ion-label>
+    <ion-input
+      type="date"
+      [(ngModel)]="selectedDate"
+      (ionChange)="onDateChange($event)">
+    </ion-input>
+  </ion-item>
+</div>
+
+<div class="event-grid">
+  <!-- ✅ Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="loadBookings($event)">
+    <ion-refresher-content pullingText="Pull to refresh"></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- ✅ Table View -->
+  <div *ngIf="bookings.length > 0; else noData" class="table-container">
+    <ion-grid>
+      <ion-row class="table-header">
+        <ion-col size="1">#</ion-col>
+        <ion-col size="2">Name</ion-col>
+        <ion-col size="2">Booking Type</ion-col>
+        <ion-col size="2">Event Date</ion-col>
+        <ion-col size="2">Event Time</ion-col>
+        <ion-col size="2">Total (₹)</ion-col>
+        <ion-col size="1">Status</ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let booking of bookings; let i = index" class="table-row">
+        <ion-col size="1">{{ i + 1 }}</ion-col>
+        <ion-col size="2">{{ booking.username}}</ion-col>
+        <ion-col size="2">{{ booking.bookingType }}</ion-col>
+        <ion-col size="2">{{ booking.eventDate | date: 'mediumDate' }}</ion-col>
+        <ion-col size="2">{{ booking.eventTime }}</ion-col>
+        <ion-col size="2">{{ booking.totalAmount }}</ion-col>
+        <ion-col size="1">
+          <ion-badge [color]="booking.bookingStatus === 'CONFIRMED' ? 'success' : 'warning'">
+            {{ booking.bookingStatus }}
+          </ion-badge>
+        </ion-col>
+       
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- ✅ No Data Template -->
+  <ng-template #noData>
+    <ion-text color="medium">
+      <p class="ion-text-center ion-padding">No upcoming bookings found.</p>
+    </ion-text>
+  </ng-template>
+</div>
+
+
 
     <!-- Upcoming Events -->
     <h3 class="section-title">Upcoming Events</h3>

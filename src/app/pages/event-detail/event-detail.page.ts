@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { BookingModalComponent } from 'src/app/components/booking-modal/booking-modal.component';
 import { EventResponseDTO, EventService } from 'src/app/services/event.service';
 
 interface EventDetail {
@@ -31,7 +33,8 @@ export class EventDetailPage  implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService
+    private eventService: EventService,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -63,4 +66,14 @@ export class EventDetailPage  implements OnInit {
       minute: '2-digit',
     });
   }
+  async openBookingModal(event:any, type: 'GUESTLIST' | 'TABLE') {
+     console.log(event)
+    const modal = await this.modalCtrl.create({
+      component: BookingModalComponent,
+      componentProps: { event, bookingType: type },
+      cssClass: 'booking-modal'
+    });
+    await modal.present();
+  }
+   
 }

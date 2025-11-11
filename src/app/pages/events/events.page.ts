@@ -108,8 +108,7 @@ export class EventsPage implements OnInit {
   }
  
 async openBookingModal(event:any, type: 'GUESTLIST' | 'TABLE') {
-   console.log(event)
-  const modal = await this.modalCtrl.create({
+   const modal = await this.modalCtrl.create({
     component: BookingModalComponent,
     componentProps: { event, bookingType: type },
     cssClass: 'booking-modal'

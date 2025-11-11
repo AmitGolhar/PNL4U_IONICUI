@@ -21,7 +21,8 @@ export interface Booking {
   items: BookingItem[];
   createdAt?: string;
   eventDate :string;
-  eventTime:string
+  eventTime:string;
+  username:string
 }
 
 @Injectable({
@@ -35,4 +36,11 @@ export class BookingService {
   getMyBookings(): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.baseUrl}/bookings/my`);
   }
+
+   
+   getClubBookingsByDate(clubId: number, date?: string): Observable<Booking[]> {
+    const params = date ? `?date=${date}` : '';
+    return this.http.get<Booking[]>(`${this.baseUrl}/bookings/club/${clubId}${params}`);
+  }
+
 }

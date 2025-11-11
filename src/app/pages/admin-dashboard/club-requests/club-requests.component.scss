@@ -1,165 +1,153 @@
-.admin-bg {
-  --background: linear-gradient(135deg, #0b0b1d, #161636);
+.admin-dark-bg {
+  background: #000;
   color: #fff;
+  min-height: 100vh;
 }
 
-.club-requests-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.section-title {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
 
-  .section-title {
-    font-weight: 600;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-    color: #00ffe0;
-    text-align: center;
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #333;
+  border-radius: 10px;
+}
+
+.club-requests-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+  font-size: 14px;
+  min-width: 1200px;
+
+  th, td {
+    padding: 12px 10px;
+    text-align: left;
+    white-space: nowrap;
   }
 
-  /* 🌈 Glossy Segment Tabs */
-  .glossy-segment {
-    --background: rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 6px;
-    margin: 12px 0;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05),
-                inset 0 0 8px rgba(255, 255, 255, 0.1);
+  th {
+    background: #111;
+    border-bottom: 2px solid #444;
   }
 
-  ion-segment-button {
-    --background: transparent;
-    --color: #cfcfcf;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-    position: relative;
+  td {
+    border-bottom: 1px solid #333;
   }
 
-  ion-segment-button::part(native) {
-    border-radius: 10px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+  tr:hover {
+    background: #1a1a1a;
+    transition: 0.2s ease-in-out;
   }
 
-  ion-segment-button.segment-button-checked::part(native) {
-    background: linear-gradient(145deg, #ffcf33, #ff9933);
-    color: #000;
-    font-weight: 700;
-    box-shadow: 0 0 15px rgba(255, 174, 0, 0.5),
-                inset 0 0 6px rgba(255, 255, 255, 0.3);
+  .club-photo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #666;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .club-photo:hover {
     transform: scale(1.05);
+    border-color: #0ea5e9;
   }
 
-  /* 🔥 Status-specific color effects */
-  ion-segment-button[value="pending"].segment-button-checked::part(native) {
-    background: linear-gradient(145deg, #ffbb00, #ff8800);
-  }
+  .approved { color: #22c55e; font-weight: bold; }
+  .rejected { color: #ef4444; font-weight: bold; }
+  .pending { color: #eab308; font-weight: bold; }
 
-  ion-segment-button[value="approved"].segment-button-checked::part(native) {
-    background: linear-gradient(145deg, #00ff99, #00cc66);
-  }
+  .btn-group { display: flex; gap: 6px; }
+}
 
-  ion-segment-button[value="rejected"].segment-button-checked::part(native) {
-    background: linear-gradient(145deg, #ff3366, #ff0033);
-  }
+/* Modal Styling */
+.image-modal {
+  --background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(6px);
 
-  /* 🔹 Scrollable List */
-  .scrollable-list {
-    max-height: calc(100vh - 220px);
-    overflow-y: auto;
-    padding-right: 6px;
-  }
+  .image-modal-content {
+    position: relative;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  /* 🔹 Cards */
-  .request-card {
-    border-radius: 14px;
-    margin-bottom: 14px;
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 255, 128, 0.1);
-
-    &.pending {
-      border-left: 4px solid #ffcc00;
-    }
-
-    ion-card-title {
-      font-weight: bold;
-      color: #00ffe0;
-    }
-
-    ion-card-subtitle {
-      color: #ccc;
-    }
-
-    .info p {
-      margin: 4px 0;
-      font-size: 0.9rem;
-      color: #f0f0f0;
-
-      strong {
-        color: #ffd369;
-      }
-
-      .pending {
-        color: #ffd369;
-      }
-
-      .approved {
-        color: #00ff99;
-      }
-
-      .rejected {
-        color: #ff5555;
-      }
-    }
-
-    .photo-section img {
-      width: 100%;
+    .modal-image {
+      max-width: 90%;
+      max-height: 85vh;
       border-radius: 12px;
-      margin-top: 10px;
+      border: 2px solid #555;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
 
-    .btn-group {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-
-      ion-button[color="success"] {
-        --background: #00cc66;
-        color: #fff;
-      }
-
-      ion-button[color="danger"] {
-        --background: #ff3333;
-        color: #fff;
-      }
+    .close-icon {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 2rem;
+      color: #9f0707;
+      cursor: pointer;
+      z-index: 10;
+      transition: 0.2s;
     }
 
-    .review-info {
-      margin-top: 10px;
-      font-size: 0.85rem;
-      color: #a0a0ff;
+    .close-icon:hover {
+      color: #e11d48;
+      transform: scale(1.1);
     }
   }
+}
 
-  /* 🔹 No Data / Loading */
-  .no-data {
-    text-align: center;
-    margin-top: 50px;
-    color: #bbb;
+.no-data {
+  text-align: center;
+  color: #999;
+  margin-top: 2rem;
 
-    ion-icon {
-      font-size: 40px;
-      color: #ffcc00;
-      margin-bottom: 10px;
-    }
+  ion-icon {
+    font-size: 2rem;
+    color: #555;
+  }
+}
+
+ion-segment-button {
+  color:#fff
+}
+
+.custom-admin-alert {
+  --background: #111; /* optional - dark background */
+  --color: #fff; /* makes all text white by default */
+
+  .alert-radio-label {
+    color: #fff !important; /* Default white */
+    font-size: 15px;
+    font-weight: 500;
   }
 
-  .loading-text {
-    text-align: center;
-    margin-top: 30px;
-    color: #aaa;
+  /* Make selected label pink */
+  .alert-radio-button[aria-checked='true'] .alert-radio-label {
+    color: #ff66cc !important; /* 🎀 Pink when selected */
+    font-weight: 600;
+  }
+
+  /* Optional: change radio circle color */
+  .alert-radio-icon {
+    border-color: #ff66cc !important;
+  }
+
+  .alert-radio-inner {
+    background: #ff66cc !important;
+  }
+
+  /* Optional: button styling */
+  .cancel-btn {
+    color: #ff66cc !important;
   }
 }

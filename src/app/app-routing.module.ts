@@ -10,8 +10,11 @@ const routes: Routes = [
 
   // Wildcard redirect (optional, prevents 404)
   { path: '**', redirectTo: 'home' },
+  {
+    path: 'unauthorized',
+    loadChildren: () => import('./pages/unauthorized/unauthorized.module').then( m => m.UnauthorizedPageModule)
+  },
  
-  
   
 ];
 

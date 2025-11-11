@@ -26,6 +26,12 @@ export interface ClubRequest {
   photo?: any;
 }
 
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  phone?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -56,12 +62,19 @@ export class ClubRequestService {
     return this.http.get<ClubRequest[]>(`${this.baseUrl}/clubs/requests/rejected`);
   }
 
-  approve(id: number, adminName: string, remarks?: string): Observable<ClubRequest> {
-    return this.http.put<ClubRequest>(
-      `${this.baseUrl}/clubs/requests/${id}/approve?adminName=${adminName}&remarks=${remarks}`,
-      {}
-    );
-  }
+ approve(id: number, adminName: string, remarks: string, userId: number): Observable<ClubRequest> {
+  const params = new URLSearchParams({
+    adminName,
+    remarks: remarks || '',
+    userId: userId.toString()
+  });
+
+  return this.http.put<ClubRequest>(
+    `${this.baseUrl}/clubs/requests/${id}/approve?${params.toString()}`,
+    {}
+  );
+}
+
 
   reject(id: number, adminName: string, remarks?: string): Observable<ClubRequest> {
     return this.http.put<ClubRequest>(
@@ -70,4 +83,9 @@ export class ClubRequestService {
     );
   }
   
+  searchUsers(query: string): Observable<User[]> {
+  return this.http.get<User[]>(`${this.baseUrl}/clubs/users/search?query=${query}`);
+}
+
+
 }

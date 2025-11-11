@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { Booking, BookingService } from 'src/app/services/booking.service';
 
 interface ClubStat {
   title: string;
@@ -34,14 +36,51 @@ export class ClubDashboardPage implements OnInit {
   stats: ClubStat[] = [];
   events: Event[] = [];
   transactions: Transaction[] = [];
-  quickActions: { icon: string; label: string; color: string; route: string }[] = [];
+  quickActions: {
+    icon: string;
+    label: string;
+    color: string;
+    route: string;
+  }[] = [];
+  bookings: Booking[] = [];
+  clubId = 1;
+  isLoading = false;
+  selectedDate: string = new Date().toISOString().split('T')[0];
 
-  ngOnInit() {
+  constructor(
+    private bookingService: BookingService,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
+  ) {}
+
+  async ngOnInit() {
+    await this.loadBookings();
+
     this.stats = [
-      { title: 'Total Revenue', value: '₹4.2M', icon: 'cash-outline', color: '#ffd700' },
-      { title: 'This Month', value: '₹820K', icon: 'trending-up-outline', color: '#00f0ff' },
-      { title: 'Active Offers', value: 5, icon: 'pricetag-outline', color: '#ff4da6' },
-      { title: 'Followers', value: '3.4K', icon: 'people-outline', color: '#8e2de2' }
+      {
+        title: 'Total Revenue',
+        value: '₹4.2M',
+        icon: 'cash-outline',
+        color: '#ffd700',
+      },
+      {
+        title: 'This Month',
+        value: '₹820K',
+        icon: 'trending-up-outline',
+        color: '#00f0ff',
+      },
+      {
+        title: 'Active Offers',
+        value: 5,
+        icon: 'pricetag-outline',
+        color: '#ff4da6',
+      },
+      {
+        title: 'Followers',
+        value: '3.4K',
+        icon: 'people-outline',
+        color: '#8e2de2',
+      },
     ];
 
     this.events = [
@@ -51,7 +90,8 @@ export class ClubDashboardPage implements OnInit {
         date: new Date('2025-10-28'),
         attendees: 280,
         revenue: 180000,
-        image: 'https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=900&q=60'
+        image:
+          'https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=900&q=60',
       },
       {
         id: 2,
@@ -59,26 +99,108 @@ export class ClubDashboardPage implements OnInit {
         date: new Date('2025-11-02'),
         attendees: 340,
         revenue: 240000,
-        image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=60'
-      }
+        image:
+          'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=60',
+      },
     ];
 
     this.transactions = [
-      { id: 1, description: 'Ticket Sales - Techno Night', amount: 120000, date: new Date(), type: 'CREDIT' },
-      { id: 2, description: 'Referral Cashback', amount: -5000, date: new Date(), type: 'DEBIT' },
-      { id: 3, description: 'Offer Redemption', amount: -2000, date: new Date(), type: 'DEBIT' },
-      { id: 4, description: 'Event Sponsorship', amount: 30000, date: new Date(), type: 'CREDIT' }
+      {
+        id: 1,
+        description: 'Ticket Sales - Techno Night',
+        amount: 120000,
+        date: new Date(),
+        type: 'CREDIT',
+      },
+      {
+        id: 2,
+        description: 'Referral Cashback',
+        amount: -5000,
+        date: new Date(),
+        type: 'DEBIT',
+      },
+      {
+        id: 3,
+        description: 'Offer Redemption',
+        amount: -2000,
+        date: new Date(),
+        type: 'DEBIT',
+      },
+      {
+        id: 4,
+        description: 'Event Sponsorship',
+        amount: 30000,
+        date: new Date(),
+        type: 'CREDIT',
+      },
     ];
 
     this.quickActions = [
-      { icon: 'add-circle-outline', label: 'Create Offer', color: '#ff4da6', route: '/offers/create' },
-      { icon: 'calendar-outline', label: 'Add Event', color: '#00f0ff', route: '/events/create' },
-      { icon: 'cash-outline', label: 'View Transactions', color: '#ffd700', route: '/wallet' },
-      { icon: 'people-outline', label: 'Manage Staff', color: '#8e2de2', route: '/staff' }
+      {
+        icon: 'add-circle-outline',
+        label: 'Create Offer',
+        color: '#ff4da6',
+        route: '/offers/create',
+      },
+      {
+        icon: 'calendar-outline',
+        label: 'Add Event',
+        color: '#00f0ff',
+        route: '/events/create',
+      },
+      {
+        icon: 'cash-outline',
+        label: 'View Transactions',
+        color: '#ffd700',
+        route: '/wallet',
+      },
+      {
+        icon: 'people-outline',
+        label: 'Manage Staff',
+        color: '#8e2de2',
+        route: '/staff',
+      },
     ];
   }
 
   openAction(action: any) {
     console.log('Navigating to:', action.route);
+  }
+
+  async loadBookings(event?: any) {
+    this.isLoading = true;
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading bookings...',
+    });
+    await loading.present();
+
+    this.bookingService
+      .getClubBookingsByDate(this.clubId, this.selectedDate)
+      .subscribe({
+        next: async (data) => {
+          this.bookings = data || [];
+          this.isLoading = false;
+          await loading.dismiss();
+          if (event) event.target.complete();
+        },
+        error: async () => {
+          this.isLoading = false;
+          await loading.dismiss();
+          if (event) event.target.complete();
+          const toast = await this.toastCtrl.create({
+            message: 'Failed to load bookings. Please try again.',
+            duration: 2000,
+            color: 'danger',
+          });
+          toast.present();
+        },
+      });
+  }
+
+  // When user changes the date
+  onDateChange(event: any) {
+    this.selectedDate = event.detail.value;
+    this.bookings = [];
+    this.loadBookings();
   }
 }

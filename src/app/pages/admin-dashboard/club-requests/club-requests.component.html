@@ -1,9 +1,9 @@
-<div class="club-requests-container ion-padding admin-bg">
+<div class="club-requests-container ion-padding admin-dark-bg">
 
   <h2 class="section-title">Club Requests Management</h2>
 
-  <!-- 🌈 Glossy Filter Tabs -->
-  <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadRequests()" class="glossy-segment">
+  <!-- 🌈 Filter Tabs -->
+  <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadRequests()" class="dark-segment">
     <ion-segment-button value="all">All</ion-segment-button>
     <ion-segment-button value="pending">Pending</ion-segment-button>
     <ion-segment-button value="approved">Approved</ion-segment-button>
@@ -13,49 +13,76 @@
   <!-- 🔹 Loading -->
   <div *ngIf="loading" class="loading-text">Loading requests...</div>
 
-  <!-- 🔹 Scrollable List -->
-  <ion-list *ngIf="!loading && requests.length > 0" class="request-list scrollable-list">
-    <ion-card *ngFor="let req of requests" class="request-card" [class.pending]="req.status === 'PENDING'">
-      <ion-card-header>
-        <ion-card-title>{{ req.clubName }}</ion-card-title>
-        <ion-card-subtitle>
-          Owner: {{ req.ownerName }} • {{ req.city }}
-        </ion-card-subtitle>
-      </ion-card-header>
+  <!-- 🔹 Scrollable Dark Table -->
+  <div *ngIf="!loading && requests.length > 0" class="table-wrapper">
+    <table class="club-requests-table">
+      <thead>
+        <tr>
+          <th>Club Name</th>
+          <th>Owner</th>
+          <th>City</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Type</th>
+          <th>Package</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th>Photo</th>
+          <th>Actions</th>
+          <th>Reviewed By</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
 
-      <ion-card-content>
-        <div class="info">
-          <p><strong>Email:</strong> {{ req.email }}</p>
-          <p><strong>Phone:</strong> {{ req.phoneNumber }}</p>
-          <p><strong>Type:</strong> {{ req.clubType }}</p>
-          <p><strong>Package:</strong> {{ req.preferredPackage }}</p>
-          <p><strong>Status:</strong>
+      <tbody>
+        <tr *ngFor="let req of requests" [class.pending]="req.status === 'PENDING'">
+          <td>{{ req.clubName }}</td>
+          <td>{{ req.ownerName }}</td>
+          <td>{{ req.city }}</td>
+          <td>{{ req.email }}</td>
+          <td>{{ req.phoneNumber }}</td>
+          <td>{{ req.clubType }}</td>
+          <td>{{ req.preferredPackage }}</td>
+          <td>
             <span [class]="req.status.toLowerCase()">{{ req.status }}</span>
-          </p>
-          <p><strong>Submitted:</strong> {{ req.submittedDate | date:'medium' }}</p>
-        </div>
-
-        <div *ngIf="req.photo" class="photo-section">
-          <img [src]="'data:image/jpeg;base64,' + req.photo" alt="Club Photo" />
-        </div>
-
-        <div class="btn-group" *ngIf="req.status === 'PENDING'">
-          <ion-button color="success" size="small" (click)="approve(req)">Approve</ion-button>
-          <ion-button color="danger" size="small" (click)="reject(req)">Reject</ion-button>
-        </div>
-
-        <div *ngIf="req.reviewedBy" class="review-info">
-          <p>Reviewed By: <strong>{{ req.reviewedBy }}</strong></p>
-          <p *ngIf="req.reviewRemarks">Remarks: {{ req.reviewRemarks }}</p>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
+          </td>
+          <td>{{ req.submittedDate | date: 'medium' }}</td>
+          <td>
+            <img
+              *ngIf="req.photo"
+              [src]="'data:image/jpeg;base64,' + req.photo"
+              alt="Club Photo"
+              class="club-photo"
+              (click)="openImageModal('data:image/jpeg;base64,' + req.photo)"
+            />
+          </td>
+          <td>
+            <div *ngIf="req.status === 'PENDING'" class="btn-group">
+              <ion-button color="success" size="small" (click)="approve(req)">Approve</ion-button>
+              <ion-button color="danger" size="small" (click)="reject(req)">Reject</ion-button>
+            </div>
+          </td>
+          <td>{{ req.reviewedBy || '-' }}</td>
+          <td>{{ req.reviewRemarks || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- 🔹 No Data -->
   <div *ngIf="!loading && requests.length === 0" class="no-data">
     <ion-icon name="alert-circle-outline"></ion-icon>
     <p>No requests found for this category.</p>
   </div>
+
+  <!-- 🖼️ Image Modal -->
+  <ion-modal [isOpen]="imageModalOpen" (didDismiss)="closeImageModal()" cssClass="image-modal">
+    <ng-template>
+      <div class="image-modal-content">
+        <ion-icon name="close-circle" class="close-icon" (click)="closeImageModal()"></ion-icon>
+        <img [src]="selectedImage" alt="Club Large Photo" class="modal-image" />
+      </div>
+    </ng-template>
+  </ion-modal>
 
 </div>

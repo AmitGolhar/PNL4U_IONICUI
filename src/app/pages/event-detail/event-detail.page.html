@@ -71,11 +71,11 @@
 
     <!-- 🎫 Actions -->
     <div class="event-actions">
-      <ion-button expand="block" fill="outline" color="secondary">
+      <ion-button expand="block" fill="outline" color="secondary" (click)="openBookingModal(e, 'GUESTLIST')">
         <ion-icon name="ticket-outline" slot="start"></ion-icon>
         Book Tickets
       </ion-button>
-      <ion-button expand="block" fill="outline" color="tertiary">
+      <ion-button expand="block" fill="outline" color="tertiary" (click)="openBookingModal(e, 'TABLE')">
         <ion-icon name="calendar-outline" slot="start"></ion-icon>
         Add to Calendar
       </ion-button>

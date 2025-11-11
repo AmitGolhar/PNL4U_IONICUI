@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { RoleGuard } from '../guards/role.guard';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
           import('../pages/bookings/bookings.module').then(
             (m) => m.BookingsPageModule
           ),
+        
       },
       {
         path: 'profile',
@@ -37,6 +39,8 @@ const routes: Routes = [
           import('../pages/profile/profile.module').then(
             (m) => m.ProfilePageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
 
       // Non-tab pages
@@ -51,6 +55,8 @@ const routes: Routes = [
           import('../pages/club-dashboard/club-dashboard.module').then(
             (m) => m.ClubDashboardPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'admin-dashboard',
@@ -58,6 +64,8 @@ const routes: Routes = [
           import('../pages/admin-dashboard/admin-dashboard.module').then(
             (m) => m.AdminDashboardPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_APPADMIN'] },
       },
       {
         path: 'event-detail',
@@ -79,6 +87,8 @@ const routes: Routes = [
           import('../pages/promoter-dashboard/promoter-dashboard.module').then(
             (m) => m.PromoterDashboardPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_APPADMIN'] },
       },
       {
         path: 'influencer-dashboard',
@@ -86,11 +96,15 @@ const routes: Routes = [
           import(
             '../pages/influencer-dashboard/influencer-dashboard.module'
           ).then((m) => m.InfluencerDashboardPageModule),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'jobs',
         loadChildren: () =>
           import('../pages/jobs/jobs.module').then((m) => m.JobsPageModule),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'wallet',
@@ -98,6 +112,8 @@ const routes: Routes = [
           import('../pages/wallet/wallet.module').then(
             (m) => m.WalletPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'notifications',
@@ -105,6 +121,8 @@ const routes: Routes = [
           import('../pages/notifications/notifications.module').then(
             (m) => m.NotificationsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'offers',
@@ -112,11 +130,15 @@ const routes: Routes = [
           import('../pages/offers/offers.module').then(
             (m) => m.OffersPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'refer',
         loadChildren: () =>
           import('../pages/refer/refer.module').then((m) => m.ReferPageModule),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'favorites',
@@ -124,6 +146,8 @@ const routes: Routes = [
           import('../pages/favorites/favorites.module').then(
             (m) => m.FavoritesPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'change-city',
@@ -131,6 +155,8 @@ const routes: Routes = [
           import('../pages/change-city/change-city.module').then(
             (m) => m.ChangeCityPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'support',
@@ -138,6 +164,7 @@ const routes: Routes = [
           import('../pages/support/support.module').then(
             (m) => m.SupportPageModule
           ),
+        
       },
       {
         path: 'settings',
@@ -145,11 +172,15 @@ const routes: Routes = [
           import('../pages/settings/settings.module').then(
             (m) => m.SettingsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'terms',
         loadChildren: () =>
           import('../pages/terms/terms.module').then((m) => m.TermsPageModule),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'manage-events',
@@ -157,6 +188,8 @@ const routes: Routes = [
           import('../pages/manage-events/manage-events.module').then(
             (m) => m.ManageEventsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'manage-tables',
@@ -164,11 +197,15 @@ const routes: Routes = [
           import('../pages/manage-tables/manage-tables.module').then(
             (m) => m.ManageTablesPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'sales',
         loadChildren: () =>
           import('../pages/sales/sales.module').then((m) => m.SalesPageModule),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'promotions',
@@ -176,6 +213,8 @@ const routes: Routes = [
           import('../pages/promotions/promotions.module').then(
             (m) => m.PromotionsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'staff-hiring',
@@ -183,6 +222,8 @@ const routes: Routes = [
           import('../pages/staff-hiring/staff-hiring.module').then(
             (m) => m.StaffHiringPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'influencer-promotions',
@@ -190,6 +231,8 @@ const routes: Routes = [
           import(
             '../pages/influencer-promotions/influencer-promotions.module'
           ).then((m) => m.InfluencerPromotionsPageModule),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'upload-flyers',
@@ -197,6 +240,8 @@ const routes: Routes = [
           import('../pages/upload-flyers/upload-flyers.module').then(
             (m) => m.UploadFlyersPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'venue-settings',
@@ -204,6 +249,8 @@ const routes: Routes = [
           import('../pages/venue-settings/venue-settings.module').then(
             (m) => m.VenueSettingsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'admin-venues',
@@ -211,6 +258,8 @@ const routes: Routes = [
           import('../pages/admin-venues/admin-venues.module').then(
             (m) => m.AdminVenuesPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_APPADMIN'] },
       },
       {
         path: 'platform-analytics',
@@ -218,6 +267,8 @@ const routes: Routes = [
           import('../pages/platform-analytics/platform-analytics.module').then(
             (m) => m.PlatformAnalyticsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'payout-reports',
@@ -225,6 +276,8 @@ const routes: Routes = [
           import('../pages/payout-reports/payout-reports.module').then(
             (m) => m.PayoutReportsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
       {
         path: 'featured-events',
@@ -232,6 +285,8 @@ const routes: Routes = [
           import('../pages/featured-events/featured-events.module').then(
             (m) => m.FeaturedEventsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN', 'ROLE_USER'] },
       },
       {
         path: 'admin-tools',
@@ -239,6 +294,8 @@ const routes: Routes = [
           import('../pages/admin-tools/admin-tools.module').then(
             (m) => m.AdminToolsPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_APPADMIN'] },
       },
       {
         path: 'chat-support',
@@ -253,6 +310,7 @@ const routes: Routes = [
           import('../pages/club-request/club-request-module').then(
             (m) => m.ClubRequestModule
           ),
+        
       },
       {
         path: 'discovery',
@@ -260,6 +318,8 @@ const routes: Routes = [
           import('../pages/discovery/discovery.module').then(
             (m) => m.DiscoveryPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_APPADMIN'] },
       },
       {
         path: 'create-event',
@@ -267,11 +327,21 @@ const routes: Routes = [
           import('../pages/create-event/create-event.module').then(
             (m) => m.CreateEventPageModule
           ),
+        canActivate: [RoleGuard],
+        data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
 
-            // 🧭 FALLBACK ROUTES
-          { path: '', redirectTo: '/tabs/home', pathMatch: 'full' },
-          { path: '**', redirectTo: '/tabs/home' },
+      {
+        path: 'unauthorized',
+        loadChildren: () =>
+          import('../pages/unauthorized/unauthorized.module').then(
+            (m) => m.UnauthorizedPageModule
+          ),
+      },
+
+      // 🧭 FALLBACK ROUTES
+      { path: '', redirectTo: '/tabs/home', pathMatch: 'full' },
+      { path: '**', redirectTo: '/tabs/home' },
     ],
   },
 ];

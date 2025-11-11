@@ -12,7 +12,8 @@ export class ClubRequestsComponent implements OnInit {
   selectedStatus: string = 'all';
   loading = false;
   @Input() showHeaderOnly = false; // ✅ control what part renders
-
+ imageModalOpen = false;
+  selectedImage: string | null = null;
   constructor(
     private service: ClubRequestService,
     private alertCtrl: AlertController,
@@ -65,27 +66,78 @@ loadRequests() {
   });
 }
 
-  async approve(req: ClubRequest) {
-    const alert = await this.alertCtrl.create({
-      header: 'Approve Request',
-      message: `Are you sure you want to approve "${req.clubName}"?`,
-      inputs: [{ name: 'remarks', type: 'text', placeholder: 'Optional remarks' }],
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Approve',
-          handler: (data) => {
-            this.service.approve(req.id, 'Admin', data.remarks).subscribe(() => {
-              this.showToast(`Approved ${req.clubName}`);
-              this.loadRequests();
-            });
+async approve(req: ClubRequest) {
+  const alert = await this.alertCtrl.create({
+    header: 'Approve Request',
+    message: `Approve  ${req.clubName}  and assign a Club Admin.`,
+    inputs: [
+      { name: 'remarks', type: 'text', placeholder: 'Optional remarks' },
+      { name: 'userSearch', type: 'text', placeholder: 'Search user by name or email' }
+    ],
+    buttons: [
+      { text: 'Cancel', role: 'cancel' },
+      {
+        text: 'Next',
+        handler: async (data) => {
+          const query = data.userSearch?.trim();
+          if (!query) {
+            this.showToast('Please enter a username or email to search.');
+            return false;
           }
+
+          // 🔍 Fetch user list
+          this.service.searchUsers(query).subscribe(async (users) => {
+            if (users.length === 0) {
+              this.showToast('No matching users found.');
+              return;
+            }
+
+            // 🧩 Let admin select one of the matching users
+            const selectAlert = await this.alertCtrl.create({
+              header: 'Select Club Admin',
+              cssClass: 'custom-admin-alert',
+              inputs: users.map((u) => ({
+                type: 'radio',
+                label: `${u.username} (${u.email})`,
+                value: u.id
+              })),
+              buttons: [
+                { text: 'Cancel', role: 'cancel' },
+                {
+                  text: 'Approve',
+                  handler: (selectedUserId) => {
+                    this.service.approve(req.id, 'Admin', data.remarks, selectedUserId).subscribe(() => {
+                      this.alertCtrl.dismiss(selectAlert);
+                      this.alertCtrl.dismiss(alert);
+                      this.showToast(`Approved ${req.clubName} and linked to user ID ${selectedUserId}`);
+                      this.loadRequests();
+
+                    });
+                  }
+                }
+              ]
+            });
+            await selectAlert.present();
+          });
+
+          return false; // Prevent default alert close
         }
-      ]
-    });
-    await alert.present();
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+ openImageModal(imageSrc: string) {
+    this.selectedImage = imageSrc;
+    this.imageModalOpen = true;
   }
 
+  closeImageModal() {
+    this.imageModalOpen = false;
+    this.selectedImage = null;
+  }
   async reject(req: ClubRequest) {
     const alert = await this.alertCtrl.create({
       header: 'Reject Request',
