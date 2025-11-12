@@ -7,6 +7,7 @@
 <ion-content class="ion-padding create-event-bg">
   <form [formGroup]="eventForm" (ngSubmit)="submitEvent()">
 
+    <!-- 🎉 Event Details -->
     <ion-card>
       <ion-card-header>
         <ion-card-title>Event Details</ion-card-title>
@@ -14,64 +15,82 @@
 
       <ion-card-content>
 
-        <!-- Basic Info -->
-     
-
         <ion-item>
           <ion-label position="stacked">Event Name</ion-label>
-          <ion-input formControlName="eventName"></ion-input>
+          <ion-input placeholder="e.g. Bollywood Night Fever" formControlName="eventName"></ion-input>
         </ion-item>
-
+        <ion-item>
+          <ion-label position="stacked">Description</ion-label>
+          <ion-textarea formControlName="description" autoGrow="true" placeholder="Describe your event"></ion-textarea>
+        </ion-item>
         <ion-item>
           <ion-label position="stacked">Banner Type</ion-label>
-          <ion-select formControlName="bannerType" interface="popover">
-            <ion-select-option value="NORMAL">Normal</ion-select-option>
-            <ion-select-option value="FEATURED">Featured</ion-select-option>
-            <ion-select-option value="TRENDING">Trending</ion-select-option>
+          <ion-select formControlName="bannerType" interface="alert" multiple="true" placeholder="Select Banner Types"
+            cssClass="pink-alert">
+            <ion-select-option value="FEATURED_EVENT">Featured Event</ion-select-option>
+            <ion-select-option value="CLUB_VENUE_HIGHLIGHT">Club / Venue Highlight</ion-select-option>
+            <ion-select-option value="LIMITED_TIME_OFFER">Limited-Time Offer</ion-select-option>
+            <ion-select-option value="ARTIST_DJ_LINEUP">Artist / DJ Lineup</ion-select-option>
+            <ion-select-option value="THEME_NIGHT">Theme Night</ion-select-option>
+            <ion-select-option value="UPCOMING_EVENTS">Upcoming Events</ion-select-option>
+            <ion-select-option value="SPONSORED_EVENT">Sponsored / Partner Event</ion-select-option>
+            <ion-select-option value="LOCATION_BASED">Location-Based Recommendation</ion-select-option>
+            <ion-select-option value="VIP_EXCLUSIVE_ACCESS">VIP / Exclusive Access</ion-select-option>
+            <ion-select-option value="NEW_LAUNCH_ANNOUNCEMENT">New Launch / Announcement</ion-select-option>
           </ion-select>
         </ion-item>
 
+
+        <!-- ✅ Multi-select Categories -->
         <ion-item>
-          <ion-label position="stacked">Category</ion-label>
-          <ion-select formControlName="category" interface="popover">
-            <ion-select-option>Party</ion-select-option>
-            <ion-select-option>Live DJ</ion-select-option>
-            <ion-select-option>Ladies Night</ion-select-option>
+          <ion-label position="stacked">Categories</ion-label>
+          <ion-select formControlName="category" interface="alert" multiple="true" placeholder="Select Categories"
+            cssClass="pink-alert">
+            <ion-select-option *ngFor="let cat of eventCategories" [value]="cat.value">
+              {{ cat.label }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
+
 
         <ion-item>
           <ion-label position="stacked">Sub Category</ion-label>
-          <ion-select formControlName="subCategory" interface="popover">
-            <ion-select-option>Bollywood</ion-select-option>
-            <ion-select-option>Techno</ion-select-option>
-            <ion-select-option>House</ion-select-option>
+          <ion-select formControlName="subCategory" interface="alert" multiple="true"
+            placeholder="Select Sub Categories" cssClass="pink-alert">
+            <ion-select-option *ngFor="let sub of eventSubCategories" [value]="sub.value">
+              {{ sub.label }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
 
+
+
+        <!-- ✅ Multi-select Genres -->
         <ion-item>
-          <ion-label position="stacked">Genre</ion-label>
-          <ion-select formControlName="genre" interface="popover">
-            <ion-select-option>EDM</ion-select-option>
-            <ion-select-option>Hip-Hop</ion-select-option>
-            <ion-select-option>Bollywood Mix</ion-select-option>
+          <ion-label position="stacked">Genres</ion-label>
+          <ion-select formControlName="genre" multiple="true" interface="alert" placeholder="Select Genres"
+            cssClass="pink-alert">
+            <ion-select-option *ngFor="let genre of eventGenres" [value]="genre.value">
+              {{ genre.label }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
+
 
         <ion-item>
           <ion-label position="stacked">Tags</ion-label>
-          <ion-input placeholder="e.g. dance, weekend, dj" formControlName="tags"></ion-input>
+          <ion-input placeholder="e.g. Dance, Fun, Weekend" formControlName="tags"></ion-input>
         </ion-item>
 
-        <!-- Location -->
+        <!-- 📍 Location -->
         <ion-item>
           <ion-label position="stacked">City</ion-label>
-          <ion-input formControlName="locationCity"></ion-input>
+          <ion-input placeholder="e.g. Pune" formControlName="locationCity"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Venue Name</ion-label>
-          <ion-input formControlName="venueName"></ion-input>
+          <ion-input placeholder="e.g. The Night Owl Club" formControlName="venueName"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -84,15 +103,14 @@
           <ion-input type="number" formControlName="longitude"></ion-input>
         </ion-item>
 
-        <!-- Dates -->
         <ion-item>
           <ion-label position="stacked">Start Date</ion-label>
-          <ion-datetime presentation="date" formControlName="startDate"></ion-datetime>
+          <ion-input type="date" formControlName="startDate"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">End Date</ion-label>
-          <ion-datetime presentation="date" formControlName="endDate"></ion-datetime>
+          <ion-input type="date" formControlName="endDate"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -100,36 +118,46 @@
           <ion-input type="time" formControlName="startTime"></ion-input>
         </ion-item>
 
+
+
         <ion-item>
           <ion-label position="stacked">Duration</ion-label>
-          <ion-input placeholder="e.g. 4 hours" formControlName="duration"></ion-input>
+          <ion-input placeholder="e.g. 5 hours" formControlName="duration"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label position="stacked">Artist</ion-label>
-          <ion-input formControlName="artistName"></ion-input>
+          <ion-label position="stacked">Artist(s)</ion-label>
+          <ion-input placeholder="e.g. DJ Roxy, DJ Blaze" formControlName="artistName"></ion-input>
         </ion-item>
 
 
         <ion-item>
           <ion-label position="stacked">Event Type</ion-label>
-          <ion-select formControlName="eventType" interface="popover">
-            <ion-select-option>PAID</ion-select-option>
-            <ion-select-option>FREE</ion-select-option>
-            <ion-select-option>INVITE</ion-select-option>
+          <ion-select formControlName="eventType" interface="alert" (ionChange)="onEventTypeChange($event)"
+            placeholder="Select Event Type" cssClass="pink-alert">
+            <ion-select-option *ngFor="let type of eventTypes" [value]="type.value">
+              {{ type.label }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
 
-        <ion-item>
-          <ion-label position="stacked">Description</ion-label>
-          <ion-textarea formControlName="description" autoGrow="true"></ion-textarea>
-        </ion-item>
 
-        <!-- Toggles -->
+
+
+        <!-- 🎚 Toggles -->
         <ion-item>
           <ion-label>Free Entry</ion-label>
           <ion-toggle formControlName="isFreeEntry"></ion-toggle>
         </ion-item>
+
+        <ion-text color="warning" *ngIf="eventForm.get('eventType')?.value === 'PAID'">
+          <small>⚠️ Free Entry is disabled for paid events.</small>
+        </ion-text>
+
+        <ion-text color="success" *ngIf="eventForm.get('eventType')?.value === 'FREE'">
+          <small>✅ Free Entry automatically enabled for free events.</small>
+        </ion-text>
+
 
         <ion-item>
           <ion-label>Weekend Event</ion-label>
@@ -142,36 +170,44 @@
         </ion-item>
 
         <ion-item *ngIf="eventForm.get('hasOffers')?.value">
-          <ion-label position="stacked">Offers Details</ion-label>
-          <ion-input formControlName="offers"></ion-input>
+          <ion-label position="stacked">Offer Details</ion-label>
+          <ion-input placeholder="e.g. Buy 1 Get 1 on Drinks" formControlName="offers"></ion-input>
         </ion-item>
 
-        <!-- Entry & Policy -->
+        <!-- 👥 Crowd & Policies -->
         <ion-item>
           <ion-label position="stacked">Crowd Type</ion-label>
-          <ion-select formControlName="crowdType" interface="popover">
-            <ion-select-option>Luxury</ion-select-option>
-            <ion-select-option>Students</ion-select-option>
-            <ion-select-option>Corporate</ion-select-option>
+          <ion-select formControlName="crowdType" multiple="true" interface="alert" placeholder="Select Crowd Type"
+            cssClass="pink-alert">
+            <ion-select-option *ngFor="let crowd of eventCrowdTypes" [value]="crowd.value">
+              {{ crowd.label }}
+            </ion-select-option>
           </ion-select>
         </ion-item>
 
+
         <ion-item>
           <ion-label position="stacked">Entry Policy</ion-label>
-          <ion-input placeholder="e.g. Couples Only, 21+" formControlName="entryPolicy"></ion-input>
+          <ion-input placeholder="e.g. Couples Only" formControlName="entryPolicy"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Dress Code</ion-label>
-          <ion-input placeholder="e.g. Smart Casual" formControlName="dressCode"></ion-input>
+          <ion-select formControlName="dressCode" multiple="true" interface="alert" placeholder="Select Dress Codes"
+            cssClass="pink-alert">
+            <ion-select-option *ngFor="let dress of eventDressCodes" [value]="dress.value">
+              {{ dress.label }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
+
 
         <ion-item>
           <ion-label position="stacked">Refund Policy</ion-label>
-          <ion-input placeholder="e.g. Non-refundable once booked" formControlName="refundPolicy"></ion-input>
+          <ion-input placeholder="e.g. Non-refundable tickets" formControlName="refundPolicy"></ion-input>
         </ion-item>
 
-        <!-- Friendly Options -->
+        <!-- 🧒 Friendly Options -->
         <ion-item>
           <ion-label position="stacked">Kids Friendly</ion-label>
           <ion-select formControlName="kidsFriendly" interface="popover">
@@ -197,28 +233,36 @@
           </ion-select>
         </ion-item>
 
-              <!-- ✅ File Upload + Preview -->
-      <ion-item>
-        <ion-label position="stacked">Flyer Image</ion-label>
-        <input type="file" (change)="onFlyerSelected($event)" accept="image/*" />
-      </ion-item>
+        <!-- 📸 Flyer Upload -->
+        <ion-item lines="none" class="flyer-upload">
+          <ion-label position="stacked">Flyer Image (Max 2 MB)</ion-label>
 
-      <!-- ✅ Preview Block -->
-      <div class="flyer-preview" *ngIf="flyerPreview">
-        <ion-card>
-          <img [src]="flyerPreview" alt="Flyer Preview" />
-          <ion-card-content class="ion-text-center">
-            <ion-text color="medium">Preview</ion-text>
-          </ion-card-content>
-          <div *ngIf="flyerPreview" class="ion-text-center">
-          <ion-button color="danger" fill="clear" size="small" (click)="removeFlyer()">
-            <ion-icon name="trash-outline" slot="start"></ion-icon>
-            Remove Flyer
+          <!-- Hidden file input -->
+          <input type="file" id="flyerUpload" (change)="onFlyerSelected($event)" accept="image/*" hidden />
+
+          <!-- Fancy Upload Button -->
+          <ion-button expand="block" color="warning" fill="solid" (click)="triggerFlyerUpload()">
+            <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+            Choose Flyer
           </ion-button>
+        </ion-item>
+
+        <!-- ✅ Flyer Preview -->
+        <div class="flyer-preview" *ngIf="flyerPreview">
+          <ion-card>
+            <img [src]="flyerPreview" alt="Flyer Preview" />
+            <ion-card-content class="ion-text-center">
+              <ion-text color="medium">Preview</ion-text>
+            </ion-card-content>
+            <div class="ion-text-center">
+              <ion-button color="danger" fill="clear" size="small" (click)="removeFlyer()">
+                <ion-icon name="trash-outline" slot="start"></ion-icon>
+                Remove Flyer
+              </ion-button>
+            </div>
+          </ion-card>
         </div>
 
-        </ion-card>
-      </div>
 
       </ion-card-content>
     </ion-card>
@@ -254,9 +298,10 @@
       </ion-card-content>
     </ion-card>
 
+    <!-- ✅ Submit -->
     <ion-button expand="block" type="submit" [disabled]="submitting" color="success">
       <ion-spinner *ngIf="submitting" slot="start"></ion-spinner>
-      Create Event
+      Create New Event
     </ion-button>
 
   </form>

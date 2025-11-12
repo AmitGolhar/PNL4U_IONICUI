@@ -4,7 +4,8 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
 import { jwtDecode } from 'jwt-decode';
- 
+import { Router } from '@angular/router';
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private baseUrl = environment.apiUrl;
@@ -12,7 +13,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     const stored = localStorage.getItem('user');
     if (stored) this.currentUserSubject.next(JSON.parse(stored));
   }
@@ -23,10 +24,16 @@ export class AuthService {
       tap((res: any) => {
         if (res.token) {
           this.saveTokens(res.token, res.refreshToken);
+          if (res.clubId) {
+            this.saveClubId(res.clubId);
+          }
           this.setCurrentUserFromToken(res.token);
         }
       })
     );
+  }
+  saveClubId(clubId: any) {
+    localStorage.setItem('clubId', clubId);
   }
 
   /** 🔵 Signup */
@@ -58,7 +65,7 @@ export class AuthService {
   getAccessToken(): string | null {
     return localStorage.getItem('token');
   }
-// ✅ Save token after login
+  // ✅ Save token after login
   setToken(token: string): void {
     localStorage.setItem('token', token);
   }
@@ -80,6 +87,10 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('roles');
+    localStorage.removeItem('clubId');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
     this.currentUserSubject.next(null);
   }
 
@@ -100,21 +111,16 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
- hasRole(role: string): boolean {
-  return this.currentUser?.roles?.includes(role as any) ?? false;
-}
-
+  hasRole(role: string): boolean {
+    return this.currentUser?.roles?.includes(role as any) ?? false;
+  }
 
   isLoggedIn(): boolean {
     return !!this.getAccessToken();
   }
 
   logout() {
-  localStorage.removeItem('token');
- // this.router.navigate(['/login']);
+    this.clearTokens();
+    this.router.navigate(['/tabs/home']);
+  }
 }
-
-}
- 
- 
-

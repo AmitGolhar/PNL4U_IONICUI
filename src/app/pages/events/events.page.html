@@ -3,42 +3,47 @@
     <ion-title>Discover Events</ion-title>
   </ion-toolbar>
 
-  <!-- 🎯 Filter Chips -->
-<!-- 🎯 Filter Chips -->
-<ion-toolbar class="filter-toolbar">
-  <div class="filter-scroll">
-    <ion-chip
-      [color]="selectedCategory === cat ? 'primary' : 'medium'"
-      *ngFor="let cat of categories"
-      (click)="toggleCategory(cat)"
-    >
-      {{ cat }}
-    </ion-chip>
+  <!-- 🎯 Dropdown Filters -->
+  <ion-toolbar class="filter-toolbar">
+    <div class="filter-row">
 
-    <ion-chip
-      [color]="selectedCity === city ? 'primary' : 'medium'"
-      *ngFor="let city of cities"
-      (click)="toggleCity(city)"
-    >
-      {{ city }}
-    </ion-chip>
+      <!-- 🌆 City Filter -->
+      <ion-item class="dropdown-item city-filter" lines="none">
+        <ion-label position="stacked">City</ion-label>
+        <ion-select interface="popover" [(ngModel)]="selectedCity"
+          [placeholder]="selectedCity ? selectedCity : 'Select City'"
+          (ionChange)="applyFilters('locationCity', $event.detail.value)">
+          <ion-select-option *ngFor="let city of cities" [value]="city">
+            {{ city }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-chip
-      [color]="isWeekend ? 'success' : 'medium'"
-      (click)="toggleWeekend()"
-    >
-      Weekend
-    </ion-chip>
 
-    <ion-chip
-      [color]="hasOffers ? 'warning' : 'medium'"
-      (click)="toggleOffers()"
-    >
-      🔥 Offers
-    </ion-chip>
-  </div>
-</ion-toolbar>
+      <!-- 🪩 Category Filter -->
+      <ion-item class="dropdown-item category-filter" lines="none">
+        <ion-label position="stacked">Category</ion-label>
+        <ion-select placeholder="Select Category" interface="popover"
+          (ionChange)="applyFilters('category', $event.detail.value)">
+          <ion-select-option *ngFor="let cat of categories" [value]="cat">
+            {{ cat }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
+      <!-- 🎵 Genre Filter -->
+      <ion-item class="dropdown-item genre-filter" lines="none">
+        <ion-label position="stacked">Genre</ion-label>
+        <ion-select placeholder="Select Genre" interface="popover"
+          (ionChange)="applyFilters('genre', $event.detail.value)">
+          <ion-select-option *ngFor="let genre of eventGenres" [value]="genre.value">
+            {{ genre.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </div>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding event-list-bg">
@@ -78,18 +83,17 @@
 
         <!-- 🔖 Chips / Tags -->
         <div class="chips">
-          <ion-chip color="primary" *ngIf="e.category">{{ e.category }}</ion-chip>
-          <ion-chip color="tertiary" *ngIf="e.subCategory">{{ e.subCategory }}</ion-chip>
-          <ion-chip color="medium" *ngIf="e.genre">{{ e.genre }}</ion-chip>
+          <ion-chip color="primary" *ngFor="let cat of e.category?.split(',')">{{ cat }}</ion-chip>
+          <ion-chip color="tertiary" *ngFor="let sub of e.subCategory?.split(',')">{{ sub }}</ion-chip>
+          <ion-chip color="medium" *ngFor="let gen of e.genre?.split(',')">{{ gen }}</ion-chip>
+          <ion-chip color="success" *ngFor="let tag of e.tags?.split(',')">{{ tag }}</ion-chip>
           <ion-chip color="success" *ngIf="e.eventType">{{ e.eventType }}</ion-chip>
-          <ion-chip color="warning" *ngIf="e.offers">🔥 Offers {{e.offers}}</ion-chip>
+          <ion-chip color="warning" *ngIf="e.offers">🔥 Offers {{ e.offers }}</ion-chip>
           <ion-chip color="secondary" *ngIf="e.isWeekend">Weekend Vibes</ion-chip>
         </div>
 
         <!-- 💬 Description -->
-        <p class="event-description">
-          {{ e.description }}
-        </p>
+        <p class="event-description">{{ e.description }}</p>
 
         <!-- 🎟 Tickets Info -->
         <div *ngIf="e.tickets?.length" class="tickets">
@@ -102,31 +106,47 @@
           </ion-item>
         </div>
 
-      <!-- 🎟 Action Buttons -->
-      <div class="action-section" *ngIf="e.approvalStatus === 'APPROVED'">
-        <!-- ✅ Free Entry Event -->
-        <ion-button *ngIf="e.isFreeEntry" color="success" expand="block" fill="solid" (click)="openBookingModal(e, 'GUESTLIST')">
-          🎟️ Guest List (Free Entry)
-        </ion-button>
+        <!-- 🎟 Action Buttons -->
+        <div class="action-section" *ngIf="e.approvalStatus === 'APPROVED'">
+          <ion-button *ngIf="e.isFreeEntry" color="warning" expand="block" fill="solid" size="small"
+            (click)="openBookingModal(e, 'GUESTLIST')">
+            Guest List
+          </ion-button>
 
-        <!-- 💰 Paid Event -->
-        <ion-button  color="warning" expand="block" fill="solid" (click)="openBookingModal(e, 'TABLE')">
-          🪑 Book Table
-        </ion-button>
-      </div>
+          <ion-button color="warning" expand="block" fill="solid" size="small" (click)="openBookingModal(e, 'TABLE')">
+            Book Table
+          </ion-button>
 
+          <ion-button expand="block" fill="solid" color="warning" size="small"
+            [routerLink]="['/tabs/event-detail', e.eventId]">
+
+            Event Details
+          </ion-button>
+
+        </div>
 
       </ion-card-content>
-   
     </ion-card>
   </ion-list>
 
+
+  <!-- 🚫 No Events Found -->
+  <div class="no-events" *ngIf="!loading && events.length === 0">
+    <ion-icon name="calendar-outline"></ion-icon>
+    <p>🥲 No events found. Try another city or genre!</p>
+
+    <ion-button fill="solid" class="reset-btn" (click)="resetFilters()">
+      <ion-icon name="refresh-outline" slot="start"></ion-icon>
+      Reset Filters
+    </ion-button>
+  </div>
+
+
   <!-- 🔄 Infinite Scroll -->
   <ion-infinite-scroll (ionInfinite)="loadMore($event)" threshold="100px" *ngIf="hasMore">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more events..."
-    ></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+      loadingText="Loading more events..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
   <div class="content-bottom-spacer"></div>
 </ion-content>

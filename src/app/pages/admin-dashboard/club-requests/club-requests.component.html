@@ -4,10 +4,11 @@
 
   <!-- 🌈 Filter Tabs -->
   <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadRequests()" class="dark-segment">
-    <ion-segment-button value="all">All</ion-segment-button>
+
     <ion-segment-button value="pending">Pending</ion-segment-button>
     <ion-segment-button value="approved">Approved</ion-segment-button>
     <ion-segment-button value="rejected">Rejected</ion-segment-button>
+    <ion-segment-button value="all">All</ion-segment-button>
   </ion-segment>
 
   <!-- 🔹 Loading -->
@@ -18,44 +19,27 @@
     <table class="club-requests-table">
       <thead>
         <tr>
+          <th>Actions</th>
+          <th>Reviewed By</th>
+          <th>Remarks</th>
           <th>Club Name</th>
           <th>Owner</th>
           <th>City</th>
           <th>Email</th>
           <th>Phone</th>
-          <th>Type</th>
           <th>Package</th>
+
+
           <th>Status</th>
           <th>Submitted</th>
+
+          <th>Type</th>
           <th>Photo</th>
-          <th>Actions</th>
-          <th>Reviewed By</th>
-          <th>Remarks</th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let req of requests" [class.pending]="req.status === 'PENDING'">
-          <td>{{ req.clubName }}</td>
-          <td>{{ req.ownerName }}</td>
-          <td>{{ req.city }}</td>
-          <td>{{ req.email }}</td>
-          <td>{{ req.phoneNumber }}</td>
-          <td>{{ req.clubType }}</td>
-          <td>{{ req.preferredPackage }}</td>
-          <td>
-            <span [class]="req.status.toLowerCase()">{{ req.status }}</span>
-          </td>
-          <td>{{ req.submittedDate | date: 'medium' }}</td>
-          <td>
-            <img
-              *ngIf="req.photo"
-              [src]="'data:image/jpeg;base64,' + req.photo"
-              alt="Club Photo"
-              class="club-photo"
-              (click)="openImageModal('data:image/jpeg;base64,' + req.photo)"
-            />
-          </td>
           <td>
             <div *ngIf="req.status === 'PENDING'" class="btn-group">
               <ion-button color="success" size="small" (click)="approve(req)">Approve</ion-button>
@@ -64,6 +48,24 @@
           </td>
           <td>{{ req.reviewedBy || '-' }}</td>
           <td>{{ req.reviewRemarks || '-' }}</td>
+          <td>{{ req.clubName }}</td>
+          <td>{{ req.ownerName }}</td>
+          <td>{{ req.city }}</td>
+          <td>{{ req.email }}</td>
+          <td>{{ req.phoneNumber }}</td>
+
+          <td>{{ req.preferredPackage }}</td>
+          <td>
+            <span [class]="req.status.toLowerCase()">{{ req.status }}</span>
+          </td>
+          <td>{{ req.submittedDate | date: 'medium' }}</td>
+          <td>{{ req.clubType }}</td>
+          <td>
+            <img *ngIf="req.photo" [src]="'data:image/jpeg;base64,' + req.photo" alt="Club Photo" class="club-photo"
+              (click)="openImageModal('data:image/jpeg;base64,' + req.photo)" />
+          </td>
+
+
         </tr>
       </tbody>
     </table>

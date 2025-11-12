@@ -9,7 +9,7 @@ import { EventRequest, EventService } from 'src/app/services/event.service';
 })
 export class EventRequestsComponent implements OnInit {
   events: EventRequest[] = [];
-  selectedStatus: string = 'ALL';
+  selectedStatus: string = 'PENDING';
   loading = false;
   @Input() showHeaderOnly = false;
 

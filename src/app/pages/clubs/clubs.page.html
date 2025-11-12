@@ -3,43 +3,56 @@
     <ion-title>Nightlife Feed</ion-title>
   </ion-toolbar>
 
-  <!-- Filter toolbar: search + segment -->
+  <!-- Filter toolbar -->
   <ion-toolbar class="filter-toolbar">
     <div class="filter-row">
-      <ion-searchbar
-        class="custom-search"
-        placeholder="Search by city..."
-        (ionChange)="applyFilters('city', $event.detail.value)">
-      </ion-searchbar>
+      <!-- 🌆 City Filter -->
+      <ion-item class="dropdown-item city-filter" lines="none">
+        <ion-label position="stacked">City</ion-label>
+        <ion-select interface="popover" [(ngModel)]="selectedCity"
+          [placeholder]="selectedCity ? selectedCity : 'Select City'"
+          (ionChange)="applyFilters('city', $event.detail.value)">
+          <ion-select-option *ngFor="let c of cities" [value]="c">
+            {{ c }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
 
-      <div class="segment-wrap">
-        <ion-segment
-          value="trendingScore"
-          (ionChange)="applyFilters('sortBy', $event.detail.value)">
-          <ion-segment-button value="trendingScore">
-            <ion-label>Trending</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="rating">
-            <ion-label>Rating</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="popularityScore">
-            <ion-label>Popular</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-      </div>
+
+      <!-- 🍸 Club Type Filter -->
+      <ion-item class="dropdown-item club-type-filter" lines="none">
+        <ion-label position="stacked">Club Type</ion-label>
+        <ion-select placeholder="Select Club Type" interface="popover"
+          (ionChange)="applyFilters('clubType', $event.detail.value)">
+          <ion-select-option *ngFor="let type of clubTypes" [value]="type">
+            {{ type }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <!-- 🎵 Genres Filter -->
+      <ion-item class="dropdown-item genre-filter" lines="none">
+        <ion-label position="stacked">Genres</ion-label>
+        <ion-select placeholder="Select Genre" interface="popover"
+          (ionChange)="applyFilters('genre', $event.detail.value)">
+          <ion-select-option *ngFor="let genre of eventGenres" [value]="genre.value">
+            {{ genre.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
     </div>
   </ion-toolbar>
 </ion-header>
+
+
 
 <ion-content [fullscreen]="true">
 
   <!-- 🔄 Pull to Refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="chevron-down-circle-outline"
-      refreshingSpinner="bubbles"
-      pullingText="Pull down to refresh..."
-      refreshingText="Refreshing feed...">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" refreshingSpinner="bubbles"
+      pullingText="Pull down to refresh..." refreshingText="Refreshing feed...">
     </ion-refresher-content>
   </ion-refresher>
 
@@ -52,29 +65,31 @@
       <ion-col size="12" *ngFor="let club of clubs">
         <ion-card class="club-card" (click)="openClubDetail(club.clubId)">
 
-          <ion-img
-            *ngIf="club.imagesBase64?.length"
-            [src]="club.imagesBase64[0]"
-            alt="{{ club.clubName }}">
+          <ion-img *ngIf="club.imagesBase64?.length" [src]="club.imagesBase64[0]" alt="{{ club.clubName }}">
           </ion-img>
 
           <ion-card-header>
             <ion-card-title>
               {{ club.clubName }}
-              <ion-icon
-                *ngIf="club.verified"
-                name="checkmark-circle-outline"
-                color="success">
+              <ion-icon *ngIf="club.verified" name="checkmark-circle-outline" color="success">
               </ion-icon>
             </ion-card-title>
-            <ion-card-subtitle>{{ club.city }} • {{ club.category }}</ion-card-subtitle>
+            <ion-card-subtitle>{{ club.city }} </ion-card-subtitle>
+            <!-- Club Category Chips -->
+
+
           </ion-card-header>
 
           <ion-card-content>
+            <p class="club-desc">📍 {{ club.address }}</p>
             <p class="club-desc">{{ club.description }}</p>
 
             <!-- 🎵 Genres & Crowd -->
             <div class="club-tags">
+              <ion-chip color="primary" *ngFor="let cat of club.category?.split(',')">
+                {{ cat }}
+              </ion-chip>
+
               <p *ngIf="club.genre?.length">
                 <strong>🎶 Genres:</strong> {{ club.genre.join(', ') }}
               </p>
@@ -89,27 +104,21 @@
             </p>
 
             <!-- ⭐ Rating and Trend -->
-            <div class="rating-trend">
+
+            <!-- <div class="rating-trend">
               <div class="rating">
                 ⭐ {{ club.rating || 0 }} / 5
               </div>
               <div class="trend-score" *ngIf="club.trendingScore">
                 🔥 Trend: {{ club.trendingScore | number:'1.0-0' }} pts
               </div>
-            </div>
+            </div> -->
 
-            <!-- 🎫 Actions -->
-            <div class="club-actions">
-              <ion-button fill="outline" size="small" class="pink-outline" (click)="bookTable(club)">
-                <ion-icon name="wine-outline" slot="start"></ion-icon>
-                Book Table
-              </ion-button>
+            <ion-button fill="solid" size="small" class="see-more-btn" (click)="viewClubDetails(club)">
+              <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+              See More Details
+            </ion-button>
 
-              <ion-button fill="outline" size="small" class="pink-outline" (click)="bookGuestList(club)">
-                <ion-icon name="people-outline" slot="start"></ion-icon>
-                Add Guest List
-              </ion-button>
-            </div>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -117,13 +126,8 @@
   </ion-grid>
 
   <!-- 🌀 Infinite Scroll -->
-  <ion-infinite-scroll
-    threshold="100px"
-    (ionInfinite)="loadMore($event)"
-    [disabled]="page + 1 >= totalPages">
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more clubs...">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)" [disabled]="page + 1 >= totalPages">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more clubs...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

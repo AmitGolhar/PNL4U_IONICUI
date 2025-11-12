@@ -10,6 +10,7 @@ import { AdminDashboardPage } from './admin-dashboard.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ClubRequestsComponent } from './club-requests/club-requests.component';
 import { EventRequestsComponent } from './event-requests/event-requests.component';
+import { ApprovalConfigModalComponent } from './approval-config-modal/ApprovalConfigModalComponent';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { EventRequestsComponent } from './event-requests/event-requests.componen
     AdminDashboardPageRoutingModule,
     SharedModule
   ],
-  declarations: [AdminDashboardPage,ClubRequestsComponent,EventRequestsComponent],
+  declarations: [AdminDashboardPage,ClubRequestsComponent,EventRequestsComponent,ApprovalConfigModalComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })

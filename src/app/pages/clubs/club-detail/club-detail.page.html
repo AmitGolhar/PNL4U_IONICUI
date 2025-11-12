@@ -36,10 +36,10 @@
     <p class="desc">{{ club.description }}</p>
 
     <!-- ⭐ Rating & Trending -->
-    <div class="rating-section">
+  <!--   <div class="rating-section">
       <span>⭐ {{ club.rating || 0 }}/5</span>
       <span *ngIf="club.trendingScore" class="trend">🔥 {{ club.trendingScore | number:'1.0-0' }} pts</span>
-    </div>
+    </div> -->
 
     <hr />
 
@@ -49,10 +49,6 @@
 
       <p *ngIf="club.address">
         <strong>📍 Address:</strong> {{ club.address }}
-      </p>
-
-      <p *ngIf="club.contactNumber">
-        <strong>📞 Contact:</strong> {{ club.contactNumber }}
       </p>
 
       <p *ngIf="club.city">

@@ -86,6 +86,8 @@ export class ClubService {
   getClubById(clubId: number): Observable<ClubResponseDTO> {
     return this.http.get<ClubResponseDTO>(`${this.baseUrl}/clubs/${clubId}`);
   }
-
+  getClubInfoById(clubId: number): Observable<any> {
+      return this.http.get(`${this.baseUrl}/clubs/myclubinfo/${clubId}`);
+    }
  
 }

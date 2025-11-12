@@ -62,18 +62,12 @@ export class ClubRequestService {
     return this.http.get<ClubRequest[]>(`${this.baseUrl}/clubs/requests/rejected`);
   }
 
- approve(id: number, adminName: string, remarks: string, userId: number): Observable<ClubRequest> {
-  const params = new URLSearchParams({
-    adminName,
-    remarks: remarks || '',
-    userId: userId.toString()
-  });
+ 
 
-  return this.http.put<ClubRequest>(
-    `${this.baseUrl}/clubs/requests/${id}/approve?${params.toString()}`,
-    {}
-  );
-}
+    approveRequest(requestId: number, approvalData: any): Observable<any> {
+      return this.http.post(`${this.baseUrl}/clubs/requests/${requestId}/approve`, approvalData);
+    }
+
 
 
   reject(id: number, adminName: string, remarks?: string): Observable<ClubRequest> {

@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
 
     if (!token) {
       console.warn('🚫 No token found. Redirecting to login.');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/tabs/login']);
       return false;
     }
 
@@ -29,7 +29,7 @@ export class RoleGuard implements CanActivate {
       if (decoded.exp && decoded.exp < now) {
         console.warn('⚠️ Token expired. Logging out.');
         this.auth.logout?.();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/tabs/login']);
         return false;
       }
 
@@ -45,7 +45,7 @@ export class RoleGuard implements CanActivate {
       return true; // ✅ Authorized
     } catch (error) {
       console.error('Error decoding JWT:', error);
-      this.router.navigate(['/login']);
+      this.router.navigate(['/tabs/login']);
       return false;
     }
   }

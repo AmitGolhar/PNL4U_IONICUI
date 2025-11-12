@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastController, AlertController } from '@ionic/angular';
 import { UserProfileService } from 'src/app/services/user-profile.service';
  import { IonModal } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
  
 @Component({
   selector: 'app-profile',
@@ -28,7 +29,8 @@ user: any = {};
     private profileService: UserProfileService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private auth: AuthService
   ) {}
 
     // ✅ Trigger modal preview
@@ -64,7 +66,7 @@ user: any = {};
             ? 'Unauthorized. Please login again.'
             : 'Failed to load profile.';
         this.showToast(msg, 'danger');
-        if (err.status === 401) this.router.navigate(['/login']);
+        if (err.status === 401) this.router.navigate(['/tabs/login']);
       },
     });
   }
@@ -172,8 +174,7 @@ closePopover(event: any) {
   }
 
   logout() {
-    localStorage.clear();
-    this.router.navigate(['/login']);
+   this.auth.logout();
   }
 
   async showToast(message: string, color: string) {

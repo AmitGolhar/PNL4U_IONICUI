@@ -4,6 +4,6 @@
 
 export const environment = {
   production: false,
- //apiUrl: 'http://localhost:9092/api'   // your local backend URL
-    apiUrl: 'http://82.25.108.251:9092/api'   // your local backend URL
+   apiUrl: 'http://localhost:9092/api'   // your local backend URL
+   // apiUrl: 'http://82.25.108.251:9092/api'   // your local backend URL
 };

@@ -96,5 +96,5 @@ export class EventService {
   getEventById(eventId: number): Observable<EventResponseDTO> {
     return this.http.get<EventResponseDTO>(`${this.baseUrl}/events/${eventId}`);
   }
-
+ 
 }

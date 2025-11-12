@@ -284,7 +284,7 @@ ion-item.banner-item {
 
   /* 💡 Toggle switch styling */
   ion-toggle {
-    border: 1px solid #fff;
+    border: none;
     border-radius: 20px;
     padding: 3px;
     --handle-background: #fff;
@@ -346,4 +346,77 @@ ion-item:focus-within {
   ion-card-content {
     padding: 6px 0;
   }
+}
+ 
+
+/* ☁️ Flyer Upload Styling */
+.flyer-upload {
+  ion-button {
+    margin-top: 6px;
+    --background: linear-gradient(90deg, #ff8800, #ffcc00);
+    --color: #000;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(255, 204, 0, 0.3);
+    transition: 0.3s ease;
+  }
+
+  ion-button:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+  }
+
+  ion-label {
+    color: #ffd369 !important;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+  }
+}
+
+/* 📸 Flyer Preview */
+.flyer-preview ion-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  img {
+    border-radius: 10px 10px 0 0;
+  }
+}
+ 
+/* 🎀 Replace native date/time picker icons with pink SVGs */
+
+/* Calendar icon for date inputs */
+ion-input[type="date"]::-webkit-calendar-picker-indicator {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff69b4' viewBox='0 0 24 24'><path d='M7 10h5v5H7z'/><path d='M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z'/></svg>")
+    no-repeat center;
+  background-size: 18px 18px;
+  opacity: 1;
+  filter: none;
+}
+
+/* Clock icon for time inputs */
+ion-input[type="time"]::-webkit-calendar-picker-indicator {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%23ff69b4' viewBox='0 0 24 24'><path d='M12 1a11 11 0 1 0 11 11A11.013 11.013 0 0 0 12 1zm0 20a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm.5-13h-1v6l5.25 3.15l.5-.86l-4.75-2.79z'/></svg>")
+    no-repeat center;
+  background-size: 18px 18px;
+  opacity: 1;
+  filter: none;
+}
+
+/* Hide default gray icon */
+ion-input[type="date"]::-webkit-inner-spin-button,
+ion-input[type="date"]::-webkit-clear-button,
+ion-input[type="time"]::-webkit-inner-spin-button,
+ion-input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+/* Style input text & underline */
+ion-input[type="date"],
+ion-input[type="time"] {
+  color: #fff !important;
+}
+
+ion-item {
+  --highlight-color-focused: #ff69b4 !important;
 }

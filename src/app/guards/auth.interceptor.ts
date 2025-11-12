@@ -34,7 +34,7 @@ export class JwtInterceptor implements HttpInterceptor {
             catchError(refreshErr => {
               // Refresh failed → logout
               this.tokenService.clearTokens();
-              window.location.href = '/login';
+              window.location.href = '/tabs/login';
               return throwError(() => refreshErr);
             })
           );

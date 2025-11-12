@@ -1,4 +1,5 @@
-ion-slides, ion-slide {
+ion-slides,
+ion-slide {
   height: 200px;
 }
 
@@ -19,3 +20,31 @@ ion-item {
   border-radius: 8px;
 }
 
+ion-menu {
+  --width: 300px;
+  --background: #1a1a1a;
+
+  ion-toolbar {
+    --background: #111;
+
+    font-weight: 600;
+  }
+
+  ion-item {
+    --background: transparent;
+    color: #fff;
+    --border-color: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-color);
+
+    ion-icon {
+
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    &:hover {
+      --background: rgba(255, 204, 51, 0.1);
+      transition: 0.3s;
+    }
+  }
+}

@@ -42,8 +42,6 @@ export class ClubRequestFormComponent {
     'Beed',
     'Jalgaon',
     'Parbhani',
-
-    // Metro & Tier-1 Indian Cities
     'Delhi',
     'Bengaluru',
     'Hyderabad',
@@ -114,6 +112,7 @@ export class ClubRequestFormComponent {
     'Afterparty Spot',
   ];
   previewUrl: any | ArrayBuffer | null = null;
+  submitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -138,19 +137,26 @@ export class ClubRequestFormComponent {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (!file) return;
 
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        this.previewUrl = e.target?.result;
-      };
-
-      reader.readAsDataURL(file);
+    const allowedTypes = ['image/jpeg', 'image/png'];
+    if (!allowedTypes.includes(file.type)) {
+      this.showToast('❌ Only JPG and PNG images are allowed.');
+      (event.target as HTMLInputElement).value = ''; // reset input
+      this.selectedFile = null;
+      this.previewUrl = null;
+      return;
     }
+
+    this.selectedFile = file;
+
+    // Generate a preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.previewUrl = e.target?.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   async onSubmit() {
@@ -158,6 +164,7 @@ export class ClubRequestFormComponent {
       this.showToast('Please fill all required fields and attach a photo.');
       return;
     }
+    this.submitting = true;
 
     const formData = new FormData();
     Object.keys(this.clubForm.value).forEach((key) => {
@@ -168,7 +175,7 @@ export class ClubRequestFormComponent {
       }
     });
 
-    formData.append('photo', this.selectedFile);
+    formData.append('photo', this.selectedFile, this.selectedFile.name);
 
     this.clubRequestService.submitClubRequest(formData).subscribe({
       next: async () => {
@@ -177,10 +184,12 @@ export class ClubRequestFormComponent {
         );
         this.clubForm.reset();
         this.selectedFile = null;
+        this.submitting = false;
       },
       error: async (err) => {
         console.error(err);
-        await this.showToast(err.error.text);
+        await this.showToast(err.error.text || err.error);
+        this.submitting = false;
       },
     });
   }

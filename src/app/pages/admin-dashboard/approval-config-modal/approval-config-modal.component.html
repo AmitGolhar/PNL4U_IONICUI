@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Approval Configuration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding approval-config-modal">
+
+  <ion-item lines="inset">
+    <ion-label>Featured Club</ion-label>
+    <ion-toggle [(ngModel)]="config.isFeatured"></ion-toggle>
+  </ion-item>
+
+  <!-- 🏷️ Banner Type (Multi-select) -->
+  <ion-item>
+    <ion-label position="stacked">Banner Type</ion-label>
+    <ion-select multiple="true" interface="alert" [(ngModel)]="config.bannerTypeList" placeholder="Select Banner Types"
+      cssClass="pink-alert">
+      <ion-select-option value="FEATURED">FEATURED</ion-select-option>
+      <ion-select-option value="TRENDING">TRENDING</ion-select-option>
+      <ion-select-option value="TOP">TOP</ion-select-option>
+      <ion-select-option value="POPULAR">POPULAR</ion-select-option>
+      <ion-select-option value="RECOMMENDED">RECOMMENDED</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- 🎵 Genre (Multi-select) -->
+  <ion-item>
+    <ion-label position="stacked">Genre</ion-label>
+    <ion-select multiple="true" interface="alert" [(ngModel)]="config.genreList" placeholder="Select Genres"
+      cssClass="pink-alert">
+      <ion-select-option value="Techno">Techno</ion-select-option>
+      <ion-select-option value="Bollywood">Bollywood</ion-select-option>
+      <ion-select-option value="Hip-Hop">Hip-Hop</ion-select-option>
+      <ion-select-option value="House">House</ion-select-option>
+      <ion-select-option value="EDM">EDM</ion-select-option>
+      <ion-select-option value="Pop">Pop</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- 💎 Package -->
+  <ion-item>
+    <ion-label position="stacked">Package Type</ion-label>
+    <ion-input [(ngModel)]="config.packageType" readonly></ion-input>
+  </ion-item>
+
+  <!-- 📅 Subscription Dates -->
+  <ion-item class="pink-icons">
+    <ion-label position="stacked">Subscription Start Date</ion-label>
+    <ion-input type="date" [(ngModel)]="config.subscriptionStartDate"></ion-input>
+  </ion-item>
+
+  <ion-item class="pink-icons">
+    <ion-label position="stacked">Subscription End Date</ion-label>
+    <ion-input type="date" [(ngModel)]="config.subscriptionEndDate"></ion-input>
+  </ion-item>
+
+
+
+  <!-- ✅ Buttons -->
+  <div class="ion-text-center ion-margin-top">
+    <ion-button color="success" (click)="confirm()">Approve</ion-button>
+    <ion-button color="medium" fill="outline" (click)="cancel()">Cancel</ion-button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,42 @@
+:host {
+  ion-toolbar {
+    --background: #1e1e1e;
+    color: #fff;
+  }
+
+  ion-content {
+    --background: #121212;
+    color: #fff;
+  }
+
+  ion-label,
+  ion-input {
+    color: #fff !important;
+  }
+
+  ion-item {
+    --background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  ion-button {
+    margin-top: 20px;
+    --background: #ff4081;
+  }
+}
+
+ /* ✅ Make calendar (and time) icons white or pink */
+
+/* 🌸 White icon */
+ion-item::part(native) input[type='date']::-webkit-calendar-picker-indicator,
+ion-item::part(native) input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* 🌸 Pink icon variant */
+ion-item.pink-icons::part(native) input[type='date']::-webkit-calendar-picker-indicator,
+ion-item.pink-icons::part(native) input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(43%) sepia(93%) saturate(1500%) hue-rotate(310deg)
+    brightness(95%) contrast(90%);
+}

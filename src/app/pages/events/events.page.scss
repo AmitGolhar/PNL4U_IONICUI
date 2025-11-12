@@ -18,7 +18,8 @@
 /* 🖼️ Fix image fit and size */
 .event-img {
   width: 100%;
-  height: 120px; /* smaller */
+  height: 120px;
+  /* smaller */
   object-fit: cover;
   display: block;
   border-radius: 10px 10px 0 0;
@@ -33,7 +34,8 @@ ion-card-title {
   font-size: 0.95rem;
   font-weight: 600;
   color: #fff;
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8); /* better contrast */
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+  /* better contrast */
 }
 
 ion-card-subtitle {
@@ -150,6 +152,7 @@ ion-content {
 .filter-scroll::-webkit-scrollbar {
   display: none;
 }
+
 .filter-scroll {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -157,7 +160,8 @@ ion-content {
 
 /* 🪩 Base Chip Style */
 ion-chip {
-  flex: 0 0 auto; /* prevent chip squish */
+  flex: 0 0 auto;
+  /* prevent chip squish */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -167,11 +171,13 @@ ion-chip {
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.3px;
-  color: #ffffff !important; /* always visible white text */
+  color: #ffffff !important;
+  /* always visible white text */
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.25s ease-in-out;
-  max-width: 180px; /* ensure full chip text fits */
+  max-width: 180px;
+  /* ensure full chip text fits */
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -201,3 +207,192 @@ ion-chip * {
   font-weight: 500;
 }
 
+.filter-toolbar {
+  --background: #121212;
+  padding: 0 !important;
+
+  .filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 6px;
+    padding: 2px 6px;
+    flex-wrap: nowrap;
+
+    .dropdown-item {
+      flex: 1 1 50%;
+      max-width: 50%;
+      min-width: 0;
+      --inner-padding-end: 0;
+      --inner-padding-start: 0;
+      --background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      padding: 2px 4px;
+      min-height: 30px;
+      /* smaller container */
+    }
+
+    ion-label {
+      font-weight: 600;
+      color: #fff;
+      font-size: 11px;
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+
+    ion-select {
+      --background: transparent !important;
+      background: transparent !important;
+      --placeholder-color: rgba(255, 255, 255, 0.6);
+      --color: #fff;
+      --border-radius: 4px;
+      --min-height: 28px;
+      height: 28px;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 4px;
+    }
+
+    ion-select::part(icon) {
+      color: #ffcc33;
+      font-size: 12px;
+    }
+
+    /* 📱 Even smaller tweak for tiny phones */
+    @media (max-width: 400px) {
+      gap: 4px;
+
+      .dropdown-item {
+        flex: 1 1 48%;
+        max-width: 48%;
+        padding: 1px 3px;
+      }
+
+      ion-select {
+        font-size: 10px;
+        height: 26px;
+      }
+
+      ion-label {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.no-events {
+  text-align: center;
+  padding: 50px 16px;
+  color: #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+
+  ion-icon {
+    font-size: 60px;
+    color: #ffcc33;
+    margin-bottom: 12px;
+    opacity: 0.9;
+  }
+
+  p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    opacity: 0.85;
+    letter-spacing: 0.3px;
+    margin-bottom: 16px;
+  }
+
+  .reset-btn {
+    --background: linear-gradient(135deg, #ffcc33 0%, #ff9900 100%);
+    --color: #1a1a1a;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+    height: 34px;
+    box-shadow: 0 0 8px rgba(255, 165, 0, 0.4);
+    transition: all 0.25s ease-in-out;
+
+    ion-icon {
+      color: #1a1a1a;
+      margin-right: 6px;
+      font-size: 16px;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(255, 190, 50, 0.6);
+    }
+
+    &:active {
+      transform: scale(0.96);
+      box-shadow: 0 0 6px rgba(255, 165, 0, 0.3);
+    }
+  }
+}
+
+.action-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+
+  ion-button.event-btn {
+    --border-radius: 18px;
+    font-size: 10.5px;
+    /* smaller text */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    height: 26px;
+    /* reduced height */
+    line-height: 26px;
+    padding: 0 10px;
+    /* narrower padding */
+    flex: 1 1 30%;
+    min-width: 80px;
+    max-width: 110px;
+
+    ion-icon {
+      font-size: 13px;
+      margin-right: 3px;
+    }
+
+    &.button-solid {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.15);
+      transition: all 0.25s ease-in-out;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+  }
+
+  /* 📱 On small screens, stack vertically */
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    ion-button.event-btn {
+      width: 100%;
+      max-width: none;
+      height: 28px;
+      font-size: 10px;
+    }
+  }
+}
+.select-wrapper .select-placeholder {
+color: #fff !important;
+}

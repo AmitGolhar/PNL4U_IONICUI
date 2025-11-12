@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EVENT_GENRES } from 'src/app/constants/event.constants';
 import { ClubService, ClubResponseDTO } from 'src/app/services/club.service';
 
 @Component({
@@ -19,18 +20,114 @@ export class ClubsPage implements OnInit {
   totalItems = 0;
 
   filters: any = {
-    city: '',
+    city: localStorage.getItem('userCity'),
     genre: '',
-    sortBy: 'trendingScore',
+    sortBy: '',
     sortOrder: 'desc',
   };
+  cities = [
+    'Mumbai',
+    'Pune',
+    'Nagpur',
+    'Nashik',
+    'Thane',
+    'Aurangabad',
+    'Kolhapur',
+    'Solapur',
+    'Amravati',
+    'Sangli',
+    'Satara',
+    'Ahmednagar',
+    'Ratnagiri',
+    'Latur',
+    'Chandrapur',
+    'Nanded',
+    'Wardha',
+    'Beed',
+    'Jalgaon',
+    'Parbhani',
+    'Delhi',
+    'Bengaluru',
+    'Hyderabad',
+    'Chennai',
+    'Kolkata',
+    'Jaipur',
+    'Ahmedabad',
+    'Indore',
+    'Goa',
+    'Surat',
+    'Vadodara',
+    'Lucknow',
+    'Bhopal',
+    'Chandigarh',
+    'Noida',
+    'Gurugram',
+    'Vishakhapatnam',
+    'Coimbatore',
+    'Patna',
+    'Ranchi',
+    'Dehradun',
+    'Trivandrum',
+    'Kochi',
+    'Guwahati',
+    'Mysuru',
+    'Udaipur',
+    'Shimla',
+    'Manali',
+    'Agra',
+  ];
+  clubTypes = [
+    // Core Nightlife Venues
+    'Lounge',
+    'Bar',
+    'Pub',
+    'Nightclub',
+    'Rooftop Lounge',
+    'Beach Club',
+    'Open-Air Club',
+    'Poolside Lounge',
+    'Microbrewery',
+    'Brewpub',
+
+    // Restaurant & Dining
+    'Restaurant & Bar',
+    'Fine Dining Lounge',
+    'Casual Diner',
+    'Gastro Pub',
+
+    // Experience & Theme Venues
+    'Sports Bar',
+    'Music Cafe',
+    'Live Music Venue',
+    'Karaoke Bar',
+    'Dance Club',
+    'Cocktail Lounge',
+    'Speakeasy Bar',
+    'Luxury Nightclub',
+    'Members Only Club',
+
+    // Outdoor & Destination
+    'Resort Club',
+    'Hilltop Lounge',
+    'Sky Lounge',
+    'Private Party Venue',
+    'Afterparty Spot',
+  ];
+  selectedCity!: string;
+  eventGenres = EVENT_GENRES;
 
   constructor(private clubService: ClubService, private router: Router) {}
 
   ngOnInit() {
+    this.loadSavedCity();
     this.loadClubs();
   }
-
+  loadSavedCity() {
+    const savedCity = localStorage.getItem('userCity');
+    if (savedCity) {
+      this.selectedCity = savedCity;
+    }
+  }
   loadClubs(filters?: any, reset: boolean = false) {
     if (reset) {
       this.page = 0;

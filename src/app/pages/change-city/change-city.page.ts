@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { City, Area } from 'src/app/models/location.model';
 import { LocationService } from 'src/app/services/location.service';
 
 @Component({
@@ -9,10 +8,8 @@ import { LocationService } from 'src/app/services/location.service';
   styleUrls: ['./change-city.page.scss'],
 })
 export class ChangeCityPage implements OnInit {
-  cities: City[] = [];
-  areas: Area[] = [];
-  selectedCityId?: number;
-  selectedAreaId?: number;
+  cities: string[] = [];
+  selectedCity: string = '';
   currentLocation: string = '';
 
   constructor(
@@ -22,44 +19,64 @@ export class ChangeCityPage implements OnInit {
 
   ngOnInit() {
     this.loadCities();
+    this.loadSavedCity();
   }
 
+  /** ✅ Load all available cities from service */
   loadCities() {
-    this.locationService.getCities().subscribe(cities => (this.cities = cities));
+    this.locationService.getCities().subscribe((cities) => (this.cities = cities));
   }
 
-  onCityChange(cityId: number) {
-    this.selectedCityId = cityId;
-    this.locationService.getAreasByCity(cityId).subscribe(areas => (this.areas = areas));
+  /** ✅ Load city preference from local storage if available */
+  loadSavedCity() {
+    const savedCity = localStorage.getItem('userCity');
+    if (savedCity) {
+      this.selectedCity = savedCity;
+      this.currentLocation = savedCity;
+    }
   }
 
-  onAreaChange(areaId: number) {
-    this.selectedAreaId = areaId;
+  /** ✅ Called when user selects a city */
+  onCityChange(city: string) {
+    this.selectedCity = city;
   }
 
+  /** ✅ Detect location (mocked from service) */
   detectLocation() {
     this.locationService.detectLocation().subscribe(async (loc) => {
-      this.currentLocation = `${loc.area}, ${loc.city}`;
+      this.currentLocation = loc.city;
+      this.selectedCity = loc.city;
+      localStorage.setItem('userCity', loc.city);
+
       const toast = await this.toastCtrl.create({
-        message: `📍 Detected location: ${this.currentLocation}`,
+        message: `📍 Detected & saved location: ${loc.city}`,
         duration: 2000,
         color: 'tertiary',
-        position: 'top'
+        position: 'top',
       });
-      toast.present();
+      await toast.present();
     });
   }
 
+  /** ✅ Save selected city to local storage */
   async saveLocation() {
-    const city = this.cities.find(c => c.id === this.selectedCityId)?.name;
-    const area = this.areas.find(a => a.id === this.selectedAreaId)?.name;
-    const message = city && area ? `✅ Location set to ${area}, ${city}` : '⚠️ Please select city & area';
-    
+    if (!this.selectedCity) {
+      const toast = await this.toastCtrl.create({
+        message: '⚠️ Please select a city first',
+        duration: 2000,
+        color: 'warning',
+        position: 'bottom',
+      });
+      return toast.present();
+    }
+
+    localStorage.setItem('userCity', this.selectedCity);
+
     const toast = await this.toastCtrl.create({
-      message,
+      message: `✅ City set to ${this.selectedCity}`,
       duration: 2000,
-      color: city && area ? 'success' : 'warning',
-      position: 'bottom'
+      color: 'success',
+      position: 'bottom',
     });
     toast.present();
   }

@@ -1,6 +1,6 @@
 <ion-header translucent>
-  <ion-toolbar>
-    <ion-title>Change City & Location</ion-title>
+  <ion-toolbar color="dark">
+    <ion-title>Change City</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,29 +12,17 @@
       <ion-select
         placeholder="Select City"
         interface="popover"
+        [(ngModel)]="selectedCity"
         (ionChange)="onCityChange($event.detail.value)"
       >
-        <ion-select-option *ngFor="let city of cities" [value]="city.id">
-          {{ city.name }}, {{ city.state }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-
-    <h2 class="heading">📍 Select Area</h2>
-    <ion-item class="input-item" *ngIf="areas.length > 0">
-      <ion-select
-        placeholder="Select Area"
-        interface="popover"
-        (ionChange)="onAreaChange($event.detail.value)"
-      >
-        <ion-select-option *ngFor="let area of areas" [value]="area.id">
-          {{ area.name }}
+        <ion-select-option *ngFor="let city of cities" [value]="city">
+          {{ city }}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-button expand="block" class="btn-primary" (click)="saveLocation()">
-      Save Location
+      Save City
     </ion-button>
 
     <div class="divider"><span>or</span></div>

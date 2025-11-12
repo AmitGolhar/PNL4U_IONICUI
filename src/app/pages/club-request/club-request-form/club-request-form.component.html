@@ -53,7 +53,8 @@
         </ion-label>
         <ion-input placeholder="e.g. 9876543210" type="tel" formControlName="phoneNumber"></ion-input>
       </ion-item>
-      <p class="error" *ngIf="clubForm.get('phoneNumber')?.touched && clubForm.get('phoneNumber')?.hasError('required')">
+      <p class="error"
+        *ngIf="clubForm.get('phoneNumber')?.touched && clubForm.get('phoneNumber')?.hasError('required')">
         Phone number is required.
       </p>
 
@@ -65,24 +66,19 @@
         <ion-input placeholder="Enter club address" formControlName="address"></ion-input>
       </ion-item>
 
-     <!-- 🔹 City Dropdown -->
-    <ion-item class="dropdown-item">
-      <ion-label>City <span class="required">*</span></ion-label>
-      <ion-select formControlName="city" interface="popover" placeholder="Select your city" class="custom-select">
-        <ion-select-option *ngFor="let c of cities" [value]="c">{{ c }}</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <!-- 🔹 City Dropdown -->
+      <ion-item class="dropdown-item">
+        <ion-label>City <span class="required">*</span></ion-label>
+        <ion-select formControlName="city" interface="popover" placeholder="Select your city" class="custom-select">
+          <ion-select-option *ngFor="let c of cities" [value]="c">{{ c }}</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-   <!-- 🔹 Club Type (Multi-Select) -->
+      <!-- 🔹 Club Type (Multi-Select) -->
       <ion-item class="dropdown-item">
         <ion-label>Club Type <span class="required">*</span></ion-label>
-        <ion-select
-          formControlName="clubType"
-          multiple="true"
-          interface="popover"
-          placeholder="Select one or more types"
-          class="custom-select"
-        >
+        <ion-select formControlName="clubType" multiple="true" interface="popover"
+          placeholder="Select one or more types" class="custom-select">
           <ion-select-option *ngFor="let type of clubTypes" [value]="type">
             {{ type }}
           </ion-select-option>
@@ -139,20 +135,27 @@
       </ion-item>
 
       <!-- 🔹 File Upload -->
+      <!-- 🔹 File Upload -->
       <ion-item class="file-upload">
-        <ion-label>Upload Club Photo</ion-label>
-        <input type="file" id="photoUpload" (change)="onFileSelected($event)" accept="image/*" />
+        <ion-label>Upload Club Photo (JPG or PNG only)</ion-label>
+        <input type="file" id="photoUpload" (change)="onFileSelected($event)" accept="image/png, image/jpeg" />
         <label for="photoUpload">Choose File</label>
       </ion-item>
 
-       <!-- Image Preview -->
+      <!-- ✅ Clean Image Preview (no overlay icon) -->
       <div *ngIf="previewUrl" class="preview-container">
-        <img [src]="previewUrl" alt="Preview" class="preview-image" />
+        <img [src]="previewUrl" alt="Club Photo Preview" class="preview-image" />
       </div>
+
     </ion-list>
 
-    <ion-button expand="block" type="submit" color="success" class="submit-btn" [disabled]="clubForm.invalid">
-      Submit Club For Approval
+
+
+    <ion-button class="submit-btn" expand="block" color="success" (click)="onSubmit()"
+      [disabled]="submitting && clubForm.invalid">
+      <ion-spinner *ngIf="submitting" slot="start"></ion-spinner>
+      {{ submitting ? 'Submitting...' : 'Submit Club Request' }}
     </ion-button>
+
   </form>
 </ion-content>

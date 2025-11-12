@@ -120,34 +120,23 @@
 ion-segment-button {
   color:#fff
 }
+ 
 
-.custom-admin-alert {
-  --background: #111; /* optional - dark background */
-  --color: #fff; /* makes all text white by default */
+ 
+.white-alert-text {
+  --background: #1e1e1e !important; /* dark background for contrast */
+  --color: #fff !important; /* make all alert text white */
+}
 
-  .alert-radio-label {
-    color: #fff !important; /* Default white */
-    font-size: 15px;
-    font-weight: 500;
-  }
+.white-alert-text .alert-title,
+.white-alert-text .alert-message,
+.white-alert-text .alert-input,
+.white-alert-text .alert-checkbox-label,
+.white-alert-text .alert-radio-label {
+  color: #fff !important;
+}
 
-  /* Make selected label pink */
-  .alert-radio-button[aria-checked='true'] .alert-radio-label {
-    color: #ff66cc !important; /* 🎀 Pink when selected */
-    font-weight: 600;
-  }
-
-  /* Optional: change radio circle color */
-  .alert-radio-icon {
-    border-color: #ff66cc !important;
-  }
-
-  .alert-radio-inner {
-    background: #ff66cc !important;
-  }
-
-  /* Optional: button styling */
-  .cancel-btn {
-    color: #ff66cc !important;
-  }
+.white-alert-text .alert-button {
+  color: #ff4081 !important; /* optional pink buttons */
+  font-weight: 600;
 }
