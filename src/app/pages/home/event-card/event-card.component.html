@@ -1,0 +1,24 @@
+<div class="event-card" *ngIf="isValidEvent(event)" [ngClass]="mode">
+  <ng-container *ngIf="event.imagesBase64?.[0]; else dummyImage">
+    <img [src]="event.imagesBase64?.[0]" alt="Event" loading="lazy" />
+  </ng-container>
+
+  <!-- 🟣 Dummy background for no-image events -->
+  <ng-template #dummyImage>
+    <div class="dummy-image">
+      <ion-icon name="musical-notes-outline"></ion-icon>
+      <span>{{ event.eventName || 'Nightlife Event' }}</span>
+    </div>
+  </ng-template>
+
+  <div class="info">
+    <h4>{{ event.eventName }}</h4>
+    <p>{{ event.locationCity }} • {{ event.genre }}</p>
+
+    <div class="chips">
+      <ion-chip *ngIf="event.isFreeEntry" color="success" size="small">Free</ion-chip>
+      <ion-chip *ngIf="event.hasOffers" color="warning" size="small">Offer</ion-chip>
+      <ion-chip *ngIf="event.isTonight" color="tertiary" size="small">Tonight</ion-chip>
+    </div>
+  </div>
+</div>

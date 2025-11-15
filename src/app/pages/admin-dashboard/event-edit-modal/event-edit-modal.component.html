@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Edit Event</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-accordion-group>
+
+    <!-- General Info -->
+    <ion-accordion value="general">
+      <ion-item slot="header"><ion-label>General Info</ion-label></ion-item>
+      <div slot="content" class="form-section">
+        <ion-item><ion-label position="stacked">Event Name</ion-label><ion-input [(ngModel)]="event.eventName"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Category</ion-label><ion-input [(ngModel)]="event.category"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Sub Category</ion-label><ion-input [(ngModel)]="event.subCategory"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Genre</ion-label><ion-input [(ngModel)]="event.genre"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Tags</ion-label><ion-input [(ngModel)]="event.tags"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Artist Name</ion-label><ion-input [(ngModel)]="event.artistName"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Event Type</ion-label><ion-input [(ngModel)]="event.eventType"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Description</ion-label><ion-textarea [(ngModel)]="event.description"></ion-textarea></ion-item>
+      </div>
+    </ion-accordion>
+
+    <!-- Location -->
+    <ion-accordion value="location">
+      <ion-item slot="header"><ion-label>Location</ion-label></ion-item>
+      <div slot="content" class="form-section">
+        <ion-item><ion-label position="stacked">City</ion-label><ion-input [(ngModel)]="event.locationCity"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Venue</ion-label><ion-input [(ngModel)]="event.venueName"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Latitude</ion-label><ion-input type="number" [(ngModel)]="event.latitude"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Longitude</ion-label><ion-input type="number" [(ngModel)]="event.longitude"></ion-input></ion-item>
+      </div>
+    </ion-accordion>
+
+    <!-- Schedule -->
+    <ion-accordion value="schedule">
+      <ion-item slot="header"><ion-label>Schedule</ion-label></ion-item>
+      <div slot="content" class="form-section">
+        <ion-item><ion-label position="stacked">Start Date</ion-label><ion-datetime presentation="date" [(ngModel)]="event.startDate"></ion-datetime></ion-item>
+        <ion-item><ion-label position="stacked">End Date</ion-label><ion-datetime presentation="date" [(ngModel)]="event.endDate"></ion-datetime></ion-item>
+        <ion-item><ion-label position="stacked">Start Time</ion-label><ion-input type="time" [(ngModel)]="event.startTime"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Duration</ion-label><ion-input [(ngModel)]="event.duration"></ion-input></ion-item>
+      </div>
+    </ion-accordion>
+
+    <!-- Flags -->
+    <ion-accordion value="flags">
+      <ion-item slot="header"><ion-label>Flags</ion-label></ion-item>
+      <div slot="content" class="form-section flags">
+        <ion-item><ion-label>Featured</ion-label><ion-toggle [(ngModel)]="event.isFeatured"></ion-toggle></ion-item>
+        <ion-item><ion-label>Verified</ion-label><ion-toggle [(ngModel)]="event.verified"></ion-toggle></ion-item>
+        <ion-item><ion-label>Free Entry</ion-label><ion-toggle [(ngModel)]="event.isFreeEntry"></ion-toggle></ion-item>
+        <ion-item><ion-label>Tonight</ion-label><ion-toggle [(ngModel)]="event.isTonight"></ion-toggle></ion-item>
+        <ion-item><ion-label>Weekend</ion-label><ion-toggle [(ngModel)]="event.isWeekend"></ion-toggle></ion-item>
+        <ion-item><ion-label>Has Offers</ion-label><ion-toggle [(ngModel)]="event.hasOffers"></ion-toggle></ion-item>
+      </div>
+    </ion-accordion>
+
+    <!-- Details -->
+    <ion-accordion value="details">
+      <ion-item slot="header"><ion-label>Details</ion-label></ion-item>
+      <div slot="content" class="form-section">
+        <ion-item><ion-label position="stacked">Offers</ion-label><ion-input [(ngModel)]="event.offers"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Crowd Type</ion-label><ion-input [(ngModel)]="event.crowdType"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Entry Policy</ion-label><ion-input [(ngModel)]="event.entryPolicy"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Dress Code</ion-label><ion-input [(ngModel)]="event.dressCode"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Refund Policy</ion-label><ion-input [(ngModel)]="event.refundPolicy"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Kids Friendly</ion-label><ion-input [(ngModel)]="event.kidsFriendly"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Pets Friendly</ion-label><ion-input [(ngModel)]="event.petsFriendly"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Indoor/Outdoor</ion-label><ion-input [(ngModel)]="event.indoorOrOutdoor"></ion-input></ion-item>
+      </div>
+    </ion-accordion>
+
+    <!-- Scores -->
+    <ion-accordion value="scores">
+      <ion-item slot="header"><ion-label>Scores</ion-label></ion-item>
+      <div slot="content" class="form-section">
+        <ion-item><ion-label position="stacked">Rating</ion-label><ion-input type="number" [(ngModel)]="event.rating"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Trending Score</ion-label><ion-input type="number" [(ngModel)]="event.trendingScore"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Popularity Score</ion-label><ion-input type="number" [(ngModel)]="event.popularityScore"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Live Crowd Level</ion-label><ion-input type="number" [(ngModel)]="event.liveCrowdLevel"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Tickets Left</ion-label><ion-input type="number" [(ngModel)]="event.ticketsLeft"></ion-input></ion-item>
+      </div>
+    </ion-accordion>
+
+    <!-- Meta -->
+    <ion-accordion value="meta">
+      <ion-item slot="header"><ion-label>Meta Info</ion-label></ion-item>
+      <div slot="content" class="form-section">
+        <ion-item><ion-label position="stacked">Approval Status</ion-label><ion-input [(ngModel)]="event.approvalStatus"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Event Status</ion-label><ion-input [(ngModel)]="event.eventStatus"></ion-input></ion-item>
+        <ion-item><ion-label position="stacked">Created At</ion-label><ion-datetime presentation="date-time" [(ngModel)]="event.createdAt"></ion-datetime></ion-item>
+        <ion-item><ion-label position="stacked">Updated At</ion-label><ion-datetime presentation="date-time" [(ngModel)]="event.updatedAt"></ion-datetime></ion-item>
+      </div>
+    </ion-accordion>
+
+  </ion-accordion-group>
+
+  <div class="modal-actions">
+    <ion-button expand="block" color="success" (click)="save()" [disabled]="saving">
+      {{ saving ? 'Saving...' : 'Save Changes' }}
+    </ion-button>
+  </div>
+</ion-content>

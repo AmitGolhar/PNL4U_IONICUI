@@ -69,4 +69,11 @@ export class UserProfileService {
   getProfileById(userId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/profiles/${userId}`);
   }
+
+    sendChatRequest(senderId: number, receiverId: number) {
+    return this.http.post(`${this.baseUrl}/chat/request`, null, {
+      params: { senderId, receiverId }
+    });
+  }
+
 }

@@ -11,7 +11,7 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () =>
-          import('../home/home.module').then((m) => m.HomePageModule),
+          import('../pages/home/home.module').then((m) => m.HomePageModule),
       },
       {
         path: 'events',
@@ -31,7 +31,6 @@ const routes: Routes = [
           import('../pages/bookings/bookings.module').then(
             (m) => m.BookingsPageModule
           ),
-        
       },
       {
         path: 'profile',
@@ -164,7 +163,6 @@ const routes: Routes = [
           import('../pages/support/support.module').then(
             (m) => m.SupportPageModule
           ),
-        
       },
       {
         path: 'settings',
@@ -310,7 +308,6 @@ const routes: Routes = [
           import('../pages/club-request/club-request-module').then(
             (m) => m.ClubRequestModule
           ),
-        
       },
       {
         path: 'discovery',
@@ -319,7 +316,7 @@ const routes: Routes = [
             (m) => m.DiscoveryPageModule
           ),
         canActivate: [RoleGuard],
-        data: { roles: ['ROLE_APPADMIN'] },
+        data: { roles: ['ROLE_APPADMIN','ROLE_CLUBADMIN','ROLE_USER'] },
       },
       {
         path: 'create-event',
@@ -330,6 +327,24 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         data: { roles: ['ROLE_CLUBADMIN', 'ROLE_APPADMIN'] },
       },
+      {
+        path: 'connection-requests',
+        loadChildren: () =>
+          import(
+            '../pages/connection-requests/connection-requests.module'
+          ).then((m) => m.ConnectionRequestsPageModule),
+      },
+        {
+        path: 'chat/:id',
+        loadChildren: () =>
+          import('../pages/chat/chat.module').then(m => m.ChatPageModule)
+      },
+      { 
+          path: 'conversations',
+          loadChildren: () =>
+              import('../pages/conversations/conversations.module')
+                  .then((m) => m.ConversationsPageModule),
+        },
 
       {
         path: 'unauthorized',
@@ -340,7 +355,7 @@ const routes: Routes = [
       },
 
       // 🧭 FALLBACK ROUTES
-      { path: '', redirectTo: '/tabs/home', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: '/tabs/home' },
     ],
   },

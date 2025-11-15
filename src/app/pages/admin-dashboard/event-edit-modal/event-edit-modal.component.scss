@@ -1,0 +1,27 @@
+ion-content {
+  --background: #111;
+  color: #fff;
+}
+
+ion-item {
+  --background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.form-section {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.flags ion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}

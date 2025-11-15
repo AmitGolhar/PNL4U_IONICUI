@@ -96,5 +96,21 @@ export class EventService {
   getEventById(eventId: number): Observable<EventResponseDTO> {
     return this.http.get<EventResponseDTO>(`${this.baseUrl}/events/${eventId}`);
   }
+
+
+  getFilteredEvents(filters: any): Observable<any> {
+    let params = new HttpParams();
+    Object.keys(filters).forEach(key => {
+      if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '')
+        params = params.set(key, filters[key]);
+    });
+    return this.http.get(`${this.baseUrl}/events/filter-advanced`, { params });
+  }
+
+  updateEvent(eventId: number, payload: any) {
+  return this.http.patch(`${this.baseUrl}/events/updateevent/${eventId}`, payload);
+}
+
+
  
 }

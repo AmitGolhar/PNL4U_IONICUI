@@ -1,65 +1,87 @@
 <div class="event-requests-container ion-padding">
-
-  <h2 class="section-title">Event Requests Management</h2>
+  <h2 class="section-title">🎟 Event Requests Management</h2>
 
   <!-- 🔹 Filter Segment -->
   <ion-segment [(ngModel)]="selectedStatus" (ionChange)="loadEvents()">
-  
+    <ion-segment-button value="ALL">All</ion-segment-button>
     <ion-segment-button value="PENDING">Pending</ion-segment-button>
     <ion-segment-button value="APPROVED">Approved</ion-segment-button>
     <ion-segment-button value="REJECTED">Rejected</ion-segment-button>
-      <ion-segment-button value="ALL">All</ion-segment-button>
   </ion-segment>
 
-  <!-- 🔹 Loading State -->
+  <!-- 🔹 Loading -->
   <div *ngIf="loading" class="loading-text">Loading events...</div>
 
-  <!-- 🔹 Event List -->
-  <ion-list *ngIf="!loading && events.length > 0" class="request-list">
-    <ion-card *ngFor="let event of events" class="request-card" [class.pending]="event.approvalStatus === 'PENDING'">
-      <ion-card-header>
-        <ion-card-title>{{ event.eventName }}</ion-card-title>
-        <ion-card-subtitle>
-          {{ event.locationCity }} • {{ event.venueName }}
-        </ion-card-subtitle>
-      </ion-card-header>
+  <!-- 🔹 Table -->
+  <div *ngIf="!loading && events.length > 0" class="table-container">
+    <div class="table-scroll-wrapper">
+      <table class="event-table">
+        <thead>
+          <tr>
+            <th>Event ID</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Venue</th>
+            <th>Category</th>
+            <th>Artist</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Approval</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-      <ion-card-content>
-        <div class="info">
-          <p><strong>Category:</strong> {{ event.category }}</p>
-          <p><strong>Artist:</strong> {{ event.artistName }}</p>
-          <p><strong>Type:</strong> {{ event.eventType }}</p>
-          <p><strong>Status:</strong>
-            <span [class]="event.approvalStatus.toLowerCase()">{{ event.approvalStatus }}</span>
-          </p>
-          <p><strong>Start:</strong> {{ event.startDate | date:'medium' }}</p>
-          <p><strong>End:</strong> {{ event.endDate | date:'medium' }}</p>
-        </div>
+        <tbody>
+          <tr *ngFor="let e of events" [class.pending]="e.approvalStatus === 'PENDING'">
+            <td>{{ e.eventId }}</td>
+            <td>{{ e.eventName }}</td>
+            <td>{{ e.locationCity }}</td>
+            <td>{{ e.venueName }}</td>
+            <td>{{ e.category }}</td>
+            <td>{{ e.artistName }}</td>
+            <td>{{ e.eventType }}</td>
+            <td>{{ e.eventStatus }}</td>
+            <td>
+              <ion-badge
+                [color]="
+                  e.approvalStatus === 'APPROVED'
+                    ? 'success'
+                    : e.approvalStatus === 'REJECTED'
+                    ? 'danger'
+                    : 'warning'
+                "
+              >
+                {{ e.approvalStatus }}
+              </ion-badge>
+            </td>
 
-        <!-- 🔹 Event Image Preview -->
-        <div *ngIf="event.imagesBase64 && event.imagesBase64.length > 0" class="photo-section">
-          <img [src]="event.imagesBase64[0]" alt="Event Image" />
-        </div>
+            <td class="actions">
+              <ion-button size="small" color="medium" (click)="openEditModal(e)">Edit</ion-button>
 
-        <!-- 🔹 Approve / Reject Buttons -->
-        <div class="btn-group" *ngIf="event.approvalStatus === 'PENDING'">
-          <ion-button color="success" size="small" (click)="approve(event)">Approve</ion-button>
-          <ion-button color="danger" size="small" (click)="reject(event)">Reject</ion-button>
-        </div>
+              <ng-container *ngIf="e.approvalStatus === 'PENDING'">
+                <ion-button size="small" color="success" (click)="approve(e)">Approve</ion-button>
+                <ion-button size="small" color="danger" (click)="reject(e)">Reject</ion-button>
+              </ng-container>
 
-        <!-- 🔹 Review Info -->
-        <div *ngIf="event.reviewedBy" class="review-info">
-          <p>Reviewed By: <strong>{{ event.reviewedBy }}</strong></p>
-          <p *ngIf="event.reviewRemarks">Remarks: {{ event.reviewRemarks }}</p>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
+              <ion-button
+                *ngIf="e.approvalStatus !== 'PENDING'"
+                size="small"
+                fill="outline"
+                color="light"
+                disabled
+              >
+                Reviewed
+              </ion-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <!-- 🔹 No Data -->
   <div *ngIf="!loading && events.length === 0" class="no-data">
     <ion-icon name="alert-circle-outline"></ion-icon>
-    <p>No event requests found for this category.</p>
+    <p>No event requests found.</p>
   </div>
-
 </div>

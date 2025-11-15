@@ -1,0 +1,74 @@
+<ion-header class="chat-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/conversations"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{username}}</ion-title>
+
+ 
+
+  </ion-toolbar>
+</ion-header>
+
+<div class="refresh-btn" (click)="reconnectSocket()">
+  <ion-icon name="refresh"></ion-icon>
+</div>
+<ion-content #content fullscreen class="chat-content">
+  
+ 
+
+
+  <div class="messages-container">
+
+    <ng-container *ngIf="messages.length > 0; else noMsg">
+      <div *ngFor="let msg of messages" class="message-row" [class.me]="msg.senderId === currentUserId">
+
+        <!-- Avatar -->
+        <img *ngIf="msg.senderId !== currentUserId" class="avatar" src="https://i.pravatar.cc/100" />
+
+        <!-- Message Bubble -->
+        <div class="bubble">
+          <div class="text">{{ msg.message }}</div>
+          <div class="time">{{ msg.sentAt | date:'shortTime' }}</div>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <ng-template #noMsg>
+      <div class="empty-message">Say Hi 👋</div>
+    </ng-template>
+
+  </div>
+  
+  <div class="content-bottom-spacer"></div>
+
+</ion-content>
+
+<!-- FOOTER INPUT -->
+<ion-footer class="chat-footer">
+  <div class="input-wrapper">
+ <ion-input
+  class="chat-input"
+  type="text"
+  placeholder="Message..."
+  [(ngModel)]="newMessage"
+  (keyup.enter)="send()"
+  autocomplete="new-password"
+  autocorrect="off"
+  autocapitalize="off"
+  spellcheck="false"
+  inputmode="text"
+  enterkeyhint="send">
+</ion-input>
+
+
+    <ion-button class="send-btn" (click)="send()">
+      <span>Send</span>
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+
+
+  </div>
+</ion-footer>

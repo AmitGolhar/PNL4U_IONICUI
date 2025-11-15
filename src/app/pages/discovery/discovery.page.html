@@ -7,18 +7,28 @@
 <ion-content class="ion-padding discovery-bg">
   <div *ngIf="profiles.length > 0 && currentIndex < profiles.length" class="deck-wrapper">
     <!-- top card (only currentIndex card is interactive) -->
-    <div
-      #topCard
-      class="profile-card top"
-      [style.backgroundImage]="'url(' + (profiles[currentIndex]?.profileImageBase64 || '') + ')'"
-      *ngIf="profiles[currentIndex]"
+<div
+  #topCard
+  class="profile-card top"
+  [style.backgroundImage]="'url(' + (profiles[currentIndex]?.profileImageBase64 || '') + ')'"
+  *ngIf="profiles[currentIndex]"
+>
+  <div class="profile-overlay">
+    <h2>{{ profiles[currentIndex].displayName }}</h2>
+    <p>{{ profiles[currentIndex].bio || 'No bio added' }}</p>
+    <small>{{ profiles[currentIndex].city }}, {{ profiles[currentIndex].country }}</small>
+
+    <ion-button
+      expand="block"
+      color="primary"
+      (click)="sendChatRequest(profiles[currentIndex])"
+      class="send-request-btn"
     >
-      <div class="profile-overlay">
-        <h2>{{ profiles[currentIndex].displayName }}</h2>
-        <p>{{ profiles[currentIndex].bio || 'No bio added' }}</p>
-        <small>{{ profiles[currentIndex].city }}, {{ profiles[currentIndex].country }}</small>
-      </div>
-    </div>
+      Send Chat Request
+    </ion-button>
+  </div>
+</div>
+
 
     <!-- show next card faintly below as stack preview (optional) -->
     <div

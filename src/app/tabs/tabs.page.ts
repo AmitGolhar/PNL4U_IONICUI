@@ -30,7 +30,15 @@ navigate(item: any) {
 
  loadMenuItems() {
   const allMenuItems: MenuItem[] = [
-  // 🧭 Common Itemshttp://localhost:8100/tabs/bookings
+  
+  { icon: 'briefcase-outline', label: 'Chats', route: '/tabs/conversations', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER','APPADMIN'] },
+  { 
+  icon: 'people-outline', 
+  label: 'Connection Requests', 
+  route: '/tabs/connection-requests',
+  roles: ['USER', 'CLUBADMIN', 'APPADMIN', 'PROMOTER', 'INFLUENCER'] 
+},
+   
   { icon: 'home-outline', label: 'Home', route: '/home', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
   { icon: 'person-outline', label: 'Profile', route: '/profile', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
   { icon: 'log-in-outline', label: 'Login', route: '/tabs/login', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER'] },
@@ -85,7 +93,7 @@ navigate(item: any) {
   //{ icon: 'people-outline', label: 'Influencer Dashboard', route: '/tabs/influencer-dashboard', roles: ['INFLUENCER','APPADMIN'] },
   //{ icon: 'briefcase-outline', label: 'ChatSopprt', route: '/tabs/chat-support', roles: ['USER','CLUBADMIN','APPADMIN','PROMOTER','INFLUENCER','APPADMIN'] },
 
-  
+
 
  ];
 

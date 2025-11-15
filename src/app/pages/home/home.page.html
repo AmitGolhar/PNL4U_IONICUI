@@ -9,29 +9,32 @@
 
 <ion-content class="home-content">
 
-<!-- 🏆 Top Banner / Featured Event -->
-<div class="top-banner">
-  <div class="scroll-container">
-    <div class="scroll-slide" *ngFor="let featured of featuredEvents">
-      <img [src]="featured.img" class="banner-img" />
-      <div class="banner-info">
-        <h2>{{ featured.title }}</h2>
-        <p>{{ featured.location }}</p>
-        <ion-button fill="solid" color="tertiary" (click)="openBookingModal(e, 'GUESTLIST')">
-         Join Guest List
+<!-- 🏆 Featured Events -->
+<h3 class="section-title">🏆 Featured Events</h3>
+<div class="horizontal-scroll featured-scroll">
+  <div class="banner-card" *ngFor="let featured of featuredEvents">
+    <img [src]="featured.img" class="banner-img" />
+
+    <div class="banner-info">
+      <h2>{{ featured.title }}</h2>
+      <p>{{ featured.location }}</p>
+
+      <div class="banner-actions">
+        <ion-button color="tertiary" size="small" (click)="openBookingModal(featured, 'GUESTLIST')">
+          Guest List
         </ion-button>
-        <ion-button fill="solid" color="tertiary" (click)="openBookingModal(e, 'TABLE')">
-          Book Table 
+        <ion-button color="tertiary" size="small" (click)="openBookingModal(featured, 'TABLE')">
+          Book Table
         </ion-button>
-        <p>Starts in: {{ featured.countdown | date: 'HH:mm:ss' }}</p>
       </div>
+
+      <p class="countdown">Starts in: {{ featured.countdown | date:'HH:mm:ss' }}</p>
     </div>
   </div>
 </div>
 
 
-
-  <!-- 🔍 Segment Tabs -->
+  <!-- 🔍 Segments -->
   <ion-segment [(ngModel)]="selectedSegment" class="segment-tabs">
     <ion-segment-button value="trending">
       <ion-label>Trending</ion-label>
@@ -41,164 +44,96 @@
     </ion-segment-button>
   </ion-segment>
 
-  <!-- 🎉 Trending Feed -->
+  <!-- 🎉 Trending -->
   <ng-container *ngIf="selectedSegment === 'trending'">
     <h3 class="section-title">🔥 Trending Clubs & Events</h3>
-    <ion-list class="event-list">
-      <ion-item *ngFor="let event of events" class="event-card">
-        <ion-thumbnail slot="start" class="event-thumb">
-          <img [src]="event.img"/>
-        </ion-thumbnail>
-        <ion-label>
-          <h2>{{ event.title }}</h2>
-          <p>{{ event.location }} • {{ event.price }} • {{ event.popularity }} attending</p>
-          <p class="dummy-text">{{ event.desc }}</p>
-        </ion-label>
-        <ion-button size="small" fill="solid" color="tertiary" (click)="openBookingModal(e, 'GUESTLIST')">
-          GuestList
-        </ion-button>
-         <ion-button size="small" fill="solid" color="tertiary" (click)="openBookingModal(e, 'TABLE')">
-          Book Table
-        </ion-button>
-      </ion-item>
-    </ion-list>
+    <div class="horizontal-scroll">
+      <div class="event-card" *ngFor="let event of events">
+        <img [src]="event.img" class="event-img" />
+        <div class="event-info">
+          <h4>{{ event.title }}</h4>
+          <p>{{ event.location }}</p>
+          <p class="muted">{{ event.price }} • {{ event.popularity }} attending</p>
+          <ion-button size="small" color="tertiary" (click)="openBookingModal(event, 'TABLE')">
+            Book
+          </ion-button>
+        </div>
+      </div>
+    </div>
   </ng-container>
 
-  <!-- 🗺 Nearby Feed -->
+  <!-- 📍 Nearby -->
   <ng-container *ngIf="selectedSegment === 'nearby'">
-    <h3 class="section-title">📍 Nearby Events & Clubs</h3>
-    <ion-list class="event-list">
-      <ion-item *ngFor="let event of nearbyEvents" class="event-card">
-        <ion-thumbnail slot="start" class="event-thumb">
-          <img [src]="event.img"/>
-        </ion-thumbnail>
-        <ion-label>
-          <h2>{{ event.title }}</h2>
-          <p>{{ event.location }} • {{ event.distance }} km • {{ event.vibe }}</p>
-          <p class="dummy-text">{{ event.desc }}</p>
-        </ion-label>
-        <ion-button size="small" fill="solid" color="tertiary"  (click)="openBookingModal(e, 'GUESTLIST')">
-          Book Table
-        </ion-button>
-         <ion-button size="small" fill="solid" color="tertiary"  (click)="openBookingModal(e, 'TABLE')">
-          GuestList
-        </ion-button>
-      </ion-item>
-    </ion-list>
+    <h3 class="section-title">📍 Nearby Events</h3>
+    <div class="horizontal-scroll">
+      <div class="event-card" *ngFor="let event of nearbyEvents">
+        <img [src]="event.img" class="event-img" />
+        <div class="event-info">
+          <h4>{{ event.title }}</h4>
+          <p>{{ event.location }}</p>
+          <p class="muted">{{ event.distance }} km • {{ event.vibe }}</p>
+          <ion-button size="small" color="tertiary" (click)="openBookingModal(event, 'GUESTLIST')">
+            Guest List
+          </ion-button>
+        </div>
+      </div>
+    </div>
   </ng-container>
 
-<!-- 🛍 Exclusive Offers & Deals -->
-<h3 class="section-title">💰 Exclusive Offers & Deals</h3>
-<div class="offers-section">
-  <div class="offers-scroll">
+  <!-- 💰 Offers -->
+  <h3 class="section-title">💰 Exclusive Offers & Deals</h3>
+  <div class="horizontal-scroll">
     <div class="offer-card" *ngFor="let offer of offers">
       <img [src]="offer.img" class="offer-img" />
       <div class="offer-info">
         <h4>{{ offer.title }}</h4>
-        <p>{{ offer.details }}</p>
+        <p class="muted">{{ offer.details }}</p>
       </div>
     </div>
   </div>
-</div>
 
-
-  <!-- 🎶 Event Categories -->
-  <h3 class="section-title">🎵 Event Categories</h3>
-  <ion-chip *ngFor="let category of categories" color="tertiary" outline>
-    {{ category }}
-  </ion-chip>
-
-  <!-- 👥 Guest List & Table Booking -->
-  <h3 class="section-title">📝 Guest List & Table Booking</h3>
-  <ion-list>
-    <ion-item *ngFor="let guestEvent of guestListEvents">
-      <ion-label>
-        <h2>{{ guestEvent.title }}</h2>
-        <p>{{ guestEvent.location }} • {{ guestEvent.availableSpots }} spots left</p>
-      </ion-label>
-      <ion-button fill="solid" color="tertiary"  (click)="openBookingModal(e, 'GUESTLIST')">Join Guest List</ion-button>
-    </ion-item>
-  </ion-list>
-
-  <!-- 🎫 Ticketing Section -->
-  <h3 class="section-title">🎟 Tickets</h3>
-  <ion-list>
-    <ion-item *ngFor="let ticket of ticketEvents">
-      <ion-label>
-        <h2>{{ ticket.title }}</h2>
-        <p>{{ ticket.price }} • {{ ticket.status }}</p>
-      </ion-label>
-      <ion-button fill="solid" color="tertiary" (click)="openBookingModal(e, 'TABLE')">Buy Ticket</ion-button>
-    </ion-item>
-  </ion-list>
-
-  <!-- 🔔 Party Updates / Notifications -->
-  <h3 class="section-title">📢 Party Updates</h3>
-  <ion-list>
-    <ion-item *ngFor="let update of updates">
-      <ion-label>{{ update.message }}</ion-label>
-    </ion-item>
-  </ion-list>
-
-<!-- 📸 Social Feed / User Engagement -->
-<h3 class="section-title">📸 Social Feed</h3>
-<div class="feed-section">
-  <div class="scroll-row">
-    <div class="feed-card" *ngFor="let post of socialPosts">
-      <img [src]="post.img" class="feed-img" />
-      <div class="feed-info">
-        <p>{{ post.likes }} Likes • {{ post.comments }} Comments</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 🎧 DJ & Artist Highlights -->
-<h3 class="section-title">🎧 DJs & Artists</h3>
-<div class="artist-section">
-  <div class="scroll-row">
+  <!-- 🎧 DJs -->
+  <h3 class="section-title">🎧 DJs & Artists</h3>
+  <div class="horizontal-scroll">
     <div class="artist-card" *ngFor="let dj of djs">
       <img [src]="dj.img" class="artist-img" />
       <div class="artist-info">
         <h4>{{ dj.name }}</h4>
-        <p>{{ dj.nextEvent }}</p>
+        <p class="muted">{{ dj.nextEvent }}</p>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- 📸 Social Feed -->
+  <h3 class="section-title">📸 Social Feed</h3>
+  <div class="horizontal-scroll">
+    <div class="feed-card" *ngFor="let post of socialPosts">
+      <img [src]="post.img" class="feed-img" />
+      <p class="muted">{{ post.likes }} Likes • {{ post.comments }} Comments</p>
+    </div>
+  </div>
 
-<!-- 🔎 Filters & Search -->
-<h3 class="section-title">🔍 Filters & Search</h3>
-<div class="filters-wrapper">
-  <ion-chip *ngFor="let filter of filters" color="tertiary" outline>
-    {{ filter }}
-  </ion-chip>
-</div>
+  <!-- ⭐ VIP -->
+  <h3 class="section-title">⭐ VIP & Loyalty</h3>
+  <div class="horizontal-scroll">
+    <ion-card *ngFor="let vip of vipRewards" class="vip-card">
+      <ion-card-header>
+        <ion-card-title>{{ vip.title }}</ion-card-title>
+        <ion-badge color="warning">{{ vip.points }} pts</ion-badge>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Earn points and unlock premium perks.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-<!-- ⭐ VIP & Loyalty Section -->
-<h3 class="section-title">⭐ VIP & Loyalty</h3>
-<div class="vip-section">
-  <ion-card *ngFor="let vip of vipRewards" class="vip-card">
-    <ion-card-header>
-      <ion-card-title>{{ vip.title }}</ion-card-title>
-      <ion-badge color="warning">{{ vip.points }} pts</ion-badge>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Earn more points for every booking and unlock premium benefits.</p>
-    </ion-card-content>
-  </ion-card>
-</div>
+  <!-- 🎮 Interactive -->
+  <h3 class="section-title">🎮 Interactive Features</h3>
+  <div class="horizontal-scroll">
+    <ion-button *ngFor="let action of interactiveActions" fill="solid" color="tertiary">
+      {{ action }}
+    </ion-button>
+  </div>
 
-<!-- 🎮 Interactive Features -->
-<h3 class="section-title">🎮 Interactive Features</h3>
-<div class="actions-grid">
-  <ion-button *ngFor="let action of interactiveActions" fill="solid" color="tertiary">
-    {{ action }}
-  </ion-button>
-</div>
-
-   <div class="content-bottom-spacer"></div>
-
-
+  <div class="content-bottom-spacer"></div>
 </ion-content>

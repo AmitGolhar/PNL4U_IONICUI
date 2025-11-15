@@ -4,9 +4,15 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
-import { Gesture, GestureController, Platform } from '@ionic/angular';
+import {
+  Gesture,
+  GestureController,
+  Platform,
+  ToastController,
+} from '@ionic/angular';
+import { ChatRequestService } from 'src/app/services/chat-request.service';
 import { UserProfileService } from 'src/app/services/user-profile.service';
 
 @Component({
@@ -30,7 +36,9 @@ export class DiscoveryPage implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private profileService: UserProfileService,
     private gestureCtrl: GestureController,
-    private platform: Platform
+    private platform: Platform,
+    private chatRequestService: ChatRequestService,
+    private toastCtrl: ToastController
   ) {}
 
   ngOnInit() {
@@ -70,11 +78,11 @@ export class DiscoveryPage implements OnInit, AfterViewInit, OnDestroy {
       el: cardEl,
       threshold: 5,
       gestureName: 'swipe-card',
-      onStart: ev => {
+      onStart: (ev) => {
         this.dragging = true;
         cardEl.style.transition = ''; // remove transition for dragging
       },
-      onMove: ev => {
+      onMove: (ev) => {
         const deltaX = ev.deltaX;
         const deltaY = ev.deltaY;
         const rotate = deltaX / 18; // rotation effect
@@ -84,14 +92,18 @@ export class DiscoveryPage implements OnInit, AfterViewInit, OnDestroy {
         const opacity = Math.max(0.3, 1 - Math.abs(deltaX) / 600);
         cardEl.style.opacity = `${opacity}`;
       },
-      onEnd: ev => {
+      onEnd: (ev) => {
         this.dragging = false;
         const deltaX = ev.deltaX;
         // If swiped beyond threshold -> commit
         if (deltaX > this.SWIPE_THRESHOLD) {
-          this.animateOff(cardEl, this.OFFSCREEN_X, deltaX).then(() => this.likeProfile());
+          this.animateOff(cardEl, this.OFFSCREEN_X, deltaX).then(() =>
+            this.likeProfile()
+          );
         } else if (deltaX < -this.SWIPE_THRESHOLD) {
-          this.animateOff(cardEl, -this.OFFSCREEN_X, deltaX).then(() => this.skipProfile());
+          this.animateOff(cardEl, -this.OFFSCREEN_X, deltaX).then(() =>
+            this.skipProfile()
+          );
         } else {
           // return to center
           cardEl.style.transition = 'transform 250ms ease, opacity 250ms ease';
@@ -102,22 +114,31 @@ export class DiscoveryPage implements OnInit, AfterViewInit, OnDestroy {
             cardEl.style.transition = '';
           }, 260);
         }
-      }
+      },
     });
     this.gesture.enable(true);
   }
 
   private destroyGesture() {
     if (this.gesture) {
-      try { this.gesture.destroy(); } catch (e) { /* ignore */ }
+      try {
+        this.gesture.destroy();
+      } catch (e) {
+        /* ignore */
+      }
       this.gesture = undefined;
     }
   }
 
-  private animateOff(cardEl: HTMLElement, toX: number, currentDeltaX: number): Promise<void> {
-    return new Promise(resolve => {
+  private animateOff(
+    cardEl: HTMLElement,
+    toX: number,
+    currentDeltaX: number
+  ): Promise<void> {
+    return new Promise((resolve) => {
       // ensure transition exists
-      cardEl.style.transition = 'transform 300ms ease-out, opacity 300ms ease-out';
+      cardEl.style.transition =
+        'transform 300ms ease-out, opacity 300ms ease-out';
       const rotate = toX > 0 ? 25 : -25;
       cardEl.style.transform = `translate3d(${toX}px, 0, 0) rotate(${rotate}deg)`;
       cardEl.style.opacity = '0';
@@ -153,13 +174,45 @@ export class DiscoveryPage implements OnInit, AfterViewInit, OnDestroy {
   // Buttons fallback to animate and trigger actions
   onLikeButton() {
     const cardEl = this.topCard?.nativeElement;
-    if (!cardEl) { this.likeProfile(); return; }
+    if (!cardEl) {
+      this.likeProfile();
+      return;
+    }
     this.animateOff(cardEl, this.OFFSCREEN_X, 0).then(() => this.likeProfile());
   }
 
   onSkipButton() {
     const cardEl = this.topCard?.nativeElement;
-    if (!cardEl) { this.skipProfile(); return; }
-    this.animateOff(cardEl, -this.OFFSCREEN_X, 0).then(() => this.skipProfile());
+    if (!cardEl) {
+      this.skipProfile();
+      return;
+    }
+    this.animateOff(cardEl, -this.OFFSCREEN_X, 0).then(() =>
+      this.skipProfile()
+    );
+  }
+  async sendChatRequest(profile: any) {
+    const senderId = 2; // TODO: replace with logged-in user's ID
+    const receiverId = profile.userId;  
+
+    this.chatRequestService.sendChatRequest(senderId, receiverId).subscribe({
+      next: async () => {
+        const toast = await this.toastCtrl.create({
+          message: `Chat request sent to ${profile.displayName}`,
+          duration: 1600,
+          color: 'success',
+        });
+        toast.present();
+      },
+      error: async (err) => {
+        const toast = await this.toastCtrl.create({
+          message: 'Failed to send request',
+          duration: 1600,
+          color: 'danger',
+        });
+        toast.present();
+        console.error(err);
+      },
+    });
   }
 }

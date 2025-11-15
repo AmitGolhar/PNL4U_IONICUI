@@ -6,6 +6,9 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EventCardComponent } from './event-card/event-card.component';
+import { EventFiltersComponent } from './event-filters/event-filters.component';
+import { EventSectionComponent } from './event-section/event-section.component';
  
 
 @NgModule({
@@ -14,10 +17,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    SharedModule
+    SharedModule,
+  
   ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA] ,
 
-  declarations: [HomePage]
+  declarations: [HomePage,EventCardComponent, EventSectionComponent, EventFiltersComponent]
 })
 export class HomePageModule {}

@@ -1,0 +1,44 @@
+.loader {
+  display: block;
+  margin: 40px auto;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 80px;
+  color: #888;
+  font-size: 16px;
+
+  ion-icon {
+    font-size: 60px;
+    margin-bottom: 10px;
+    color: #bbb;
+  }
+}
+
+.conv-item {
+  --min-height: 72px;
+  padding: 10px 0;
+}
+
+ion-avatar img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.preview {
+  color: #666;
+  font-size: 14px;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.time {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: #999;
+  font-size: 12px;
+}

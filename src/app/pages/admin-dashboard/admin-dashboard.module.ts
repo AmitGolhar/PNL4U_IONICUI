@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ClubRequestsComponent } from './club-requests/club-requests.component';
 import { EventRequestsComponent } from './event-requests/event-requests.component';
 import { ApprovalConfigModalComponent } from './approval-config-modal/ApprovalConfigModalComponent';
+import { EventEditModalComponent } from './event-edit-modal/event-edit-modal.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { ApprovalConfigModalComponent } from './approval-config-modal/ApprovalCo
     AdminDashboardPageRoutingModule,
     SharedModule
   ],
-  declarations: [AdminDashboardPage,ClubRequestsComponent,EventRequestsComponent,ApprovalConfigModalComponent],
+  declarations: [AdminDashboardPage,ClubRequestsComponent,EventRequestsComponent,ApprovalConfigModalComponent,EventEditModalComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })

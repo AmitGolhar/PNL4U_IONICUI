@@ -1,0 +1,28 @@
+<div class="smart-filter-bar">
+  <div
+    class="filter-chip"
+    *ngFor="let f of filterList"
+    [class.active]="activeSelect === f.key"
+    (click)="openSelect(f.key)"
+  >
+    <ion-icon [name]="f.icon"></ion-icon>
+    <span>{{ selected[f.key] || f.label }}</span>
+  </div>
+</div>
+
+<!-- 🧩 Dynamic Select Popovers -->
+<ion-select
+  *ngIf="activeSelect"
+  interface="popover"
+  [multiple]="false"
+  [placeholder]="'Select ' + activeSelect"
+  (ionChange)="selectFilter(activeSelect, $event.detail.value)"
+  [value]="selected[activeSelect]"
+>
+  <ion-select-option
+    *ngFor="let opt of getOptions(activeSelect)"
+    [value]="opt.value"
+  >
+    {{ opt.label }}
+  </ion-select-option>
+</ion-select>

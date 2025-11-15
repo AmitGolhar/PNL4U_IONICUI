@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Connection Requests</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="loadRequests()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-spinner *ngIf="loading"></ion-spinner>
+
+  <ion-list *ngIf="!loading && requests.length > 0">
+    <ion-item *ngFor="let req of requests">
+      <ion-label>
+        <h2>New Request</h2>
+        <p>User ID: {{ req.senderId }} wants to chat with you</p>
+      </ion-label>
+
+      <ion-button color="success" (click)="accept(req)">Accept</ion-button>
+      <ion-button color="danger" (click)="reject(req)">Reject</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="!loading && requests.length === 0" class="empty">
+    <p>No connection requests</p>
+  </div>
+</ion-content>

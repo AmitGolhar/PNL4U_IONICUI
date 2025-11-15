@@ -1,0 +1,104 @@
+<svg width="240" height="240" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+
+    <!-- LIGHTER PASTEL WHATSAPP-LIKE BACKGROUND -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7f2ff"></stop>
+      <stop offset="100%" stop-color="#ece3ff"></stop>
+    </linearGradient>
+
+    <!-- NEON DJ OUTLINE -->
+    <linearGradient id="line" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff5de6"></stop>
+      <stop offset="100%" stop-color="#4cd8ff"></stop>
+    </linearGradient>
+
+    <style>
+      .i {
+        fill: none;
+        stroke: url(#line);
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.55;
+      }
+    </style>
+
+  </defs>
+
+  <!-- Background -->
+  <rect width="240" height="240" fill="url(#bg)"></rect>
+
+  <!-- ICONS (small, WhatsApp-sized, evenly spaced) -->
+  <g>
+
+    <!-- DJ Turntable -->
+    <g transform="translate(20,20) scale(0.7)">
+      <rect class="i" x="0" y="0" width="40" height="28" rx="6"></rect>
+      <circle class="i" cx="14" cy="14" r="8"></circle>
+      <line class="i" x1="26" y1="10" x2="34" y2="18"></line>
+    </g>
+
+    <!-- Equalizer -->
+    <g transform="translate(100,20) scale(0.7)">
+      <line class="i" x1="0" y1="26" x2="0" y2="10"></line>
+      <line class="i" x1="10" y1="26" x2="10" y2="18"></line>
+      <line class="i" x1="20" y1="26" x2="20" y2="5"></line>
+      <line class="i" x1="30" y1="26" x2="30" y2="15"></line>
+    </g>
+
+    <!-- Disco Ball -->
+    <g transform="translate(180,20) scale(0.7)">
+      <circle class="i" cx="14" cy="14" r="12"></circle>
+      <line class="i" x1="14" y1="2" x2="14" y2="-8"></line>
+      <line class="i" x1="2" y1="14" x2="26" y2="14"></line>
+      <line class="i" x1="14" y1="4" x2="14" y2="24"></line>
+    </g>
+
+    <!-- Headphones -->
+    <g transform="translate(40,100) scale(0.7)">
+      <path class="i" d="M0 20 A20 20 0 0 1 40 20"></path>
+      <rect class="i" x="-3" y="20" width="10" height="20" rx="4"></rect>
+      <rect class="i" x="33" y="20" width="10" height="20" rx="4"></rect>
+    </g>
+
+    <!-- Microphone -->
+    <g transform="translate(120,100) scale(0.7)">
+      <ellipse class="i" cx="10" cy="12" rx="8" ry="10"></ellipse>
+      <line class="i" x1="10" y1="22" x2="10" y2="36"></line>
+    </g>
+
+    <!-- Dance Pose -->
+    <g transform="translate(200,100) scale(0.7)">
+      <circle class="i" cx="10" cy="0" r="6"></circle>
+      <line class="i" x1="10" y1="6" x2="15" y2="18"></line>
+      <line class="i" x1="10" y1="6" x2="5" y2="18"></line>
+      <line class="i" x1="15" y1="18" x2="25" y2="26"></line>
+      <line class="i" x1="5" y1="18" x2="-5" y2="26"></line>
+    </g>
+
+    <!-- Vinyl -->
+    <g transform="translate(20,180) scale(0.7)">
+      <circle class="i" cx="16" cy="16" r="14"></circle>
+      <circle class="i" cx="16" cy="16" r="5"></circle>
+    </g>
+
+    <!-- Laser Light -->
+    <g transform="translate(110,180) scale(0.7)">
+      <circle class="i" cx="14" cy="6" r="5"></circle>
+      <line class="i" x1="14" y1="12" x2="14" y2="28"></line>
+      <line class="i" x1="14" y1="12" x2="2" y2="22"></line>
+      <line class="i" x1="14" y1="12" x2="26" y2="22"></line>
+    </g>
+
+    <!-- DJ Booth -->
+    <g transform="translate(180,180) scale(0.7)">
+      <rect class="i" x="0" y="0" width="40" height="26" rx="6"></rect>
+      <circle class="i" cx="12" cy="13" r="6"></circle>
+      <circle class="i" cx="28" cy="13" r="6"></circle>
+    </g>
+
+  </g>
+
+</svg>

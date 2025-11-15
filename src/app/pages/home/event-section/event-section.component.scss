@@ -1,0 +1,172 @@
+.event-section {
+  width: 100%;
+  padding: 0;
+
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 1rem 0.75rem;
+    color: var(--ion-color-light);
+  }
+
+  /* 🔥 Scroll layout fix: full-width responsive rows */
+  &.scroll {
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 1rem;
+      padding: 0 1rem 1rem;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Each card is a flexible responsive block */
+      app-event-card {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        width: 85vw; /* Mobile: card fills most of screen width */
+        max-width: 380px;
+        min-width: 250px;
+        transition: transform 0.25s ease-in-out;
+
+        &:hover {
+          transform: scale(1.03);
+        }
+      }
+
+      /* Last card spacing fix */
+      app-event-card:last-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  /* 🟢 Grid layout (keeps same full width) */
+  &.grid {
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      padding: 0 1rem 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  /* 🌟 Banner layout (unchanged, just spacing) */
+  &.banner {
+    .banner-container {
+      ion-slides, ion-slide {
+        width: 100%;
+        height: 230px;
+      }
+    }
+  }
+}
+
+/* Responsive scaling */
+@media (min-width: 600px) {
+  .event-section.scroll .scroll-container app-event-card {
+    width: 45vw; /* tablet: 2 cards visible */
+  }
+}
+
+@media (min-width: 900px) {
+  .event-section.scroll .scroll-container app-event-card {
+    width: 30vw; /* desktop: 3 cards visible */
+  }
+}
+.event-section {
+  width: 100%;
+  padding: 0;
+
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 1rem 0.75rem;
+    color: var(--ion-color-light);
+  }
+
+  /* 🔥 Scroll layout - full width cards + bottom space */
+  &.scroll {
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 1rem;
+      padding: 0 1rem 1.5rem; /* ⬅️ Added more bottom padding */
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      app-event-card {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        width: 85vw;
+        max-width: 380px;
+        min-width: 250px;
+        transition: transform 0.25s ease-in-out;
+        margin-bottom: 1rem; /* ⬅️ Added bottom spacing per card */
+
+        &:hover {
+          transform: scale(1.03);
+        }
+      }
+
+      app-event-card:last-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  /* 🟢 Grid layout - adds consistent gap at bottom */
+  &.grid {
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem 1rem;
+      padding: 0 1rem 2rem; /* ⬅️ More bottom space */
+      width: 100%;
+      box-sizing: border-box;
+
+      app-event-card {
+        margin-bottom: 1rem; /* ⬅️ Bottom spacing per grid card */
+      }
+    }
+  }
+
+  /* 🌟 Banner layout */
+  &.banner {
+    .banner-container {
+      ion-slides,
+      ion-slide {
+        width: 100%;
+        height: 230px;
+      }
+
+      app-event-card {
+        margin-bottom: 1.5rem; /* ⬅️ bottom space below banners */
+      }
+    }
+  }
+}
+
+/* 📱 Responsive tuning */
+@media (min-width: 600px) {
+  .event-section.scroll .scroll-container app-event-card {
+    width: 45vw;
+  }
+}
+
+@media (min-width: 900px) {
+  .event-section.scroll .scroll-container app-event-card {
+    width: 30vw;
+  }
+}

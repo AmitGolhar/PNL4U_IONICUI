@@ -1,0 +1,24 @@
+<ng-container *ngIf="validEvents.length > 0">
+  <section class="event-section" [ngClass]="layout">
+    <h3 class="section-title" *ngIf="title">{{ title }}</h3>
+
+    <!-- 🏞️ Banner -->
+    <div *ngIf="layout === 'banner'" class="banner-container">
+      <ion-slides pager="true" [options]="{ loop: true, autoplay: { delay: 4000 } }">
+        <ion-slide *ngFor="let e of validEvents">
+          <app-event-card [event]="e" mode="banner"></app-event-card>
+        </ion-slide>
+      </ion-slides>
+    </div>
+
+    <!-- 🔥 Horizontal scroll -->
+    <div *ngIf="layout === 'scroll'" class="scroll-container">
+      <app-event-card *ngFor="let e of validEvents" [event]="e" mode="scroll"></app-event-card>
+    </div>
+
+    <!-- 🏙️ Grid layout -->
+    <div *ngIf="layout === 'grid'" class="grid-container">
+      <app-event-card *ngFor="let e of validEvents" [event]="e" mode="grid"></app-event-card>
+    </div>
+  </section>
+</ng-container>

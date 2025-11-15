@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
-import { EventRequest, EventService } from 'src/app/services/event.service';
- 
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { EventService, EventRequest } from 'src/app/services/event.service';
+import { EventEditModalComponent } from 'src/app/pages/admin-dashboard/event-edit-modal/event-edit-modal.component'; // ✅ FIXED IMPORT
+
 @Component({
   selector: 'app-event-requests',
   templateUrl: './event-requests.component.html',
@@ -9,14 +10,15 @@ import { EventRequest, EventService } from 'src/app/services/event.service';
 })
 export class EventRequestsComponent implements OnInit {
   events: EventRequest[] = [];
-  selectedStatus: string = 'PENDING';
+  selectedStatus: string = 'ALL';
   loading = false;
   @Input() showHeaderOnly = false;
 
   constructor(
     private service: EventService,
-    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -24,24 +26,39 @@ export class EventRequestsComponent implements OnInit {
     this.loadEvents();
   }
 
+  /** 🔄 Fetch events by status */
   loadEvents() {
-    console.log('>>> loadEvents() CALLED <<<');
     this.loading = true;
-
     this.service.getEventsByStatus(this.selectedStatus).subscribe({
       next: (data) => {
-        console.log('✅ API raw data:', data);
-        this.events = Array.isArray(data.content) ? data.content : [];
+        this.events = Array.isArray(data.content) ? data.content : [data];
         this.loading = false;
         this.cd.detectChanges();
       },
       error: (err) => {
-        console.error('❌ Error fetching events:', err);
+        console.error('❌ Error loading events:', err);
         this.loading = false;
       }
     });
   }
 
+  /** ✏️ Open modal for editing event */
+  async openEditModal(event: EventRequest) {
+    const modal = await this.modalCtrl.create({
+      component: EventEditModalComponent, // ✅ now properly imported
+      componentProps: { event: { ...event } },
+      breakpoints: [0, 0.5, 0.9],
+      initialBreakpoint: 0.9
+    });
+
+    modal.onDidDismiss().then((res) => {
+      if (res.data) this.loadEvents();
+    });
+
+    await modal.present();
+  }
+
+  /** ✅ Approve Event */
   async approve(event: EventRequest) {
     const alert = await this.alertCtrl.create({
       header: 'Approve Event',
@@ -53,7 +70,7 @@ export class EventRequestsComponent implements OnInit {
           text: 'Approve',
           handler: (data) => {
             this.service.approve(event.eventId, data.remarks).subscribe(() => {
-              this.showToast(`Approved "${event.eventName}"`);
+              this.showToast(`✅ Approved "${event.eventName}"`);
               this.loadEvents();
             });
           }
@@ -63,6 +80,7 @@ export class EventRequestsComponent implements OnInit {
     await alert.present();
   }
 
+  /** ❌ Reject Event */
   async reject(event: EventRequest) {
     const alert = await this.alertCtrl.create({
       header: 'Reject Event',
@@ -74,7 +92,7 @@ export class EventRequestsComponent implements OnInit {
           text: 'Reject',
           handler: (data) => {
             this.service.reject(event.eventId, data.remarks).subscribe(() => {
-              this.showToast(`Rejected "${event.eventName}"`);
+              this.showToast(`❌ Rejected "${event.eventName}"`);
               this.loadEvents();
             });
           }
@@ -84,11 +102,12 @@ export class EventRequestsComponent implements OnInit {
     await alert.present();
   }
 
-  async showToast(msg: string) {
+  /** 🔔 Toast helper */
+  async showToast(msg: string, color: 'success' | 'danger' | 'warning' = 'success') {
     const toast = await this.toastCtrl.create({
       message: msg,
-      duration: 2000,
-      color: 'success'
+      duration: 2500,
+      color
     });
     toast.present();
   }

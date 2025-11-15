@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Conversations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Loader -->
+  <ion-spinner *ngIf="loading" class="loader"></ion-spinner>
+
+  <!-- No conversations -->
+  <div *ngIf="!loading && conversations.length === 0" class="empty-state">
+    <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+    <p>No conversations yet</p>
+  </div>
+
+  <!-- Conversations List -->
+  <ion-list *ngIf="!loading && conversations.length > 0">
+    <ion-item
+      *ngFor="let conv of conversations"
+      button
+      detail="true"
+      (click)="openChat(conv)"
+      class="conv-item"
+    >
+      <!-- Avatar -->
+      <ion-avatar slot="start">
+        <img [src]="conv.otherUserImage || 'assets/default-avatar.png'" />
+      </ion-avatar>
+
+      <!-- Name + Last message -->
+      <ion-label>
+        <h2>{{ conv.otherUserName || 'Unknown User' }}</h2>
+        <p class="preview">{{ conv.lastMessage || 'Say Hi 👋' }}</p>
+      </ion-label>
+
+      <!-- Timestamp -->
+      <div class="time">
+        <small>{{ conv.lastMessageTime | date:'shortTime' }}</small>
+      </div>
+
+    </ion-item>
+  </ion-list>
+
+</ion-content>
